@@ -1,0 +1,23 @@
+
+.notification-enter {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+.notification-enter-active {
+    opacity: 1;
+    transform: translateX(0px);
+    transition: 300ms ease-in;
+}
+
+
+.notification-exit {
+    opacity: 1;
+    overflow: visible;
+    transform: translateX(0px);
+}
+.notification-exit-active {
+    opacity: 0;
+    overflow: visible;
+    transform: translateX(30px);
+    transition: all 100ms ease-in;
+}

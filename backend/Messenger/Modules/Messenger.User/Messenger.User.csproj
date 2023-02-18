@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Messenger.Core\Messenger.Core.csproj" />
+        <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
+        <ProjectReference Include="..\Messenger.Files.Shared\Messenger.Files.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
+    </ItemGroup>
+    
+</Project>

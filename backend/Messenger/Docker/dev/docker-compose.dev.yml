@@ -1,0 +1,43 @@
+version: "2.4"
+services:
+  repet-api:
+    image: ${REGISTRY_URL}/repet-api:${IMAGE_TAG:-latest}
+    build:
+      context: ../../
+      dockerfile: Messenger.Api/Dockerfile
+      target: final
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: fd2ee12swq
+      POSTGRES_DB: dreamspb
+  
+  seq:
+    image: datalust/seq
+    ports:
+      - "5100:80"
+    environment:
+      ACCEPT_EULA: Y
+      
+  minio:
+    image: minio/minio:RELEASE.2023-01-12T02-06-16Z
+    ports:
+      - "9000:9000"
+      - "9002:9002"
+    volumes:
+      - minio:/data
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+      MINIO_BROWSER: "on"
+    command: server /data --console-address :9002
+
+volumes:
+  minio:
+  
+#  rabbitmq:
+#    image: rabbitmq:3-management-alpine
+#    ports:
+#      - "15672:15672"
+

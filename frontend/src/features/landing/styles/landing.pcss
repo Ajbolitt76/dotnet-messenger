@@ -1,0 +1,39 @@
+@import "@/styles/main.pcss";
+
+.landing-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    align-items: center;
+    background: center / contain no-repeat url(src/assets/plane.svg);
+    padding: 50px 0px 0px 0px;
+
+    h1 {
+        color: var(--gray-700);
+        font-weight: 700;
+        font-size: 48px;
+        width: 930px;
+        text-align: center;
+    }
+
+    h2 {
+        font-weight: 400;
+        font-size: 24px;
+        color: var(--gray-700);
+    }
+
+    &__buttons{
+        display: flex;
+        margin-top: 40px;
+        margin-bottom: 50px;
+        gap: 50px;
+
+        .vkuiButton--lvl-primary.vkuiButton--clr-accent{
+            @extend .bg-gradient-blue;
+            color: white;
+        }
+    }
+
+}

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailValidator" xml:space="preserve">
+        <value>EMAIL_INVALID</value>
+    </data>
+    <data name="GreaterThanValidator" xml:space="preserve">
+        <value>MUST_BE_GREATER</value>
+    </data>
+    <data name="GreaterThanOrEqualValidator" xml:space="preserve">
+        <value>MUST_BE_GREATER_OR_EQ</value>
+    </data>
+    <data name="LessThanValidator" xml:space="preserve">
+        <value>MUST_BE_LESS</value>
+    </data>
+    <data name="LessThanOrEqualValidator" xml:space="preserve">
+        <value>MUST_BE_LESS_OR_EQ</value>
+    </data>
+    <data name="LengthValidator" xml:space="preserve">
+        <value>LENGTH_MUST_BE_IN_RANGE</value>
+    </data>
+    <data name="MinimumLengthValidator" xml:space="preserve">
+        <value>LENGTH_MUST_BE_AT_LEAST</value>
+    </data>
+    <data name="MaximumLengthValidator" xml:space="preserve">
+        <value>LENGTH_MUST_BE_AT_MAX</value>
+    </data>
+    <data name="NotEmptyValidator" xml:space="preserve">
+        <value>MUST_NOT_BE_EMPTY</value>
+    </data>
+    <data name="NotNullValidator" xml:space="preserve">
+        <value>MUST_BE_NON_NULL</value>
+    </data>
+    <data name="NotEqualValidator" xml:space="preserve">
+        <value>MUST_NOT_BE_EQUAL</value>
+    </data>
+    <data name="PredicateValidator" xml:space="preserve">
+        <value>CONDITION_NOT_MET</value>
+    </data>
+    <data name="AsyncPredicateValidator" xml:space="preserve">
+        <value>CONDITION_NOT_MET</value>
+    </data>
+    <data name="RegularExpressionValidator" xml:space="preserve">
+        <value>INVALID_FORMAT</value>
+    </data>
+    <data name="EqualValidator" xml:space="preserve">
+        <value>MUST_BE_EQUAL</value>
+    </data>
+    <data name="ExactLengthValidator" xml:space="preserve">
+        <value>MUST_BE_EXACT_LENGTH</value>
+    </data>
+    <data name="InclusiveBetweenValidator" xml:space="preserve">
+        <value>MUST_BE_BETWEEN</value>
+    </data>
+    <data name="ExclusiveBetweenValidator" xml:space="preserve">
+        <value>MUST_BE_BETWEEN_EXCLUSIVE</value>
+    </data>
+    <data name="CreditCardValidator" xml:space="preserve">
+        <value>MUST_BE_VALID_CREDIT_CARD</value>
+    </data>
+    <data name="EmptyValidator" xml:space="preserve">
+        <value>MUST_BE_EMPTY</value>
+    </data>
+    <data name="NullValidator" xml:space="preserve">
+        <value>MUST_BE_NULL</value>
+    </data>
+    <data name="EnumValidator" xml:space="preserve">
+        <value>MUST_BE_ENUM_MEMBER</value>
+    </data>
+    <data name="SignatureInvalid" xml:space="preserve">
+        <value>SIGNATURE_INVALID</value>
+    </data>
+</root>

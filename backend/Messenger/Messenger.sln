@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Api", "Messenger.Api\Messenger.Api.csproj", "{1B99C705-F265-4EE3-972A-8C689A6EA9F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Infrastructure", "Messenger.Infrastructure\Messenger.Infrastructure.csproj", "{E046A984-35C8-4922-9412-19EE3C984093}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{14CD4EE3-16DF-43BE-B822-1B83421E667E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Core", "Messenger.Core\Messenger.Core.csproj", "{663B3C5E-EED4-497A-94DA-A00D73AD8EEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dev", "Dev", "{528D9747-EAD4-47B2-A445-F2293A1BE01D}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\dev\docker-compose.dev.yml = Docker\dev\docker-compose.dev.yml
+		Docker\dev\.env = Docker\dev\.env
+		Docker\dev\docker-compose.build.yml = Docker\dev\docker-compose.build.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Auth", "Modules\Messenger.Auth\Messenger.Auth.csproj", "{35C47D62-A741-4C99-895B-BFCB39B48839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Data", "Messenger.Data\Messenger.Data.csproj", "{CB83DA97-DFE7-4C5A-99A8-BA714B7DAE98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.User", "Modules\Messenger.User\Messenger.User.csproj", "{A385B303-2E06-4BEA-98F9-BECE3AD654E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git and CI/CD", "Git and CI/CD", "{4B415057-A8D9-4E39-995A-C3165D0B9D3D}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gitlab", "gitlab", "{F987DA2A-5E7C-4322-B6A0-0CB8D851280E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitlab\ci\_services.gitlab-ci.yml = .gitlab\ci\_services.gitlab-ci.yml
+		.gitlab\ci\build.gitlab-ci.yml = .gitlab\ci\build.gitlab-ci.yml
+		.gitlab\ci\push.gitlab-ci.yml = .gitlab\ci\push.gitlab-ci.yml
+		.gitlab\ci\rules.gitlab-ci.yml = .gitlab\ci\rules.gitlab-ci.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Files", "Modules\Messenger.Files\Messenger.Files.csproj", "{9341E817-B3A6-4BFD-9447-83D1C189E4BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.S3", "Modules\Messenger.S3\Messenger.S3.csproj", "{609D9379-DE67-4A40-954B-EDBE330618DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Files.Shared", "Modules\Messenger.Files.Shared\Messenger.Files.Shared.csproj", "{E28B3551-A8F0-419E-9657-6FC59397A836}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messenger.Crypto", "Messenger.Crypto", "{DC8B44F8-5D3A-426F-8534-54AAB15BF7F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Crypto", "Modules\Messenger.Crypto\Messenger.Crypto\Messenger.Crypto.csproj", "{C8A07819-AC88-4FC4-81C7-9015DCF45A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Crypto.UnitTests", "Modules\Messenger.Crypto\Messenger.Crypto.UnitTests\Messenger.Crypto.UnitTests.csproj", "{997DF535-7187-4A7F-8A46-8A3D4997D357}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B99C705-F265-4EE3-972A-8C689A6EA9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B99C705-F265-4EE3-972A-8C689A6EA9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B99C705-F265-4EE3-972A-8C689A6EA9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B99C705-F265-4EE3-972A-8C689A6EA9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E046A984-35C8-4922-9412-19EE3C984093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E046A984-35C8-4922-9412-19EE3C984093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E046A984-35C8-4922-9412-19EE3C984093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E046A984-35C8-4922-9412-19EE3C984093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{663B3C5E-EED4-497A-94DA-A00D73AD8EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{663B3C5E-EED4-497A-94DA-A00D73AD8EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{663B3C5E-EED4-497A-94DA-A00D73AD8EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{663B3C5E-EED4-497A-94DA-A00D73AD8EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C47D62-A741-4C99-895B-BFCB39B48839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C47D62-A741-4C99-895B-BFCB39B48839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C47D62-A741-4C99-895B-BFCB39B48839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C47D62-A741-4C99-895B-BFCB39B48839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB83DA97-DFE7-4C5A-99A8-BA714B7DAE98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB83DA97-DFE7-4C5A-99A8-BA714B7DAE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB83DA97-DFE7-4C5A-99A8-BA714B7DAE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB83DA97-DFE7-4C5A-99A8-BA714B7DAE98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A385B303-2E06-4BEA-98F9-BECE3AD654E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A385B303-2E06-4BEA-98F9-BECE3AD654E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A385B303-2E06-4BEA-98F9-BECE3AD654E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A385B303-2E06-4BEA-98F9-BECE3AD654E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9341E817-B3A6-4BFD-9447-83D1C189E4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9341E817-B3A6-4BFD-9447-83D1C189E4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9341E817-B3A6-4BFD-9447-83D1C189E4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9341E817-B3A6-4BFD-9447-83D1C189E4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{609D9379-DE67-4A40-954B-EDBE330618DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609D9379-DE67-4A40-954B-EDBE330618DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609D9379-DE67-4A40-954B-EDBE330618DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609D9379-DE67-4A40-954B-EDBE330618DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28B3551-A8F0-419E-9657-6FC59397A836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28B3551-A8F0-419E-9657-6FC59397A836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28B3551-A8F0-419E-9657-6FC59397A836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28B3551-A8F0-419E-9657-6FC59397A836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8A07819-AC88-4FC4-81C7-9015DCF45A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8A07819-AC88-4FC4-81C7-9015DCF45A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8A07819-AC88-4FC4-81C7-9015DCF45A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8A07819-AC88-4FC4-81C7-9015DCF45A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997DF535-7187-4A7F-8A46-8A3D4997D357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997DF535-7187-4A7F-8A46-8A3D4997D357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997DF535-7187-4A7F-8A46-8A3D4997D357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997DF535-7187-4A7F-8A46-8A3D4997D357}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{528D9747-EAD4-47B2-A445-F2293A1BE01D} = {14CD4EE3-16DF-43BE-B822-1B83421E667E}
+		{35C47D62-A741-4C99-895B-BFCB39B48839} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{A385B303-2E06-4BEA-98F9-BECE3AD654E3} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{F987DA2A-5E7C-4322-B6A0-0CB8D851280E} = {4B415057-A8D9-4E39-995A-C3165D0B9D3D}
+		{9341E817-B3A6-4BFD-9447-83D1C189E4BD} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{609D9379-DE67-4A40-954B-EDBE330618DD} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{E28B3551-A8F0-419E-9657-6FC59397A836} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{DC8B44F8-5D3A-426F-8534-54AAB15BF7F6} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{C8A07819-AC88-4FC4-81C7-9015DCF45A4D} = {DC8B44F8-5D3A-426F-8534-54AAB15BF7F6}
+		{997DF535-7187-4A7F-8A46-8A3D4997D357} = {DC8B44F8-5D3A-426F-8534-54AAB15BF7F6}
+	EndGlobalSection
+EndGlobal

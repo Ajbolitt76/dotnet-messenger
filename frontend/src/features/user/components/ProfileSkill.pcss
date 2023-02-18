@@ -1,0 +1,30 @@
+@import "@/styles/main.pcss";
+
+.skill-text {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--steel-gray-540);
+}
+
+.profile-skill{
+    @extend .elevated-8;
+    @extend .skill-text;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 12px;
+
+    .p-knob-text{
+        @extend .skill-text;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 25px;
+        color: var(--steel-gray-540);
+    }
+
+    .p-knob-value{
+        stroke: var(--blue-200);
+    }
+}
