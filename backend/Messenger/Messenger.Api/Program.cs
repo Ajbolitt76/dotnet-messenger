@@ -15,7 +15,6 @@ using Messenger.Data;
 using Messenger.Files;
 using Messenger.Files.Shared;
 using Messenger.Infrastructure;
-using Messenger.RapiDoc;
 using Messenger.User;
 using Serilog;
 
@@ -62,25 +61,14 @@ app.UseForwardedHeaders();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseRapiDocUI(c =>
-    {
-        c.RoutePrefix = "swagger"; // serve the UI at root
-        c.SwaggerEndpoint("v1/swagger.json", "V1 Docs");
-        c.GenericRapiConfig = new GenericRapiConfig()
-        {
-            RenderStyle="focused",
-            Layout = "column",
-            FontSize = "large",
-            Theme="light",//light,dark,focused   
-        };
-    });
+    app.UseSwaggerUI();
 }
 
 try
 {
     await using var scope = app.Services.CreateAsyncScope();
     var sp = scope.ServiceProvider;
-    var db = sp.GetRequiredService<RepetContext>();
+    var db = sp.GetRequiredService<MessengerContext>();
     await db.Database.MigrateAsync();
 
     await using var conn = (NpgsqlConnection)db.Database.GetDbConnection();

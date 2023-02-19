@@ -9,6 +9,5 @@ public record RegisterUserCommand(
     string Username,
     string Password,
     string FirstName,
-    string LastName,
-    UserAccountType AccountType
+    string LastName
 ) : ICommand<RegistrationCommandResponse>, IRunInTransaction;

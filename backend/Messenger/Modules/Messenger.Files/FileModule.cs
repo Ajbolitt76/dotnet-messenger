@@ -17,6 +17,7 @@ public class FileModule : IModule
     public static void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IValidator<FileModuleOptions>, FileModuleOptions.FileModuleOptionsValidator>();
+        
         services.AddOptions<FileModuleOptions>()
             .Bind(configuration.GetSection(nameof(FileModule)))
             .ValidateWithFluentValidation()

@@ -1,7 +1,7 @@
 ﻿version: "2.4"
 services:
   repet-api:
-    image: ${REGISTRY_URL}repet-api:${IMAGE_TAG:-latest}
+    image: ${REGISTRY_URL}messenger-api:${IMAGE_TAG:-latest}
     build:
       context: ../../
       dockerfile: Messenger.Api/Dockerfile

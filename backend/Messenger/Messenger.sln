@@ -28,14 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git and CI/CD", "Git and CI
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gitlab", "gitlab", "{F987DA2A-5E7C-4322-B6A0-0CB8D851280E}"
-	ProjectSection(SolutionItems) = preProject
-		.gitlab\ci\_services.gitlab-ci.yml = .gitlab\ci\_services.gitlab-ci.yml
-		.gitlab\ci\build.gitlab-ci.yml = .gitlab\ci\build.gitlab-ci.yml
-		.gitlab\ci\push.gitlab-ci.yml = .gitlab\ci\push.gitlab-ci.yml
-		.gitlab\ci\rules.gitlab-ci.yml = .gitlab\ci\rules.gitlab-ci.yml
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Files", "Modules\Messenger.Files\Messenger.Files.csproj", "{9341E817-B3A6-4BFD-9447-83D1C189E4BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.S3", "Modules\Messenger.S3\Messenger.S3.csproj", "{609D9379-DE67-4A40-954B-EDBE330618DD}"
@@ -103,7 +95,6 @@ Global
 		{528D9747-EAD4-47B2-A445-F2293A1BE01D} = {14CD4EE3-16DF-43BE-B822-1B83421E667E}
 		{35C47D62-A741-4C99-895B-BFCB39B48839} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
 		{A385B303-2E06-4BEA-98F9-BECE3AD654E3} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
-		{F987DA2A-5E7C-4322-B6A0-0CB8D851280E} = {4B415057-A8D9-4E39-995A-C3165D0B9D3D}
 		{9341E817-B3A6-4BFD-9447-83D1C189E4BD} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
 		{609D9379-DE67-4A40-954B-EDBE330618DD} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
 		{E28B3551-A8F0-419E-9657-6FC59397A836} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}

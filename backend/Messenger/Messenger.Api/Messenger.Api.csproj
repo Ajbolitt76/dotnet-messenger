@@ -21,7 +21,6 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Messenger.RapiDoc" Version="0.0.1" />
       <PackageReference Include="Scrutor" Version="4.2.0" />
       <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
       <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />

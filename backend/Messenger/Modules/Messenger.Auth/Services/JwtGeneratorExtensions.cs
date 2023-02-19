@@ -10,8 +10,7 @@ public static class JwtGeneratorExtensions
     public static string GenerateUserToken(this IJwtTokenGenerator generator, RepetUser user, DateTime expiraion) 
         => generator.GenerateFromClaims(new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.GroupSid, user.AccountType.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         }, expiraion);
 
     public static TicketMetadata? ReadPhoneTicketRequest(this IJwtTokenGenerator generator, string token)

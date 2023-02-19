@@ -5,7 +5,7 @@ namespace Messenger.Data.Extensions;
 
 public static class MediatorExtensions
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, RepetContext ctx)
+    public static async Task DispatchDomainEventsAsync(this IMediator mediator, MessengerContext ctx)
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<BaseEntity>()

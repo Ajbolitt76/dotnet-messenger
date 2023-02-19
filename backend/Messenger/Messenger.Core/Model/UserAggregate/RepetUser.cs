@@ -20,8 +20,6 @@ public class RepetUser : BaseEntity
     
     public required Guid IdentityUserId { get; set; }
     
-    public required UserAccountType AccountType { get; init; }
-
     public RepetUser()
     {
     }

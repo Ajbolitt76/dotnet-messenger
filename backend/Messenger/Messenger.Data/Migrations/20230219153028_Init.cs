@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Net;
+using Messenger.Core.Model.UserAggregate;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Messenger.Core.Model.UserAggregate;
 
 #nullable disable
 
@@ -14,7 +15,7 @@ namespace Messenger.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:user_account_type", "teacher,student");
+                .Annotation("Npgsql:Enum:gender", "not_stated,male,female,other");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -57,21 +58,23 @@ namespace Messenger.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "RepetUsers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProfilePhotoId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true),
-                    IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AccountType = table.Column<UserAccountType>(type: "user_account_type", nullable: false)
+                    Gender = table.Column<Gender>(type: "gender", nullable: false, defaultValue: Gender.NotStated),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_RepetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -180,6 +183,51 @@ namespace Messenger.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FileLocation = table.Column<string>(type: "jsonb", nullable: false),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatorIp = table.Column<IPAddress>(type: "inet", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Files_RepetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "RepetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UploadingFiles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsFinished = table.Column<bool>(type: "boolean", nullable: false),
+                    TusId = table.Column<string>(type: "text", nullable: false),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatorIp = table.Column<IPAddress>(type: "inet", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadingFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UploadingFiles_RepetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "RepetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -218,14 +266,24 @@ namespace Messenger.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_IdentityUserId",
-                table: "Users",
+                name: "IX_Files_CreatedById",
+                table: "Files",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RepetUsers_IdentityUserId",
+                table: "RepetUsers",
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_PhoneNumber",
-                table: "Users",
+                name: "IX_RepetUsers_PhoneNumber",
+                table: "RepetUsers",
                 column: "PhoneNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadingFiles_CreatedById",
+                table: "UploadingFiles",
+                column: "CreatedById");
         }
 
         /// <inheritdoc />
@@ -247,13 +305,19 @@ namespace Messenger.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "UploadingFiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "RepetUsers");
         }
     }
 }

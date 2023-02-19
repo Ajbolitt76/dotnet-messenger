@@ -23,21 +23,20 @@ public class DataModule : IModule
 {
     public static void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<UserAccountType>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<Gender>();
         
         RegisterJsonPolymorphicDefinitions(services);
         
         services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<RepetContext>();
+            .AddEntityFrameworkStores<MessengerContext>();
 
-        services.AddDbContext<IDbContext, RepetContext>(options =>
+        services.AddDbContext<IDbContext, MessengerContext>(options =>
         {
             options.UseNpgsql(
                 configuration.GetConnectionString("DataConnectionString"),
                 builder =>
                 {
-                    builder.MigrationsAssembly(typeof(RepetContext).GetTypeInfo().Assembly.GetName().Name);
+                    builder.MigrationsAssembly(typeof(MessengerContext).GetTypeInfo().Assembly.GetName().Name);
                     builder.EnableRetryOnFailure(
                         maxRetryCount: 15,
                         maxRetryDelay: TimeSpan.FromSeconds(30),

@@ -67,7 +67,6 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, R
         {
             UserName = request.Username,
             PhoneNumber = phoneNumber,
-            AccountType = request.AccountType,
             FirstName = request.FirstName,
             LastName = request.LastName,
             IdentityUserId = user.Id

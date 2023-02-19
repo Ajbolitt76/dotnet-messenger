@@ -14,7 +14,7 @@ using Messenger.Infrastructure.User;
 
 namespace Messenger.Data;
 
-public class RepetContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>, IDbContext
+public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>, IDbContext
 {
     private readonly IMediator _mediator;
     private readonly IEnumerable<DependencyInjectedEntityConfiguration> _configurations;
@@ -26,8 +26,8 @@ public class RepetContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
     
     public DbSet<UploadingFile> UploadingFiles { get; set; }
 
-    public RepetContext(
-        DbContextOptions<RepetContext> options,
+    public MessengerContext(
+        DbContextOptions<MessengerContext> options,
         IMediator mediator,
         IEnumerable<DependencyInjectedEntityConfiguration> configurations) : base(options)
     {
@@ -37,7 +37,6 @@ public class RepetContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
 
     protected void RegisterEnums(ModelBuilder builder)
     {
-        builder.HasPostgresEnum<UserAccountType>();
         builder.HasPostgresEnum<Gender>();
     }
 

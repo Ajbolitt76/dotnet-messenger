@@ -9,9 +9,9 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     where TRequest : IRequest<TResponse>, IRunInTransaction
 {
     private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
-    private readonly RepetContext _dbContext;
+    private readonly MessengerContext _dbContext;
     
-    public TransactionBehaviour(RepetContext dbContext, ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
+    public TransactionBehaviour(MessengerContext dbContext, ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
     {
         _dbContext = dbContext;
         _logger = logger;
