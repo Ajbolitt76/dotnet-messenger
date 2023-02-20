@@ -5,7 +5,10 @@ namespace Messenger.Data.Extensions;
 
 public static class MediatorExtensions
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, MessengerContext ctx)
+    public static async Task DispatchDomainEventsAsync(
+        this IMediator mediator,
+        MessengerContext ctx,
+        CancellationToken cancellationToken = default)
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<BaseEntity>()
@@ -20,6 +23,6 @@ public static class MediatorExtensions
             .ForEach(entity => entity.Entity.ClearDomainEvents());
 
         foreach (var domainEvent in domainEvents)
-            await mediator.Publish(domainEvent);
+            await mediator.Publish(domainEvent, cancellationToken);
     }
 }

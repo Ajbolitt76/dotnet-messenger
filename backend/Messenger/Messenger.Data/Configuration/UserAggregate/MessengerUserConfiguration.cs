@@ -4,13 +4,10 @@ using Messenger.Core.Model.UserAggregate;
 
 namespace Messenger.Data.Configuration.UserAggregate;
 
-public class RepetUserConfiguration : BaseConfiguration<RepetUser>
+public class MessngerUserConfiguration : BaseConfiguration<MessengerUser>
 {
-    public override void ConfigureChild(EntityTypeBuilder<RepetUser> typeBuilder)
+    public override void ConfigureChild(EntityTypeBuilder<MessengerUser> typeBuilder)
     {
-        typeBuilder.Property(x => x.Gender)
-            .HasDefaultValue(Gender.NotStated);
-        
         typeBuilder.HasIndex(x => x.IdentityUserId);
         typeBuilder.HasIndex(x => x.PhoneNumber);
     }

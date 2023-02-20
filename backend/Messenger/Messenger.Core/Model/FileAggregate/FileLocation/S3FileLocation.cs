@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Core.Model.FileAggregate.FileLocation;
 
-public class S3FileLocation : IFileLocation, IHaveJsonDiscriminator
+public class S3FileLocation : IFileLocation, IHaveDiscriminator
 {
     public static string Discriminator => "s3";
     

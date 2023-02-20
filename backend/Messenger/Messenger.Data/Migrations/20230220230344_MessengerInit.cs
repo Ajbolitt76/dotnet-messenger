@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using Messenger.Core.Model.UserAggregate;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -9,14 +8,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class MessengerInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:gender", "not_stated,male,female,other");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -58,23 +54,51 @@ namespace Messenger.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RepetUsers",
+                name: "ConversationMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TextContent = table.Column<string>(type: "text", nullable: true),
+                    Attachments = table.Column<string>(type: "jsonb", nullable: true),
+                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Metadata = table.Column<string>(type: "jsonb", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConversationMessages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Conversations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    LastMessage = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ConversationType = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Conversations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessengerUsers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfilePhotoId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserName = table.Column<string>(type: "text", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    Gender = table.Column<Gender>(type: "gender", nullable: false, defaultValue: Gender.NotStated),
                     DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RepetUsers", x => x.Id);
+                    table.PrimaryKey("PK_MessengerUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,6 +208,46 @@ namespace Messenger.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GroupChatInfos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupPictureId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    ConversationId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupChatInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GroupChatInfos_Conversations_ConversationId",
+                        column: x => x.ConversationId,
+                        principalTable: "Conversations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PersonalChatInfos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorPeer = table.Column<Guid>(type: "uuid", nullable: false),
+                    RecipientPeer = table.Column<Guid>(type: "uuid", nullable: false),
+                    ConversationId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonalChatInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PersonalChatInfos_Conversations_ConversationId",
+                        column: x => x.ConversationId,
+                        principalTable: "Conversations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Files",
                 columns: table => new
                 {
@@ -199,9 +263,9 @@ namespace Messenger.Data.Migrations
                 {
                     table.PrimaryKey("PK_Files", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Files_RepetUsers_CreatedById",
+                        name: "FK_Files_MessengerUsers_CreatedById",
                         column: x => x.CreatedById,
-                        principalTable: "RepetUsers",
+                        principalTable: "MessengerUsers",
                         principalColumn: "Id");
                 });
 
@@ -222,9 +286,9 @@ namespace Messenger.Data.Migrations
                 {
                     table.PrimaryKey("PK_UploadingFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UploadingFiles_RepetUsers_CreatedById",
+                        name: "FK_UploadingFiles_MessengerUsers_CreatedById",
                         column: x => x.CreatedById,
-                        principalTable: "RepetUsers",
+                        principalTable: "MessengerUsers",
                         principalColumn: "Id");
                 });
 
@@ -271,14 +335,26 @@ namespace Messenger.Data.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RepetUsers_IdentityUserId",
-                table: "RepetUsers",
+                name: "IX_GroupChatInfos_ConversationId",
+                table: "GroupChatInfos",
+                column: "ConversationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MessengerUsers_IdentityUserId",
+                table: "MessengerUsers",
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RepetUsers_PhoneNumber",
-                table: "RepetUsers",
+                name: "IX_MessengerUsers_PhoneNumber",
+                table: "MessengerUsers",
                 column: "PhoneNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PersonalChatInfos_ConversationId",
+                table: "PersonalChatInfos",
+                column: "ConversationId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UploadingFiles_CreatedById",
@@ -305,7 +381,16 @@ namespace Messenger.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ConversationMessages");
+
+            migrationBuilder.DropTable(
                 name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "GroupChatInfos");
+
+            migrationBuilder.DropTable(
+                name: "PersonalChatInfos");
 
             migrationBuilder.DropTable(
                 name: "UploadingFiles");
@@ -317,7 +402,10 @@ namespace Messenger.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "RepetUsers");
+                name: "Conversations");
+
+            migrationBuilder.DropTable(
+                name: "MessengerUsers");
         }
     }
 }

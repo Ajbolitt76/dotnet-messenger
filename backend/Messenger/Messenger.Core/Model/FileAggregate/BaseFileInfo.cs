@@ -23,7 +23,7 @@ public class BaseFileInfo : BaseEntity
     
     #region Navigation Properties
     
-    public RepetUser? CreatedByUser { get; set; }
+    public MessengerUser? CreatedByUser { get; set; }
 
     #endregion
 }

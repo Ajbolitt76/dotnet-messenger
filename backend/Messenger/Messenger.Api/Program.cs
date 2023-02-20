@@ -9,6 +9,8 @@ using Messenger.Api.Modules;
 using Messenger.Api.Swagger;
 using Messenger.Api.Validation;
 using Messenger.Auth;
+using Messenger.Conversations;
+using Messenger.Conversations.PrivateMessages;
 using Messenger.Core.Model.FileAggregate.FileLocation;
 using Messenger.Crypto;
 using Messenger.Data;
@@ -31,6 +33,8 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<FileModule>()
     .AddModule<FileCoreModule>()
     .AddModule<UserModule>()
+    .AddModule<ConversationsModule>()
+    .AddModule<PrivateMessagesModule>()
     .SetTypeAdapter(maps)
     .Build();
 

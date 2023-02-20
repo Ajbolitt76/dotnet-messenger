@@ -60,7 +60,7 @@ public class UserLoginHelperService
             useragent);
     }
 
-    public AuthenticationResult AuthenticateUser(ApplicationUser user, RepetUser domainUser)
+    public AuthenticationResult AuthenticateUser(ApplicationUser user, MessengerUser domainUser)
     {
         var refreshToken = GenerateRefreshToken();
         var token = _jwtTokenGenerator.GenerateUserToken(domainUser,
@@ -82,8 +82,8 @@ public class UserLoginHelperService
         var user = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == ticketInfo.Phone)
             ?? throw new NotFoundException<ApplicationUser>();
         
-        var domainUser = await _dbContext.RepetUsers.FirstOrDefaultAsync(x => x.IdentityUserId == user.Id)
-            ?? throw new NotFoundException<RepetUser>();
+        var domainUser = await _dbContext.MessengerUsers.FirstOrDefaultAsync(x => x.IdentityUserId == user.Id)
+            ?? throw new NotFoundException<MessengerUser>();
 
         return AuthenticateUser(user, domainUser);
     }
@@ -94,8 +94,8 @@ public class UserLoginHelperService
         var user = await _userManager.FindByNameAsync(username)
             ?? throw new NotFoundException<ApplicationUser>();
         
-        var domainUser = await _dbContext.RepetUsers.FirstOrDefaultAsync(x => x.IdentityUserId == user.Id)
-            ?? throw new NotFoundException<RepetUser>();
+        var domainUser = await _dbContext.MessengerUsers.FirstOrDefaultAsync(x => x.IdentityUserId == user.Id)
+            ?? throw new NotFoundException<MessengerUser>();
         
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
         

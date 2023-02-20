@@ -7,8 +7,6 @@ namespace Messenger.User.Feature.UpdateProfileMainData;
 
 public record UpdateProfileMainDataCommand(
     Guid UserId,
-    string FirstName,
-    string LastName,
+    string Name,
     DateTime? DateOfBirth,
-    Gender Gender,
     Guid? ProfilePicture) : ICommand<bool>;

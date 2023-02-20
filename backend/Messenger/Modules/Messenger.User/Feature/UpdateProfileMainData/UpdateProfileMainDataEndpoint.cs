@@ -19,23 +19,15 @@ namespace Messenger.User.Feature.UpdateProfileMainData;
 public class UpdateProfileMainDataEndpoint : IEndpoint
 {
     public record EditProfileDto(
-        string FirstName,
-        string LastName,
+        string Name,
         DateTime? DateOfBirth,
-        Gender Gender,
         SignedData<FileOwnership>? ProfilePicture);
 
     public class DtoValidator : AbstractValidator<EditProfileDto>
     {
         public DtoValidator(ModuleSignatureValidator<FileCoreModule> signatureValidator)
         {
-            RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .WithLocalizationState()
-                .MaximumLength(50)
-                .WithLocalizationState();
-
-            RuleFor(x => x.LastName)
+            RuleFor(x => x.Name)
                 .NotEmpty()
                 .WithLocalizationState()
                 .MaximumLength(50)
@@ -75,10 +67,8 @@ public class UpdateProfileMainDataEndpoint : IEndpoint
                         await mediator.Send(
                             new UpdateProfileMainDataCommand(
                                 userService.UserId!.Value,
-                                command.FirstName,
-                                command.LastName,
+                                command.Name,
                                 command.DateOfBirth,
-                                command.Gender,
                                 command.ProfilePicture?.Data.FileId
                             ))))
             .RequireAuthorization()

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json.Serialization.Metadata;
+using Messenger.Core.Model.ConversationAggregate.Attachment;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,7 @@ public class DataModule : IModule
 {
     public static void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<Gender>();
+        // NpgsqlConnection.GlobalTypeMapper.MapEnum<Gender>();
         
         RegisterJsonPolymorphicDefinitions(services);
         
@@ -45,7 +46,7 @@ public class DataModule : IModule
         });
 
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(RepetUserConfiguration))
+            .FromAssembliesOf(typeof(MessngerUserConfiguration))
             .AddClasses(classes => classes.AssignableTo(typeof(DependencyInjectedEntityConfiguration)))
             .As<DependencyInjectedEntityConfiguration>()
             .WithSingletonLifetime());
@@ -69,6 +70,9 @@ public class DataModule : IModule
             {  
                 poly.AddTypeDefinition<IFileLocation, TusFileLocation>();
                 poly.AddTypeDefinition<IFileLocation, S3FileLocation>();
+                
+                poly.AddTypeDefinition<IAttachment, FileAttachment>();
+                poly.AddTypeDefinition<IAttachment, GeolocationAttachment>();
             });
 
         return serviceCollection;

@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Core.Model.FileAggregate.FileLocation;
 
-public class TusFileLocation : IFileLocation, IHaveJsonDiscriminator
+public class TusFileLocation : IFileLocation, IHaveDiscriminator
 {
     public static string Discriminator => "tus";
     

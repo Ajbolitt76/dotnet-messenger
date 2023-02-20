@@ -42,8 +42,8 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, R
                     ?.Value
                 ?? throw new UnauthorizedException("INVALID_OLD_TOKEN"));
 
-        var user = await _context.RepetUsers.FirstOrDefaultAsync(x => x.Id == userId, cancellationToken: cancellationToken)
-            ?? throw new NotFoundException<RepetUser>();
+        var user = await _context.MessengerUsers.FirstOrDefaultAsync(x => x.Id == userId, cancellationToken: cancellationToken)
+            ?? throw new NotFoundException<MessengerUser>();
 
         var applicationUser = await _userManager.FindByIdAsync(user.IdentityUserId.ToString())
             ?? throw new NotFoundException<ApplicationUser>();

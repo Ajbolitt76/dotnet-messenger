@@ -5,9 +5,8 @@ namespace Messenger.Auth.Features.Registration;
 
 // TODO: Валидация на уровне типов
 public record RegisterUserCommand(
+    string Name, 
     string PhoneTicket,
     string Username,
-    string Password,
-    string FirstName,
-    string LastName
+    string Password
 ) : ICommand<RegistrationCommandResponse>, IRunInTransaction;

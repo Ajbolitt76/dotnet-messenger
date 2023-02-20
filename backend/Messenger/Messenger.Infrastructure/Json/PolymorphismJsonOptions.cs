@@ -40,7 +40,7 @@ public class PolymorphismJsonOptions
             oldDefinition.DerivedTypes.AddRange(typeMapping);
     }
 
-    public void AddTypeDefinition<TBase, TDerived>() where TDerived : IHaveJsonDiscriminator
+    public void AddTypeDefinition<TBase, TDerived>() where TDerived : IHaveDiscriminator
     {
         var baseType = typeof(TBase);
         var oldDefinition = _definitions.GetValueOrDefault(baseType);

@@ -30,25 +30,10 @@ public static class EntityTypeBuilderExtensions
         if (string.IsNullOrEmpty(fieldName))
             throw new ArgumentException($"'{nameof(fieldName)}' cannot be null or empty.", nameof(fieldName));
 
-        var navigationValue = builder.Metadata.FindNavigation(GetName(navigation));
-        navigationValue.SetField(fieldName);
-        navigationValue.SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Property(navigation)
+            .HasField(fieldName)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
         return builder;
     }
 
-    private static string GetName<TSource, TField>(Expression<Func<TSource, TField>> field)
-    {
-        if (field == null)
-            throw new ArgumentNullException(nameof(field));
-
-        MemberExpression expr;
-        if (field.Body is MemberExpression expression)
-            expr = expression;
-        else if (field.Body is UnaryExpression expression1)
-            expr = (MemberExpression)expression1.Operand;
-        else
-            throw new ArgumentException($"Expression '{field}' not supported.", nameof(field));
-
-        return expr.Member.Name;
-    }
 }

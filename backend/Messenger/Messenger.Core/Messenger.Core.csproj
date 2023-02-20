@@ -38,8 +38,4 @@
       </Compile>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Model\Messenger" />
-    </ItemGroup>
-
 </Project>

@@ -19,7 +19,7 @@ public class UserModule : IModule
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<RepetUser, GetProfileMainDataQueryResponse>()
+            config.NewConfig<MessengerUser, GetProfileMainDataQueryResponse>()
                 .Map(
                     x => x.ProfilePhoto,
                     x => FileUtilities.FileIdToLink(
