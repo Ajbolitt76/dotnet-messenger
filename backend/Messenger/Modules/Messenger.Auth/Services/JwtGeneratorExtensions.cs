@@ -7,7 +7,7 @@ namespace Messenger.Auth.Services;
 
 public static class JwtGeneratorExtensions
 {
-    public static string GenerateUserToken(this IJwtTokenGenerator generator, RepetUser user, DateTime expiraion) 
+    public static string GenerateUserToken(this IJwtTokenGenerator generator, MessengerUser user, DateTime expiraion) 
         => generator.GenerateFromClaims(new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())

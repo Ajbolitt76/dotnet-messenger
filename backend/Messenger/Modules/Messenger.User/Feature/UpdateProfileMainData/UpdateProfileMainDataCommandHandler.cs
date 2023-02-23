@@ -16,16 +16,14 @@ public class UpdateProfileMainDataCommandHandler : ICommandHandler<UpdateProfile
 
     public async Task<bool> Handle(UpdateProfileMainDataCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.RepetUsers.FirstOrDefaultAsync(
-                       x => x.Id == request.UserId,
-                       cancellationToken: cancellationToken)
-                   ?? throw new NotFoundException<RepetUser>();
-
-        user.FirstName = request.FirstName;
-        user.LastName = request.LastName;
-        user.DateOfBirth = request.DateOfBirth;
-        user.Gender = request.Gender;
+        var user = await _dbContext.MessengerUsers.FirstOrDefaultAsync(
+                x => x.Id == request.UserId,
+                cancellationToken: cancellationToken)
+            ?? throw new NotFoundException<MessengerUser>();
         
+        user.Name = request.Name;
+        user.DateOfBirth = request.DateOfBirth;
+
         if(request.ProfilePicture != null)
             user.ProfilePhotoId = request.ProfilePicture;
         

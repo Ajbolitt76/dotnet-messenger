@@ -12,6 +12,7 @@ public static class InfrastructureRegister
     public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped(typeof(IRedisStore<>), typeof(RedisStore<>));
+        services.AddScoped<IRedisKeyStore, RedisKeyStore>();
         services.AddScoped<IPhoneVerificationService, ConsolePhoneVerificationService>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();

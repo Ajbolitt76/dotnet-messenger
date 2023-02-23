@@ -49,7 +49,7 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, R
         return new RegistrationCommandResponse(tokens.Token, tokens.RefreshToken.Token);
     }
 
-    private async Task<(ApplicationUser identity, RepetUser domainUser)> CreateUser(
+    private async Task<(ApplicationUser identity, MessengerUser domainUser)> CreateUser(
         RegisterUserCommand request, 
         string phoneNumber,
         CancellationToken cancellationToken)
@@ -63,16 +63,15 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, R
 
         var result = await _userManager.CreateAsync(user, request.Password);
 
-        var domainUser = new RepetUser()
+        var domainUser = new MessengerUser()
         {
+            Name = request.Name,
             UserName = request.Username,
             PhoneNumber = phoneNumber,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
             IdentityUserId = user.Id
         };
 
-        await _dbContext.RepetUsers.AddAsync(domainUser, cancellationToken);
+        await _dbContext.MessengerUsers.AddAsync(domainUser, cancellationToken);
 
         if (!result.Succeeded)
             throw new UnauthorizedException(string.Join("\n", result.Errors.Select(x => x.Description)));

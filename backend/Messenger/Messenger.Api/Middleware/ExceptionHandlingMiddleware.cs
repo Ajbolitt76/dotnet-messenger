@@ -97,7 +97,7 @@ public class ExceptionHandlingMiddleware
             Instance = null,
             Status = (int)responseCode,
             Type = null,
-            Detail = errorText,
+            Detail = errorText
         };
         
         if(!_hostingEnvironment.IsProduction())

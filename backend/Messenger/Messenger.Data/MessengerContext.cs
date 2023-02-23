@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using MediatR;
+using Messenger.Core.Model.ConversationAggregate;
+using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +22,19 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
     private readonly IEnumerable<DependencyInjectedEntityConfiguration> _configurations;
     private IDbContextTransaction? _transaction;
 
-    public DbSet<RepetUser> RepetUsers { get; set; }
+    public DbSet<MessengerUser> MessengerUsers { get; private set; }
+
+    public DbSet<SystemFile> Files { get; private set; }
+
+    public DbSet<UploadingFile> UploadingFiles { get; private set; }
     
-    public DbSet<SystemFile> Files { get; set; }
+    public DbSet<Conversation> Conversations { get; private set; }
     
-    public DbSet<UploadingFile> UploadingFiles { get; set; }
+    public DbSet<ConversationMessage> ConversationMessages { get; private set; }
+
+    public DbSet<GroupChatInfo> GroupChatInfos { get; private set; }
+    
+    public DbSet<PersonalChatInfo> PersonalChatInfos { get; private set; }
 
     public MessengerContext(
         DbContextOptions<MessengerContext> options,
@@ -37,21 +47,23 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
 
     protected void RegisterEnums(ModelBuilder builder)
     {
-        builder.HasPostgresEnum<Gender>();
+        // builder.HasPostgresEnum<Gender>();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Ignore<BaseConversationInfo>();
+        
         base.OnModelCreating(builder);
         RegisterEnums(builder);
-        
-        foreach (var entityTypeConfiguration in _configurations) 
+
+        foreach (var entityTypeConfiguration in _configurations)
             entityTypeConfiguration.Configure(builder);
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
     {
-        await _mediator.DispatchDomainEventsAsync(this);
+        await _mediator.DispatchDomainEventsAsync(this, cancellationToken: cancellationToken);
 
         var result = await base.SaveChangesAsync(cancellationToken);
 

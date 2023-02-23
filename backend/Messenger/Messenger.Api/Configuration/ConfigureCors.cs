@@ -15,13 +15,6 @@ public static class ConfigureCors
                     .AllowAnyHeader()
                     .WithExposedHeaders("Location", "Upload-Offset", "Upload-Length", "SystemFile-Id", "SystemFile-Signed")
                 );
-
-            options.AddPolicy(ProdCorsPolicyName,
-                builder => builder
-                    .WithOrigins("https://repet.online", "https://*.repet.online")
-                    .SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
         });
         return services;
     }

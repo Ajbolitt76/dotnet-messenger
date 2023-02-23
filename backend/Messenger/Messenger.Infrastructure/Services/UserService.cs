@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using Messenger.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Messenger.Core.Services;
 
@@ -18,6 +19,8 @@ public class UserService : IUserService
         : null;
 
     public bool IsAuthenticated => UserId != null;
+    
+    public Guid GetUserIdOrThrow() => UserId ?? throw new UnauthorizedException("Unauthorized");
 
     public UserService(IHttpContextAccessor httpContextAccessor)
     {
