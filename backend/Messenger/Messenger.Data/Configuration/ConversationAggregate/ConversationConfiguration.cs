@@ -17,6 +17,6 @@ public class ConversationConfiguration : BaseConfiguration<Conversation>
     
     public override void ConfigureChild(EntityTypeBuilder<Conversation> typeBuilder)
     {
-        // typeBuilder.Ignore(x => x.ConversationInfo);
+        typeBuilder.Ignore(x => x.ConversationInfo);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
-using Messenger.Data.Configuration.ConversationAggregate.ConversationInfos;
 
-namespace Messenger.Data.Configuration.ConversationAggregate;
+namespace Messenger.Data.Configuration.ConversationAggregate.ConversationInfos;
 
 public class PersonalChatInfoConfiguration : BaseConversationInfoConfiguration<PersonalChatInfo>
 {

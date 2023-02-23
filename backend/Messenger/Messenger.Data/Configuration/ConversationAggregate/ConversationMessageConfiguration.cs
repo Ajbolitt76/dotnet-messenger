@@ -1,6 +1,7 @@
 ﻿using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.Attachment;
 using Messenger.Data.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Messenger.Data.Configuration.ConversationAggregate;
@@ -15,5 +16,12 @@ public class ConversationMessageConfiguration : BaseConfiguration<ConversationMe
         typeBuilder.SetPropertyAccessModeField(x => x.Attachments, ConversationMessage.AttachmentsFieldName);
         typeBuilder.Property(x => x.Attachments!)
             .HasJsonConversion<IReadOnlyList<IAttachment>, List<IAttachment>>();
+
+        typeBuilder.Property(x => x.SentAt)
+            .HasDefaultValueSql("NOW()");
+
+        typeBuilder.HasIndex(x => new { x.ConversationId, x.Position })
+            .IsDescending(false, false)
+            .IsUnique();
     }
 }

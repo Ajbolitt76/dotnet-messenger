@@ -1,4 +1,5 @@
 ﻿using Messenger.Core.Services;
+using Messenger.Infrastructure.RedisLock;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace Messenger.Infrastructure.Services;
@@ -8,7 +9,6 @@ public class RedisStore<T> : IRedisStore<T>
     private readonly IRedisDatabase _redisDatabase;
     private readonly string _keyPrefix = $"{typeof(T).Name}_";
 
-
     public RedisStore(IRedisClient redisClient)
     {
         _redisDatabase = redisClient.Db1;
@@ -16,8 +16,7 @@ public class RedisStore<T> : IRedisStore<T>
 
     public Task<T?> GetAsync(string key)
         => _redisDatabase.GetAsync<T>(GetKey(key));
-
-
+    
     public Task SetAsync(string key, T value, TimeSpan expiry)
         => _redisDatabase.AddAsync<T>(GetKey(key), value, expiry);
 

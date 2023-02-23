@@ -52,6 +52,8 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Ignore<BaseConversationInfo>();
+        
         base.OnModelCreating(builder);
         RegisterEnums(builder);
 

@@ -1,13 +1,16 @@
-﻿using Messenger.Core.Model.ConversationAggregate;
+﻿using Messenger.Conversations.PrivateMessages.Extensions;
+using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Requests.Abstractions;
+using Messenger.Core.Requests.Responses;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.PrivateMessages.Features.CreatePrivateConversation;
 
-public class CreatePrivateConversationCommandHandler : ICommandHandler<CreatePrivateConversationCommand, Guid>
+public class CreatePrivateConversationCommandHandler
+    : ICommandHandler<CreatePrivateConversationCommand, CreatedResponse<Guid>>
 {
     private readonly IDbContext _dbContext;
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -18,17 +21,27 @@ public class CreatePrivateConversationCommandHandler : ICommandHandler<CreatePri
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Guid> Handle(CreatePrivateConversationCommand request, CancellationToken cancellationToken)
+    public async Task<CreatedResponse<Guid>> Handle(
+        CreatePrivateConversationCommand request,
+        CancellationToken cancellationToken)
     {
-        var initiator = await _dbContext.MessengerUsers.FirstOrNotFound(
-            x => x.Id == request.InitiatorId,
-            cancellationToken: cancellationToken);
-        
-        var recipient = await _dbContext.MessengerUsers.FirstOrNotFound(
+        var initiator = await _dbContext.MessengerUsers.FirstOrNotFoundAsync(
             x => x.Id == request.InitiatorId,
             cancellationToken: cancellationToken);
 
-        // TODO: Blacklist
+        var recipient = await _dbContext.MessengerUsers.FirstOrNotFoundAsync(
+            x => x.Id == request.ReceiverId,
+            cancellationToken: cancellationToken);
+
+        // TODO: Blacklisting
+
+        var existing =
+            await _dbContext.PersonalChatInfos.GetConversationBetweenPeersAsync(
+                request.ReceiverId,
+                request.InitiatorId);
+
+        if (existing != null)
+            return new CreatedResponse<Guid>(false, existing.ConversationId);
 
         var conversation = new Conversation
         {
@@ -39,7 +52,7 @@ public class CreatePrivateConversationCommandHandler : ICommandHandler<CreatePri
         };
 
         _dbContext.Conversations.Add(conversation);
-        
+
         var chatInfo = new PersonalChatInfo
         {
             InitiatorPeer = initiator.Id,
@@ -50,6 +63,6 @@ public class CreatePrivateConversationCommandHandler : ICommandHandler<CreatePri
         _dbContext.PersonalChatInfos.Add(chatInfo);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
 
-        return conversation.Id;
+        return new CreatedResponse<Guid>(true, conversation.Id);
     }
 }

@@ -18,6 +18,9 @@ public abstract class BaseConfiguration<TEntity> : DependencyInjectedEntityConfi
     public static void ConfigureBase(EntityTypeBuilder<TEntity> typeBuilder)
     {
         typeBuilder.HasKey(x => x.Id);
+
+        typeBuilder.Property(x => x.Id)
+            .HasDefaultValueSql("gen_random_uuid()");
     }
       
 }

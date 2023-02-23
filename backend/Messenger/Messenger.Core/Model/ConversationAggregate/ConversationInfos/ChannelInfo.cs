@@ -2,5 +2,5 @@
 
 public class ChannelInfo : BaseConversationInfo, IHaveDiscriminator
 {
-    public static string Discriminator => "Channel";
+    public static string Discriminator => ConversationTypes.Channel;
 }

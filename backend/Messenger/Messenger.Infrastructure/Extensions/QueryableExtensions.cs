@@ -6,7 +6,7 @@ namespace Messenger.Infrastructure.Extensions;
 
 public static class QueryableExtensions
 {
-    public static async Task<T> FirstOrNotFound<T>(
+    public static async Task<T> FirstOrNotFoundAsync<T>(
         this IQueryable<T> queryable,
         CancellationToken cancellationToken = default)
     {
@@ -15,7 +15,7 @@ public static class QueryableExtensions
     }
     
     
-    public static async Task<T> FirstOrNotFound<T>(
+    public static async Task<T> FirstOrNotFoundAsync<T>(
         this IQueryable<T> queryable,
         Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default)

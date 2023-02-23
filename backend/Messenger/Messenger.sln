@@ -46,7 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messenger.Conversations", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.PrivateMessages", "Modules\Messenger.Conversations.PrivateMessages\Messenger.Conversations.PrivateMessages.csproj", "{3FBE2462-D2B0-459D-A0C1-38C22473741C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.Common", "Modules\Messenger.Conversations\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj", "{6136CBA6-49FC-46CD-9D99-47CB8F5DBC2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.Common", "Modules\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj", "{73B334B0-277A-48E9-BE1F-39B15CE9A7C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,10 +106,10 @@ Global
 		{3FBE2462-D2B0-459D-A0C1-38C22473741C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FBE2462-D2B0-459D-A0C1-38C22473741C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FBE2462-D2B0-459D-A0C1-38C22473741C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6136CBA6-49FC-46CD-9D99-47CB8F5DBC2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6136CBA6-49FC-46CD-9D99-47CB8F5DBC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6136CBA6-49FC-46CD-9D99-47CB8F5DBC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6136CBA6-49FC-46CD-9D99-47CB8F5DBC2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{528D9747-EAD4-47B2-A445-F2293A1BE01D} = {14CD4EE3-16DF-43BE-B822-1B83421E667E}
@@ -124,6 +124,6 @@ Global
 		{847C2C7D-65F0-425F-9C3C-3A36F02ACCA3} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
 		{379CFB08-0091-4EE9-8E83-FA818541F64B} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 		{3FBE2462-D2B0-459D-A0C1-38C22473741C} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
-		{6136CBA6-49FC-46CD-9D99-47CB8F5DBC2B} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
+		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 	EndGlobalSection
 EndGlobal

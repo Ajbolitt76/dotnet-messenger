@@ -5,7 +5,7 @@ public class PersonalChatInfo : BaseConversationInfo, IHaveDiscriminator
     /// <summary>
     /// Дискриминатор типа перписки
     /// </summary>
-    public static string Discriminator => "Personal";
+    public static string Discriminator => ConversationTypes.PersonalChat;
     
     public required Guid InitiatorPeer { get; set; }
     

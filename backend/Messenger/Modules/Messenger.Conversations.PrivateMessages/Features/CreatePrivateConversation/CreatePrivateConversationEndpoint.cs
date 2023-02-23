@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Messenger.Core.Requests.Responses;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Validation.ValidationFilter;
@@ -16,11 +17,16 @@ public class CreatePrivateConversationEndpoint : IEndpoint
     {
         endpoints.MapPost(
                 "/create",
-                async ([FromQuery]Guid receiverId, IMediator mediator, IUserService userService)
+                async ([FromQuery] Guid receiverId, IMediator mediator, IUserService userService)
                     => Results.Ok(
-                        await mediator.Send(
-                            new CreatePrivateConversationCommand(userService.GetUserIdOrThrow(), receiverId))))
+                        new
+                        {
+                            Id = await mediator.Send(
+                                new CreatePrivateConversationCommand(userService.GetUserIdOrThrow(), receiverId))
+                        }
+                    ))
             .RequireAuthorization()
+            .Produces<CreatedResponse<Guid>>()
             .WithName("Создать приватный чат");
     }
 }

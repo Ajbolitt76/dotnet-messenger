@@ -10,6 +10,7 @@ using Messenger.Api.Swagger;
 using Messenger.Api.Validation;
 using Messenger.Auth;
 using Messenger.Conversations;
+using Messenger.Conversations.Common;
 using Messenger.Conversations.PrivateMessages;
 using Messenger.Core.Model.FileAggregate.FileLocation;
 using Messenger.Crypto;
@@ -34,6 +35,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<FileCoreModule>()
     .AddModule<UserModule>()
     .AddModule<ConversationsModule>()
+    .AddModule<ConversationsCommonModule>()
     .AddModule<PrivateMessagesModule>()
     .SetTypeAdapter(maps)
     .Build();
@@ -73,6 +75,7 @@ try
     await using var scope = app.Services.CreateAsyncScope();
     var sp = scope.ServiceProvider;
     var db = sp.GetRequiredService<MessengerContext>();
+    
     await db.Database.MigrateAsync();
 
     await using var conn = (NpgsqlConnection)db.Database.GetDbConnection();

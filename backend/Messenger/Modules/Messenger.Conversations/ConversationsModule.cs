@@ -1,4 +1,6 @@
-﻿using Messenger.Infrastructure.Modules;
+﻿using Messenger.Conversations.Common.Extensions;
+using Messenger.Conversations.PrivateMessages.Extensions;
+using Messenger.Infrastructure.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,6 +10,9 @@ public class ConversationsModule : IModule
 {
     public static void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
-        
+        services
+            .AddMessageHandlers()
+            .AddPrivateMessageHandlers()
+            .Apply();
     }
 }

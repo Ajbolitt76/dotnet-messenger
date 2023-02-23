@@ -57,11 +57,14 @@ namespace Messenger.Data.Migrations
                 name: "ConversationMessages",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    ConversationId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SenderId = table.Column<Guid>(type: "uuid", nullable: true),
                     TextContent = table.Column<string>(type: "text", nullable: true),
                     Attachments = table.Column<string>(type: "jsonb", nullable: true),
-                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    EditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Position = table.Column<long>(type: "bigint", nullable: false),
                     Metadata = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
@@ -73,7 +76,7 @@ namespace Messenger.Data.Migrations
                 name: "Conversations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     Title = table.Column<string>(type: "text", nullable: true),
                     LastMessage = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -88,7 +91,7 @@ namespace Messenger.Data.Migrations
                 name: "MessengerUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     ProfilePhotoId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -211,7 +214,7 @@ namespace Messenger.Data.Migrations
                 name: "GroupChatInfos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     GroupPictureId = table.Column<Guid>(type: "uuid", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     ConversationId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -231,7 +234,7 @@ namespace Messenger.Data.Migrations
                 name: "PersonalChatInfos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     InitiatorPeer = table.Column<Guid>(type: "uuid", nullable: false),
                     RecipientPeer = table.Column<Guid>(type: "uuid", nullable: false),
                     ConversationId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -251,7 +254,7 @@ namespace Messenger.Data.Migrations
                 name: "Files",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     FileLocation = table.Column<string>(type: "jsonb", nullable: false),
                     FileName = table.Column<string>(type: "text", nullable: false),
                     FileSize = table.Column<long>(type: "bigint", nullable: false),
@@ -273,7 +276,7 @@ namespace Messenger.Data.Migrations
                 name: "UploadingFiles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     IsFinished = table.Column<bool>(type: "boolean", nullable: false),
                     TusId = table.Column<string>(type: "text", nullable: false),
                     FileName = table.Column<string>(type: "text", nullable: false),
@@ -327,6 +330,12 @@ namespace Messenger.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConversationMessages_ConversationId_Position",
+                table: "ConversationMessages",
+                columns: new[] { "ConversationId", "Position" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
