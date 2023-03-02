@@ -10,12 +10,15 @@ public class DbSeeder : IDbSeeder
 
     public async Task Seed(IDbContext dbContext)
     {
+       
         await SeedMessengerUsers(dbContext);
         await dbContext.SaveEntitiesAsync();
     }
 
     private async Task SeedMessengerUsers(IDbContext dbContext)
     {
+        if (dbContext.MessengerUsers.Any())
+            return;
         var users = new List<MessengerUser>
         {
             new()
