@@ -1,6 +1,5 @@
 using Mapster;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Messenger.Api.Configuration;
@@ -12,9 +11,9 @@ using Messenger.Auth;
 using Messenger.Conversations;
 using Messenger.Conversations.Common;
 using Messenger.Conversations.PrivateMessages;
-using Messenger.Core.Model.FileAggregate.FileLocation;
 using Messenger.Crypto;
 using Messenger.Data;
+using Messenger.Data.Seeder;
 using Messenger.Files;
 using Messenger.Files.Shared;
 using Messenger.Infrastructure;
@@ -47,7 +46,8 @@ builder.Services
     .AddCoreServices()
     .AddAuthorization()
     .AddCorsConfiguration()
-    .ConfigureJsonOptions(builder.Environment);
+    .ConfigureJsonOptions(builder.Environment)
+    .AddScoped<DbSeeder>();
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -81,6 +81,9 @@ try
     await using var conn = (NpgsqlConnection)db.Database.GetDbConnection();
     await conn.OpenAsync();
     await conn.ReloadTypesAsync();
+    
+    var seeder = sp.GetRequiredService<DbSeeder>();
+    await seeder.Seed(db);
 }
 catch (Exception e)
 {
