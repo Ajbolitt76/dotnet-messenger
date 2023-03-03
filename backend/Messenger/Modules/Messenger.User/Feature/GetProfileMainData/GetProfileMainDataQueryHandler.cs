@@ -23,9 +23,9 @@ public class GetProfileMainDataQueryHandler : IQueryHandler<GetProfileMainDataQu
         CancellationToken cancellationToken)
     {
         var user = await _dbContext.MessengerUsers.Where(x => x.Id == request.UserId)
-                .FirstOrDefaultAsync(cancellationToken: cancellationToken)
-               ?? throw new NotFoundException<MessengerUser>();
-        
+                       .FirstOrDefaultAsync(cancellationToken: cancellationToken)
+                   ?? throw new NotFoundException<MessengerUser>();
+
         return _mapper.Map<GetProfileMainDataQueryResponse>(user);
     }
 }

@@ -28,7 +28,7 @@ public class SendMessageEndpoint : IEndpoint
     public void Map(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost(
-                "/{conversationId:guid}",
+                "/{conversationId:guid}/send",
                 async (SendMessageDto dto, Guid conversationId, IMediator mediator)
                     => Results.Ok(
                         await mediator.Send(
