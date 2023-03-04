@@ -138,6 +138,45 @@ namespace Messenger.Data.Migrations
                     b.ToTable("ConversationMessages");
                 });
 
+            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.GroupChatMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("MutedTill")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Permissions")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("WasBanned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("WasExcluded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ConversationId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("GroupChatMembers");
+                });
+
             modelBuilder.Entity("Messenger.Core.Model.FileAggregate.SystemFile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -465,6 +504,25 @@ namespace Messenger.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Conversation");
+                });
+
+            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.GroupChatMember", b =>
+                {
+                    b.HasOne("Messenger.Core.Model.ConversationAggregate.Conversation", "Conversation")
+                        .WithMany()
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Messenger.Core.Model.UserAggregate.MessengerUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.FileAggregate.SystemFile", b =>

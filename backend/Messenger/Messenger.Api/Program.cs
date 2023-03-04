@@ -11,6 +11,7 @@ using Messenger.Api.Validation;
 using Messenger.Auth;
 using Messenger.Conversations;
 using Messenger.Conversations.Common;
+using Messenger.Conversations.GroupChats;
 using Messenger.Conversations.PrivateMessages;
 using Messenger.Core.Model.FileAggregate.FileLocation;
 using Messenger.Crypto;
@@ -37,6 +38,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<ConversationsModule>()
     .AddModule<ConversationsCommonModule>()
     .AddModule<PrivateMessagesModule>()
+    .AddModule<GroupChatsModule>()
     .SetTypeAdapter(maps)
     .Build();
 
