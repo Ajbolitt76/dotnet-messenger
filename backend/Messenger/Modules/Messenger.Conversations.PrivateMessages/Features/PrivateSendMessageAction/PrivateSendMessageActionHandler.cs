@@ -13,16 +13,19 @@ public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessage
     private readonly IDbContext _dbContext;
     private readonly IDomainHandler<ReserveConversationNumberCommand, uint> _reserveNumberHandler;
     private readonly IUserService _userService;
+    private readonly IDateTimeProvider _dateTimeProvider;
     public static string MessageType => ConversationTypes.PersonalChat;
 
     public PrivateSendMessageActionHandler(
         IDbContext dbContext,
         IDomainHandler<ReserveConversationNumberCommand, uint> reserveNumberHandler,
-        IUserService userService)
+        IUserService userService,
+        IDateTimeProvider dateTimeProvider)
     {
         _dbContext = dbContext;
         _reserveNumberHandler = reserveNumberHandler;
         _userService = userService;
+        _dateTimeProvider = dateTimeProvider;
     }
     
     public async Task<bool> Handle(SendMessageAction request, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessage
         var conversationMessage = new ConversationMessage()
         {
             Attachments = messageData.Attachments,
-            SentAt = DateTime.UtcNow,
+            SentAt = _dateTimeProvider.NowUtc,
             ConversationId = request.Conversation.Id,
             TextContent = messageData.TextContent, 
             SenderId = _userService.GetUserIdOrThrow(),

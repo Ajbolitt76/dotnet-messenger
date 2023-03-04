@@ -1,11 +1,18 @@
 version: "2.4"
 services:
 #  messenger-api:
-#    image: ${REGISTRY_URL}/messenger-api:${IMAGE_TAG:-latest}
+#    image: messenger-api
 #    build:
 #      context: ../../
 #      dockerfile: Messenger.Api/Dockerfile
 #      target: final
+#    environment:
+#      "ConnectionStrings:DataConnectionString": "Host=postgres;Port=5432;Database=Messenger;Username=postgres;Password=fd2ee12swq" 
+#      "ConnectionStrings:RedisConnectionString": "redis-data:6379"
+#    networks: 
+#      - default
+#      - tank
+
   postgres:
     image: postgres:alpine
     ports:
@@ -13,11 +20,15 @@ services:
     environment:
       POSTGRES_PASSWORD: fd2ee12swq
       POSTGRES_DB: dreamspb
+    networks:
+      - default
   
   redis-data:
     image: redis:alpine
     ports:
       - "127.0.0.1:6380:6379"
+    networks:
+      - default
   
   seq:
     image: datalust/seq
@@ -28,9 +39,10 @@ services:
 
 volumes:
   minio:
-  
-#  rabbitmq:
-#    image: rabbitmq:3-management-alpine
-#    ports:
-#      - "15672:15672"
 
+networks:
+  default:
+# Раскоментировать для нагрузочного теста
+#  tank:
+#    name: yandex-tank
+#    external: true
