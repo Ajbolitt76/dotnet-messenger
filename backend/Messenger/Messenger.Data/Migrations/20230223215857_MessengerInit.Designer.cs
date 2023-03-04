@@ -4,6 +4,7 @@ using System.Net;
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    partial class MessengerContextModelSnapshot : ModelSnapshot
+    [Migration("20230223215857_MessengerInit")]
+    partial class MessengerInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,43 +139,6 @@ namespace Messenger.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ConversationMessages");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.GroupChatMember", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("ConversationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("MutedTill")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Permissions")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("WasBanned")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("WasExcluded")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConversationId", "UserId")
-                        .IsUnique();
-
-                    b.ToTable("GroupChatMembers");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.FileAggregate.SystemFile", b =>

@@ -8,14 +8,6 @@ public class GroupChatMemberConfiguration : BaseMemberConfiguration<GroupChatMem
 {
     public override void ConfigureChild(EntityTypeBuilder<GroupChatMember> typeBuilder)
     {
-        typeBuilder.HasOne(x => x.User)
-            .WithMany()
-            .HasForeignKey(x => x.UserId);
-
-        typeBuilder.HasOne(x => x.Conversation)
-            .WithMany()
-            .HasForeignKey(x => x.ConversationId);
-        
         typeBuilder.Property(x => x.WasExcluded)
             .HasDefaultValue(false);
 

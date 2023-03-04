@@ -6,5 +6,4 @@ namespace Messenger.Conversations.GroupChats.Features.CreateGroupChat;
 public record CreateGroupChatCommand(
     Guid InitiatorId,
     IEnumerable<Guid> InvitedMembers,
-    string Name
-) : ICommand<CreatedResponse<Guid>>;
+    string Name) : ICommand<CreatedResponse<Guid>>;

@@ -23,8 +23,4 @@ public class GroupChatMember : BaseMember
     /// Битовое поле с разрешениями
     /// </summary>
     public int Permissions { get; set; }
-    
-    public MessengerUser User { get; set; }
-    
-    public Conversation Conversation { get; set; }
 }

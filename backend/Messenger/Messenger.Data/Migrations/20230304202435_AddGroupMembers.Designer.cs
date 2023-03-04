@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    [Migration("20230304135451_Initial")]
-    partial class Initial
+    [Migration("20230304202435_AddGroupMembers")]
+    partial class AddGroupMembers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,8 +171,6 @@ namespace Messenger.Data.Migrations
                         .HasDefaultValue(false);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("ConversationId", "UserId")
                         .IsUnique();
@@ -507,25 +505,6 @@ namespace Messenger.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Conversation");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.GroupChatMember", b =>
-                {
-                    b.HasOne("Messenger.Core.Model.ConversationAggregate.Conversation", "Conversation")
-                        .WithMany()
-                        .HasForeignKey("ConversationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Messenger.Core.Model.UserAggregate.MessengerUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Conversation");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.FileAggregate.SystemFile", b =>

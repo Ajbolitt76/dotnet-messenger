@@ -1,5 +1,6 @@
 ﻿namespace Messenger.Core.Model.ConversationAggregate.Permissions;
 
+[Flags]
 public enum GroupMemberPermissions
 {
     None = 0,

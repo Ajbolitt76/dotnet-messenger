@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class MessengerInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -273,35 +273,6 @@ namespace Messenger.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupChatMembers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    WasExcluded = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    WasBanned = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    MutedTill = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Permissions = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ConversationId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupChatMembers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupChatMembers_Conversations_ConversationId",
-                        column: x => x.ConversationId,
-                        principalTable: "Conversations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GroupChatMembers_MessengerUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "MessengerUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UploadingFiles",
                 columns: table => new
                 {
@@ -379,17 +350,6 @@ namespace Messenger.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupChatMembers_ConversationId_UserId",
-                table: "GroupChatMembers",
-                columns: new[] { "ConversationId", "UserId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GroupChatMembers_UserId",
-                table: "GroupChatMembers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MessengerUsers_IdentityUserId",
                 table: "MessengerUsers",
                 column: "IdentityUserId");
@@ -437,9 +397,6 @@ namespace Messenger.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "GroupChatInfos");
-
-            migrationBuilder.DropTable(
-                name: "GroupChatMembers");
 
             migrationBuilder.DropTable(
                 name: "PersonalChatInfos");

@@ -1,6 +1,7 @@
 ﻿using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Members;
+using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Model.UserAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Requests.Responses;
@@ -63,7 +64,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             UserId = initiator.Id,
             WasExcluded = false,
             WasBanned = false,
-            Permissions = 127,
+            Permissions = GroupChatPermissionPresets.Creator
         };
 
         var groupMembers = members.Select(
@@ -73,7 +74,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
                 UserId = user.Id,
                 WasExcluded = false,
                 WasBanned = false,
-                Permissions = 15
+                Permissions = GroupChatPermissionPresets.NewMember
             });
 
         _dbContext.GroupChatMembers.AddRange(groupMembers.Append(initiatorMember));
