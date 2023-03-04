@@ -21,7 +21,7 @@ public class ReserveConversationNumberCommandHandler : IDomainHandler<ReserveCon
         var key = GetKey(request.ConversationId);
 
         // Double-check
-        if (!await _redisKeyStore.ExistsAsync<uint>(GetKey(request.ConversationId)))
+        if (!await _redisKeyStore.ExistsAsync<uint>(key))
         {
             await using var locked =
                 await _redisKeyStore.LockAsync(ConversationQueries.GetConversationLock(request.ConversationId));

@@ -15,8 +15,6 @@ RUN dotnet subset restore "Messenger.Api/Messenger.Api.csproj" --root-directory 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG CI_JOB_TOKEN
 WORKDIR /src
-RUN echo "Token: $CI_JOB_TOKEN"
-RUN dotnet nuget add source "https://gitlab.com/api/v4/groups/57111509/-/packages/nuget/index.json" --store-password-in-clear-text --name repet-gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN
 COPY --from=prepare-restore-files /src/restore_subset .
 RUN dotnet restore "Messenger.Api/Messenger.Api.csproj"
 
