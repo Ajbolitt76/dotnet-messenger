@@ -29,14 +29,24 @@ public class PrivateGetMessageListActionHandler
         CancellationToken cancellationToken)
     {
         var messages = await _dbContext.ConversationMessages
-            .Where(x => x.ConversationId == request.ConversationId)
-            .OrderBy(x => x.Position)
-            .Take(request.Count)
-            .Select(
-                x => new PrivateMessageListProjection(
-                ))
+            .Where(x =>
+                x.ConversationId == request.ConversationId
+                && (request.MessagePointer == null
+                    || x.Position < _dbContext.ConversationMessages
+                        .FirstOrDefault(x => x.Id == request.MessagePointer)
+                        .Position))
+                .OrderByDescending(x => x.Position)
+                .Take(request.Count)
+                .Select(
+                    x => new PrivateMessageListProjection(
+                        x.Id,
+                        x.TextContent!,
+                        x.Attachments,
+                        x.SentAt,
+                        x.EditedAt,
+                        x.Position))
             .ToListAsync(cancellationToken: cancellationToken);
 
-        return new(messages);
+        return new GetMessageListActionResponse(messages);
     }
 }

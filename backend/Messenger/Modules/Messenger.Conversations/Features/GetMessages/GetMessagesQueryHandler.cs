@@ -15,11 +15,16 @@ public partial class GetMessagesQueryHandler : IQueryHandler<GetMessagesQuery, G
 {
     private readonly MessageHandlerProvider _messageHandlerProvider;
     private readonly IDbContext _dbContext;
+    private readonly ILogger<GetMessagesQueryHandler> _logger;
 
-    public GetMessagesQueryHandler(MessageHandlerProvider messageHandlerProvider, IDbContext dbContext)
+    public GetMessagesQueryHandler(
+        MessageHandlerProvider messageHandlerProvider,
+        IDbContext dbContext,
+        ILogger<GetMessagesQueryHandler> logger)
     {
         _messageHandlerProvider = messageHandlerProvider;
         _dbContext = dbContext;
+        _logger = logger;
     }
 
     public async Task<GetMessageListActionResponse> Handle(

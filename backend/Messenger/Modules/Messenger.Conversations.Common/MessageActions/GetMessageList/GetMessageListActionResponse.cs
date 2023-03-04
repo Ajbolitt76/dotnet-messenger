@@ -3,4 +3,4 @@
 namespace Messenger.Conversations.Common.MessageActions.GetMessageList;
 
 public record GetMessageListActionResponse(
-    List<BaseMessageListProjection> Messages);
+    IReadOnlyCollection<BaseMessageListProjection> Messages);
