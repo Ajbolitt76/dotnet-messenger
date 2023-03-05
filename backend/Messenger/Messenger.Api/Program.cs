@@ -12,6 +12,7 @@ using Messenger.Auth;
 using Messenger.Auth.Services;
 using Messenger.Conversations;
 using Messenger.Conversations.Common;
+using Messenger.Conversations.GroupChats;
 using Messenger.Conversations.PrivateMessages;
 using Messenger.Crypto;
 using Messenger.Data;
@@ -38,6 +39,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<ConversationsModule>()
     .AddModule<ConversationsCommonModule>()
     .AddModule<PrivateMessagesModule>()
+    .AddModule<GroupChatsModule>()
     .SetTypeAdapter(maps)
     .Build();
 

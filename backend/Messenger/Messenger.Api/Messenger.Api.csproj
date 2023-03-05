@@ -31,6 +31,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Modules\Messenger.Auth\Messenger.Auth.csproj" />
+      <ProjectReference Include="..\Modules\Messenger.Conversations.GroupChats\Messenger.Conversations.GroupChats.csproj" />
       <ProjectReference Include="..\Modules\Messenger.Conversations.PrivateMessages\Messenger.Conversations.PrivateMessages.csproj" />
       <ProjectReference Include="..\Modules\Messenger.Conversations\Messenger.Conversations.csproj" />
       <ProjectReference Include="..\Modules\Messenger.Crypto\Messenger.Crypto\Messenger.Crypto.csproj" />
