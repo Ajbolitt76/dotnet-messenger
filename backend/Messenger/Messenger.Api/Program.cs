@@ -83,7 +83,7 @@ try
     await conn.ReloadTypesAsync();
     
     var seeder = sp.GetRequiredService<DbSeeder>();
-    await seeder.Seed(db);
+    await seeder.SeedAsync(db, sp);
 }
 catch (Exception e)
 {

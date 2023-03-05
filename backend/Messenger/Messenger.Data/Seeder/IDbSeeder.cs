@@ -4,5 +4,5 @@ namespace Messenger.Data.Seeder;
 
 public interface IDbSeeder
 {
-    Task Seed(IDbContext dbContext);
+    Task SeedAsync(IDbContext dbContext, IServiceProvider serviceProvider);
 }
