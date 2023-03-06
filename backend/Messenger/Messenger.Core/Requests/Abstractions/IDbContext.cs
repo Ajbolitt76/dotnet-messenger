@@ -17,6 +17,8 @@ public interface IDbContext
     public DbSet<Conversation> Conversations { get; }
     
     public DbSet<ConversationMessage> ConversationMessages { get; }
+    
+    public DbSet<ConversationUserStatus> ConversationUserStatuses { get; }
 
     public DbSet<GroupChatInfo> GroupChatInfos { get; }
     

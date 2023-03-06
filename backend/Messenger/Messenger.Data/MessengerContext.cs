@@ -31,6 +31,8 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<Conversation> Conversations { get; private set; }
     
     public DbSet<ConversationMessage> ConversationMessages { get; private set; }
+    
+    public DbSet<ConversationUserStatus> ConversationUserStatuses { get; private set; }
 
     public DbSet<GroupChatInfo> GroupChatInfos { get; private set; }
     

@@ -48,7 +48,8 @@ public class CreatePrivateConversationCommandHandler
             Title = "",
             ConversationType = PersonalChatInfo.Discriminator,
             CreatedAt = _dateTimeProvider.NowUtc,
-            LastMessage = _dateTimeProvider.NowUtc
+            LastMessage = _dateTimeProvider.NowUtc,
+            DeletedCount = 0
         };
 
         _dbContext.Conversations.Add(conversation);
