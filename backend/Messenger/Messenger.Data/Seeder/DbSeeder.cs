@@ -36,12 +36,12 @@ public class DbSeeder : IDbSeeder
                 var data = new ApplicationUser
                 {
                     Id = Guid.NewGuid(),
-                    UserName = x.name,
+                    UserName = x.Name,
                     Email = $"{x}@mail.ru",
                     PhoneNumber = $"+79{string.Join("", Enumerable.Range(1, 9).Select(_ => _random.Next(0, 9)))}",
                 };
-                data.PasswordHash = userService.PasswordHasher.HashPassword(data, x.name);
-                return (data, x.id);
+                data.PasswordHash = userService.PasswordHasher.HashPassword(data, x.Name);
+                return (data, x.Id);
             }).ToArray();
         
         foreach (var appUser in appUsers)
@@ -56,7 +56,7 @@ public class DbSeeder : IDbSeeder
                 DateOfBirth = new DateTime(_random.Next(1960, 2009), _random.Next(1, 13), _random.Next(1, 29)).ToUniversalTime(),
                 IdentityUserId = appUser.data.Id,
             };
-            typeof(BaseEntity).GetProperty(nameof(BaseEntity.Id))?.SetValue(messengerUser, appUser.id);
+            typeof(BaseEntity).GetProperty(nameof(BaseEntity.Id))?.SetValue(messengerUser, appUser.Id);
             dbContext.MessengerUsers.Add(messengerUser);
         }
     }
