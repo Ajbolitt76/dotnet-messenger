@@ -24,7 +24,7 @@ public class DbSeeder : IDbSeeder
         
         var userService = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         
-        var appUsers = new (string name, Guid id)[] 
+        var appUsers = new (string Name, Guid Id)[] 
         {
             ("Adel", new Guid("aa1c3fe1-2b51-4167-9e4f-951df3e1e34b")),
             ("Artem", new Guid("a293d683-cf18-41db-a1d3-fcc4ce65b306")),
