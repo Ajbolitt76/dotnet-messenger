@@ -23,7 +23,11 @@ public interface IDbContext
     
     public DbSet<PersonalChatInfo> PersonalChatInfos { get; }
     
+    public DbSet<ChannelInfo> ChannelInfos { get; }
+
     public DbSet<GroupChatMember> GroupChatMembers { get; }
+    
+    public DbSet<ChannelMember> ChannelMembers { get; }
 
     public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
 }

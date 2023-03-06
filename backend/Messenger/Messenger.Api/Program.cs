@@ -11,6 +11,7 @@ using Messenger.Api.Validation;
 using Messenger.Auth;
 using Messenger.Auth.Services;
 using Messenger.Conversations;
+using Messenger.Conversations.Channel;
 using Messenger.Conversations.Common;
 using Messenger.Conversations.GroupChats;
 using Messenger.Conversations.PrivateMessages;
@@ -41,6 +42,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<ConversationsCommonModule>()
     .AddModule<PrivateMessagesModule>()
     .AddModule<GroupChatsModule>()
+    .AddModule<ChannelModule>()
     .SetTypeAdapter(maps)
     .Build();
 
