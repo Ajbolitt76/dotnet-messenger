@@ -1,5 +1,6 @@
 ﻿using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
+using Messenger.Core.Model.ConversationAggregate.Members;
 using Microsoft.EntityFrameworkCore;
 using Messenger.Core.Model.FileAggregate;
 using Messenger.Core.Model.UserAggregate;
@@ -23,6 +24,8 @@ public interface IDbContext
     public DbSet<GroupChatInfo> GroupChatInfos { get; }
     
     public DbSet<PersonalChatInfo> PersonalChatInfos { get; }
+    
+    public DbSet<GroupChatMember> GroupChatMembers { get; }
 
     public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
 }

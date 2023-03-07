@@ -23,4 +23,14 @@ public static class QueryableExtensions
         return await queryable.FirstOrDefaultAsync(predicate, cancellationToken) 
             ?? throw new NotFoundException<T>();
     }
+    
+    public static async Task<bool> AnyOrNotFoundAsync<T>(
+        this IQueryable<T> queryable,
+        Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await queryable.AnyAsync(predicate, cancellationToken) 
+               ? true 
+               : throw new NotFoundException<T>();
+    }
 }

@@ -1,23 +1,26 @@
 using Mapster;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Messenger.Api.Configuration;
+using Messenger.Api.Cors;
 using Messenger.Api.Middleware;
 using Messenger.Api.Modules;
 using Messenger.Api.Swagger;
 using Messenger.Api.Validation;
 using Messenger.Auth;
+using Messenger.Auth.Services;
 using Messenger.Conversations;
 using Messenger.Conversations.Common;
+using Messenger.Conversations.GroupChats;
 using Messenger.Conversations.PrivateMessages;
-using Messenger.Core.Model.FileAggregate.FileLocation;
 using Messenger.Crypto;
 using Messenger.Data;
+using Messenger.Data.Seeder;
 using Messenger.Files;
 using Messenger.Files.Shared;
 using Messenger.Infrastructure;
+using Messenger.Infrastructure.Services;
 using Messenger.User;
 using Serilog;
 
@@ -37,6 +40,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<ConversationsModule>()
     .AddModule<ConversationsCommonModule>()
     .AddModule<PrivateMessagesModule>()
+    .AddModule<GroupChatsModule>()
     .SetTypeAdapter(maps)
     .Build();
 
@@ -47,28 +51,21 @@ builder.Services
     .AddCoreServices()
     .AddAuthorization()
     .AddCorsConfiguration()
-    .ConfigureJsonOptions(builder.Environment);
+    .ConfigureJsonOptions(builder.Environment)
+    .AddScoped<DbSeeder>();
 
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders =
-        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-});
+builder.Services.Configure<ForwardedHeadersOptions>(
+    options =>
+    {
+        options.ForwardedHeaders =
+            ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    });
 
-modules.RegisterServices(builder.Services, builder.Configuration); 
+modules.RegisterServices(builder.Services, builder.Configuration);
 
 builder.Services.AddCustomAuthentication();
 
 var app = builder.Build();
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-app.UseForwardedHeaders();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 try
 {
@@ -81,6 +78,9 @@ try
     await using var conn = (NpgsqlConnection)db.Database.GetDbConnection();
     await conn.OpenAsync();
     await conn.ReloadTypesAsync();
+    
+    var seeder = sp.GetRequiredService<DbSeeder>();
+    await seeder.SeedAsync(db, sp);
 }
 catch (Exception e)
 {
@@ -88,9 +88,17 @@ catch (Exception e)
     Environment.Exit(-1);
 }
 
-app.UseStaticFiles();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseForwardedHeaders();
 app.UseCorsConfiguration(app.Environment);
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseStaticFiles();
 
 modules.MapRoutes(app);
 
