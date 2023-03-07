@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    [Migration("20230306150725_MessagesDeletionRefactoring")]
+    [Migration("20230307131917_MessagesDeletionRefactoring")]
     partial class MessagesDeletionRefactoring
     {
         /// <inheritdoc />
@@ -180,6 +180,43 @@ namespace Messenger.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ConversationUserStatuses");
+                });
+
+            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.GroupChatMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("MutedTill")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Permissions")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("WasBanned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("WasExcluded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("GroupChatMembers");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.FileAggregate.SystemFile", b =>

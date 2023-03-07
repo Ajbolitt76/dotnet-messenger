@@ -32,7 +32,7 @@ public partial class DeleteMessageCommandHandler : ICommandHandler<DeleteMessage
     public async Task<bool> Handle(DeleteMessageCommand request, CancellationToken cancellationToken)
     {
         var message = await _dbContext.ConversationMessages.FirstOrNotFoundAsync(x => x.Id == request.MessageId);
-        var conversation = await _dbContext.Conversations.Where(x => x.Id == message.ConversationId).FirstOrNotFoundAsync(); 
+        var conversation = await _dbContext.Conversations.FirstOrNotFoundAsync(x => x.Id == message.ConversationId); 
         
         var handler = _messageHandlerProvider.GetMessageHandler<DeleteMessageAction, bool>(conversation.ConversationType);
         
