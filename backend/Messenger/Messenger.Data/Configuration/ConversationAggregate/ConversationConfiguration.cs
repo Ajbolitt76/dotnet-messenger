@@ -1,6 +1,7 @@
 ﻿using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Data.Extensions;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
 
@@ -18,5 +19,10 @@ public class ConversationConfiguration : BaseConfiguration<Conversation>
     public override void ConfigureChild(EntityTypeBuilder<Conversation> typeBuilder)
     {
         typeBuilder.Ignore(x => x.ConversationInfo);
+        
+        typeBuilder.Property(x => x.DeletedCount)
+            .HasDefaultValue(0);
+        
     }
 }
+

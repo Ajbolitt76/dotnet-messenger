@@ -14,6 +14,8 @@ public class ConversationMessage : BaseEntity
     public Guid? SenderId { get; set; }
 
     public string? TextContent { get; set; }
+    
+    public List<Guid>? DeletedFrom { get; set; }
 
     public IReadOnlyList<IAttachment>? Attachments
     {

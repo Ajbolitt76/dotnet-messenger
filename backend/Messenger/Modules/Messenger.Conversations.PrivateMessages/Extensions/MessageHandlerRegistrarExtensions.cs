@@ -1,6 +1,7 @@
 ﻿using Messenger.Conversations.Common.MessageActions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.Common.Services;
+using Messenger.Conversations.PrivateMessages.Features.PrivateDeleteMessageAction;
 using Messenger.Conversations.PrivateMessages.Features.PrivateGetMessageListAction;
 using Messenger.Conversations.PrivateMessages.Features.PrivateSendMessageAction;
 
@@ -12,7 +13,7 @@ public static class MessageHandlerRegistrarExtensions
     {
         registrar.AddHandler<PrivateSendMessageActionHandler, SendMessageAction, bool>();
         registrar.AddHandler<PrivateGetMessageListActionHandler, GetMessageListAction, GetMessageListActionResponse>();
-
+        registrar.AddHandler<PrivateDeleteMessageActionHandler, DeleteMessageAction, bool>();
         return registrar;
     }
 }
