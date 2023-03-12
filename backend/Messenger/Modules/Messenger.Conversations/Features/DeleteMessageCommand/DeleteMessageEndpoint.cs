@@ -11,11 +11,11 @@ public class DeleteMessageEndPoint : IEndpoint
     public void Map(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapDelete(
-                "/deleteMessage/{messageId:guid}",
-                async (Guid messageId, bool deleteFromAll, IMediator mediator)
+                "/{conversationId:guid}/message/{messageId:guid}",
+                async (Guid conversationId, Guid messageId, bool deleteFromAll, IMediator mediator)
                     => Results.Ok(
                         await mediator.Send(
-                            new DeleteMessageCommand(messageId, deleteFromAll))))
+                            new DeleteMessageCommand(conversationId, messageId, deleteFromAll))))
             .RequireAuthorization()
             .WithName("Удалить сообщение из переписки");
     }

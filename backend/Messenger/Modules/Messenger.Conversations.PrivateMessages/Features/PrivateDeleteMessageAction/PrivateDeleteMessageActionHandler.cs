@@ -29,7 +29,7 @@ public class PrivateDeleteMessageActionHandler : IMessageActionHandler<DeleteMes
     public async Task<bool> Handle(DeleteMessageAction request, CancellationToken cancellationToken)
     {
         var message = await _dbContext.ConversationMessages.FirstOrNotFoundAsync(
-            x => x.Id == request.MessageId);
+            x => x.Id == request.MessageId && x.ConversationId == request.ConversationId);
         var clientId = _userService.GetUserIdOrThrow();     
         
         if (!request.DeleteFromAll || clientId != message.SenderId)
