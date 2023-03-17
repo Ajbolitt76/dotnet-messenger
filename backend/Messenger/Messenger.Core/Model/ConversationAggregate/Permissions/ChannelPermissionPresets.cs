@@ -1,10 +1,15 @@
 ﻿namespace Messenger.Core.Model.ConversationAggregate.Permissions;
 
-public class ChannelPermissionPresets
+public abstract class ChannelPermissionPresets
 {
-    public static readonly int Creator = 7;
+    public const ChannelMemberPermissions Creator = 
+        ChannelMemberPermissions.AddAdmins 
+        | ChannelMemberPermissions.AddPosts 
+        | ChannelMemberPermissions.DeletePosts;
 
-    public static readonly int Admin = 3;
+    public const ChannelMemberPermissions Admin = 
+            ChannelMemberPermissions.AddPosts |
+            ChannelMemberPermissions.DeletePosts;
 
-    public static readonly int Member = 0;
+    public const ChannelMemberPermissions Member = ChannelMemberPermissions.None;
 }

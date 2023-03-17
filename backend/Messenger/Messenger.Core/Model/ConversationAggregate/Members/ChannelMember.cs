@@ -1,4 +1,6 @@
-﻿namespace Messenger.Core.Model.ConversationAggregate.Members;
+﻿using Messenger.Core.Model.ConversationAggregate.Permissions;
+
+namespace Messenger.Core.Model.ConversationAggregate.Members;
 
 public class ChannelMember : BaseMember
 {
@@ -10,5 +12,5 @@ public class ChannelMember : BaseMember
     /// <summary>
     /// Битовое поле с разрешениями
     /// </summary>
-    public int Permissions { get; set; }
+    public ChannelMemberPermissions Permissions { get; set; }
 }

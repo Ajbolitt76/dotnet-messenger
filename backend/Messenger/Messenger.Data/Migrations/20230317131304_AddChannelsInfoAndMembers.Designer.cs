@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    [Migration("20230306191243_AddChannelsInfoAndMembers")]
+    [Migration("20230317131304_AddChannelsInfoAndMembers")]
     partial class AddChannelsInfoAndMembers
     {
         /// <inheritdoc />
