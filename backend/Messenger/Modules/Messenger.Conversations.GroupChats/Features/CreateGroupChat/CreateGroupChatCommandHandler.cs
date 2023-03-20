@@ -65,6 +65,8 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             UserId = initiator.Id,
             WasExcluded = false,
             WasBanned = false,
+            IsAdmin = true,
+            IsOwner = false,
             Permissions = GroupChatPermissionPresets.Creator
         };
 
@@ -75,6 +77,8 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
                 UserId = user.Id,
                 WasExcluded = false,
                 WasBanned = false,
+                IsAdmin = false,
+                IsOwner = false,
                 Permissions = GroupChatPermissionPresets.NewMember
             });
 

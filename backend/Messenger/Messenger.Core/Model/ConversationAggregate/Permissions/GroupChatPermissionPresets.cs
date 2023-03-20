@@ -2,7 +2,12 @@
 
 public class GroupChatPermissionPresets
 {
-    public static readonly int Creator = 127;
+    public static readonly GroupMemberPermissions Creator = 
+        (GroupMemberPermissions)int.MaxValue;
 
-    public static readonly int NewMember = 15;
+    public const GroupMemberPermissions NewMember = 
+        GroupMemberPermissions.SendMessages 
+        | GroupMemberPermissions.SendFiles 
+        | GroupMemberPermissions.ChangeGroupInfo 
+        | GroupMemberPermissions.InviteMembers;
 }

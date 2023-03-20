@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.GroupChats", "Modules\Messenger.Conversations.GroupChats\Messenger.Conversations.GroupChats.csproj", "{20AD2813-49CB-4247-97DD-27CE87ECAFF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.Channel", "Modules\Messenger.Conversations.Channel\Messenger.Conversations.Channel.csproj", "{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,10 @@ Global
 		{20AD2813-49CB-4247-97DD-27CE87ECAFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20AD2813-49CB-4247-97DD-27CE87ECAFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20AD2813-49CB-4247-97DD-27CE87ECAFF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{528D9747-EAD4-47B2-A445-F2293A1BE01D} = {14CD4EE3-16DF-43BE-B822-1B83421E667E}
@@ -132,5 +138,6 @@ Global
 		{3FBE2462-D2B0-459D-A0C1-38C22473741C} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 		{20AD2813-49CB-4247-97DD-27CE87ECAFF6} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
+		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 	EndGlobalSection
 EndGlobal

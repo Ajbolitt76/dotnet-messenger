@@ -40,7 +40,11 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
     
     public DbSet<PersonalChatInfo> PersonalChatInfos { get; private set; }
     
+    public DbSet<ChannelInfo> ChannelInfos { get; private set; }
+
     public DbSet<GroupChatMember> GroupChatMembers { get; private set; }
+    
+    public DbSet<ChannelMember> ChannelMembers { get; private set; }
 
     public MessengerContext(
         DbContextOptions<MessengerContext> options,
