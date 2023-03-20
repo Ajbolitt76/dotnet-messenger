@@ -12,7 +12,7 @@ public class ConversationMessageConfiguration : BaseConfiguration<ConversationMe
     {
         typeBuilder.Property(x => x.Metadata)
             .HasJsonConversion();
-        
+
         typeBuilder.SetPropertyAccessModeField(x => x.Attachments, ConversationMessage.AttachmentsFieldName);
         typeBuilder.Property(x => x.Attachments!)
             .HasJsonConversion<IReadOnlyList<IAttachment>, List<IAttachment>>();

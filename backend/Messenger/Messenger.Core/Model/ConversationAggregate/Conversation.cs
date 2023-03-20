@@ -23,6 +23,11 @@ public class Conversation : BaseEntity
     /// Дискриминатор типа переписки
     /// </summary>
     public required string ConversationType { get; init; }
+    
+    /// <summary>
+    /// Общее количество удаленных сообщений
+    /// </summary>
+    public uint DeletedCount { get; set; }
 
     /// <summary>
     /// Переписка

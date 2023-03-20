@@ -46,7 +46,8 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             Title = request.Name, 
             ConversationType = GroupChatInfo.Discriminator,
             CreatedAt = _dateTimeProvider.NowUtc, 
-            LastMessage = _dateTimeProvider.NowUtc
+            LastMessage = _dateTimeProvider.NowUtc,
+            DeletedCount = 0
         };
 
         _dbContext.Conversations.Add(conversation);
