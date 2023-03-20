@@ -4,6 +4,7 @@ using System.Net;
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Messenger.Data.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    partial class MessengerContextModelSnapshot : ModelSnapshot
+    [Migration("20230317135545_GroupMembersPermissionsFix")]
+    partial class GroupMembersPermissionsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,30 +49,6 @@ namespace Messenger.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Conversations");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.ConversationInfos.ChannelInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("ChannelPictureId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ConversationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConversationId")
-                        .IsUnique();
-
-                    b.ToTable("ChannelInfos");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.ConversationInfos.GroupChatInfo", b =>
@@ -160,35 +139,6 @@ namespace Messenger.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ConversationMessages");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.ChannelMember", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("ConversationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsAdmin")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<int>("Permissions")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConversationId", "UserId")
-                        .IsUnique();
-
-                    b.ToTable("ChannelMembers");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.Members.GroupChatMember", b =>
@@ -543,17 +493,6 @@ namespace Messenger.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.ConversationInfos.ChannelInfo", b =>
-                {
-                    b.HasOne("Messenger.Core.Model.ConversationAggregate.Conversation", "Conversation")
-                        .WithOne()
-                        .HasForeignKey("Messenger.Core.Model.ConversationAggregate.ConversationInfos.ChannelInfo", "ConversationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Conversation");
                 });
 
             modelBuilder.Entity("Messenger.Core.Model.ConversationAggregate.ConversationInfos.GroupChatInfo", b =>

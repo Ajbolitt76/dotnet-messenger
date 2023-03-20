@@ -14,6 +14,12 @@ public class GroupChatMemberConfiguration : BaseMemberConfiguration<GroupChatMem
         typeBuilder.Property(x => x.WasBanned)
             .HasDefaultValue(false);
 
+        typeBuilder.Property(x => x.IsAdmin)
+            .HasDefaultValue(false);
+
+        typeBuilder.Property(x => x.IsOwner)
+            .HasDefaultValue(false);
+
         typeBuilder.HasIndex(x => new {x.ConversationId, x.UserId})
             .IsDescending(false, false)
             .IsUnique();
