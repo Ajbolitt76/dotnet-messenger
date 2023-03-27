@@ -47,7 +47,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             ConversationType = GroupChatInfo.Discriminator,
             CreatedAt = _dateTimeProvider.NowUtc, 
             LastMessage = _dateTimeProvider.NowUtc,
-            DeletedCount = 0
+            HardDeletedCount = 0
         };
 
         _dbContext.Conversations.Add(conversation);
@@ -66,7 +66,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             WasExcluded = false,
             WasBanned = false,
             IsAdmin = true,
-            IsOwner = false,
+            IsOwner = true,
             Permissions = GroupChatPermissionPresets.Creator
         };
 

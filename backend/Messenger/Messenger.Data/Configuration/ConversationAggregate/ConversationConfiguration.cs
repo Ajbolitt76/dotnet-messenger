@@ -20,7 +20,7 @@ public class ConversationConfiguration : BaseConfiguration<Conversation>
     {
         typeBuilder.Ignore(x => x.ConversationInfo);
         
-        typeBuilder.Property(x => x.DeletedCount)
+        typeBuilder.Property(x => x.HardDeletedCount)
             .HasDefaultValue(0);
         
     }

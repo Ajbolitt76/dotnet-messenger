@@ -27,7 +27,7 @@ public class Conversation : BaseEntity
     /// <summary>
     /// Общее количество удаленных сообщений
     /// </summary>
-    public uint DeletedCount { get; set; }
+    public uint HardDeletedCount { get; set; }
 
     /// <summary>
     /// Переписка

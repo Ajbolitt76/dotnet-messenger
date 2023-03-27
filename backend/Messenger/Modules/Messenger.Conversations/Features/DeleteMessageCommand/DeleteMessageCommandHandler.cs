@@ -41,7 +41,6 @@ public partial class DeleteMessageCommandHandler : ICommandHandler<DeleteMessage
             throw new NotFoundException<DeleteMessageAction>();
         }
         
-        
         return await handler.Handle(
             new DeleteMessageAction(request.ConversationId, request.MessageId, request.DeleteFromAll, conversation),
             cancellationToken);

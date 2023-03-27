@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="MessageActions" />
+    </ItemGroup>
+
 </Project>

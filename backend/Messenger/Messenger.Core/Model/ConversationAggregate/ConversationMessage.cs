@@ -1,4 +1,4 @@
-﻿using Messenger.Core.Model.ConversationAggregate.Attachment;
+﻿ using Messenger.Core.Model.ConversationAggregate.Attachment;
 using Microsoft.VisualBasic;
 
 namespace Messenger.Core.Model.ConversationAggregate;

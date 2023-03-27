@@ -2,11 +2,10 @@
 using Messenger.Conversations.Common.Features.ReserveConversationNumberCommand;
 using Messenger.Conversations.Common.MessageActions;
 using Messenger.Core.Model.ConversationAggregate;
-using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
 
-namespace Messenger.Conversations.PrivateMessages.Features.PrivateSendMessageAction;
+namespace Messenger.Conversations.PrivateMessages.MessageActions.PrivateSendMessage;
 
 public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessageAction, bool>
 {

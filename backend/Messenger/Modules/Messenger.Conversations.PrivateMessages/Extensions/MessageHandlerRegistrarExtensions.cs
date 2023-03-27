@@ -1,9 +1,9 @@
 ﻿using Messenger.Conversations.Common.MessageActions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.Common.Services;
-using Messenger.Conversations.PrivateMessages.Features.PrivateDeleteMessageAction;
-using Messenger.Conversations.PrivateMessages.Features.PrivateGetMessageListAction;
-using Messenger.Conversations.PrivateMessages.Features.PrivateSendMessageAction;
+using Messenger.Conversations.PrivateMessages.MessageActions.PrivateDeleteMessage;
+using Messenger.Conversations.PrivateMessages.MessageActions.PrivateGetMessageList;
+using Messenger.Conversations.PrivateMessages.MessageActions.PrivateSendMessage;
 
 namespace Messenger.Conversations.PrivateMessages.Extensions;
 
