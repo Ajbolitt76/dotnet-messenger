@@ -69,17 +69,17 @@ const UserDisplay: React.FC = () => {
         onClick={() => navigate("/me")}
         className="flex items-center gap-2 rounded-3xl p-2 transition hover:cursor-pointer hover:bg-steel-gray-40"
       >
-        <Avatar size={42} initials={user.name[0]+user.surname[0]}>
+        <Avatar size={42} initials={user.name[0]}>
           <Avatar.BadgeWithPreset preset="online"/>
         </Avatar>
         <p className="font-semibold text-lg text-gray-700">
-          {user.name} {user.surname[0]}.
+          {user.name} (@{user.userName}).
         </p>
       </div>
       <Button onClick={() => logout()}>Выйти</Button>
     </div>)
     : (
-      <Button onClick={() => navigate("/login")} before={<Icon20LockOutline/>} size="l">
+      <Button onClick={() => navigate("/phone-code")} before={<Icon20LockOutline/>} size="l">
         Войти
       </Button>)
 }

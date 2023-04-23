@@ -1,4 +1,5 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
+using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.PrivateMessages.Models;
 using Messenger.Core.Model.ConversationAggregate;
@@ -28,19 +29,11 @@ public class PrivateGetMessageListActionHandler
         CancellationToken cancellationToken)
     {
         var messages = await _dbContext.ConversationMessages
-            .Where(
-                x =>
-                    x.ConversationId == request.ConversationId
-                    && !x.DeletedFrom!.Contains(_userService.UserId!.Value)
-                    && (request.MessagePointer == null
-                        || x.Position < _dbContext.ConversationMessages
-                            .FirstOrDefault(x => x.Id == request.MessagePointer)
-                            .Position))
-            .OrderByDescending(x => x.Position)
-            .Take(request.Count)
+            .GetStartingFromPointer(_dbContext, request, _userService.GetUserIdOrThrow())
             .Select(
                 x => new PrivateMessageListProjection(
                     x.Id,
+                    x.SenderId.GetValueOrDefault(),
                     x.TextContent!,
                     x.Attachments,
                     x.SentAt,

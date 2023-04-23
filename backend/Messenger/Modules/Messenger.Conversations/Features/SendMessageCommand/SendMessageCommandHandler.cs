@@ -1,5 +1,6 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
 using Messenger.Conversations.Common.MessageActions;
+using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Conversations.Common.Models;
 using Messenger.Conversations.Common.Services;
 using Messenger.Core.Exceptions;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Messenger.Conversations.Features.SendMessageCommand;
 
-public partial class SendMessageCommandHandler : ICommandHandler<SendMessageCommand, bool>
+public partial class SendMessageCommandHandler : ICommandHandler<SendMessageCommand, SendMessageCommandResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IRedisStore<Conversation> _cache;
@@ -30,12 +31,12 @@ public partial class SendMessageCommandHandler : ICommandHandler<SendMessageComm
         _logger = logger;
     }
 
-    public async Task<bool> Handle(SendMessageCommand request, CancellationToken cancellationToken)
+    public async Task<SendMessageCommandResponse> Handle(SendMessageCommand request, CancellationToken cancellationToken)
     {
         // TODO: Cache / Very hot path
         var conversation = await _dbContext.Conversations.FirstOrNotFoundAsync(x => x.Id == request.ConversationId);
 
-        var handler = _messageHandlerProvider.GetMessageHandler<SendMessageAction, bool>(conversation.ConversationType);
+        var handler = _messageHandlerProvider.GetMessageHandler<SendMessageAction, SendMessageActionResponse>(conversation.ConversationType);
 
         if (handler is null)
         {
@@ -43,9 +44,9 @@ public partial class SendMessageCommandHandler : ICommandHandler<SendMessageComm
             throw new NotFoundException<SendMessageAction>();
         }
         
-        return await handler.Handle(
+        return new(await handler.Handle(
             new SendMessageAction(conversation, new MessageData(request.TextContent)),
-            cancellationToken);
+            cancellationToken));
     }
 
     [LoggerMessage(

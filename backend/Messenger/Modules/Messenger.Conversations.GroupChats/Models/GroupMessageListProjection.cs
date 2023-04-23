@@ -7,12 +7,13 @@ namespace Messenger.Conversations.GroupChats.Models;
 
 public record GroupMessageListProjection(
         Guid MessageId,
+        Guid SentBy,
         string Content,
         IReadOnlyCollection<IAttachment>? Attachments,
         DateTime SentAt,
         DateTime? EditedAt,
         uint Positon)
-    : BaseMessageListProjection(MessageId, Content, Attachments, SentAt, EditedAt, Positon), IHaveDiscriminator
+    : BaseMessageListProjection(MessageId, SentBy, Content, Attachments, SentAt, EditedAt, Positon), IHaveDiscriminator
 {
     public static string Discriminator => ConversationTypes.GroupChat;
 };

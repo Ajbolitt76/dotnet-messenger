@@ -1,5 +1,6 @@
 ﻿ using Messenger.Core.Model.ConversationAggregate.Attachment;
-using Microsoft.VisualBasic;
+ using Messenger.Core.Model.UserAggregate;
+ using Microsoft.VisualBasic;
 
 namespace Messenger.Core.Model.ConversationAggregate;
 
@@ -32,4 +33,6 @@ public class ConversationMessage : BaseEntity
     public uint Position { get; set; }
 
     public ConversationMessageMetadata Metadata { get; set; } = ConversationMessageMetadata.Default;
+    
+    public MessengerUser? SenderMessengerUser { get; set; }
 }

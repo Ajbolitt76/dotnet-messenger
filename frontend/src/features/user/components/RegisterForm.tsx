@@ -10,16 +10,11 @@ import { NotificationTypes } from "@/stores/NotificationStore";
 import { useStore } from "@/stores/RootStore";
 
 const registerFormWithValidation = addValidator(types.model("RegisterForm", {
-  email: types.string,
   username: types.string,
   password: types.string,
-  name: types.string,
-  surname: types.string,
+  name: types.string
 }).actions(
   (self) => ({
-    setEmail(email: string) {
-      self.email = email;
-    },
     setPassword(password: string) {
       self.password = password;
     },
@@ -29,18 +24,13 @@ const registerFormWithValidation = addValidator(types.model("RegisterForm", {
     setName(name: string) {
       self.name = name;
     },
-    setSurname(surname: string) {
-      self.surname = surname;
-    }
   }),
 ), {
   password: [
-    (value) => value.length > 5 && /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{3,}$/.test(value) ? null : "Слабый пароль",
+    // (value) => value.length > 5 && /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{3,}$/.test(value) ? null : "Слабый пароль",
   ],
-  email: [(value) => isEmail(value)],
   username: [(value) => value.length > 0 ? null : "Имя пользователя не может быть пустым"],
-  name: [(value) => value.length > 0 ? null : "Имя не может быть пустым"],
-  surname: [(value) => value.length > 0 ? null : "Фамилия не может быть пустой"],
+  name: [(value) => value.length > 0 ? null : "Имя не может быть пустым"]
 }, true);
 
 type RegisterForm = Instance<typeof registerFormWithValidation>;
@@ -48,29 +38,26 @@ type RegisterForm = Instance<typeof registerFormWithValidation>;
 export const RegisterForm = observer(() => {
   const formState = useMemo<RegisterForm>(() => registerFormWithValidation.create({
     password: "",
-    email: "",
-    surname: "",
     name: "",
     username: "",
   }), []);
 
   const authProvider = useAuth();
   const navigate = useNavigate();
-  const { notificationStore } = useStore();
+  const { notificationStore, authStore: {phoneTicket: {ticket}} } = useStore();
 
-  const onLogin = () => {
-    navigate("../login");
+  if(ticket == null){
+    navigate("/phone-code")
   }
 
   const onRegister = async () => {
     formState.validator.validate();
-    if (formState.validator.isValid) {
+    if (formState.validator.isValid && ticket != null) {
       try {
         await authProvider.register({
-          email: formState.email,
+          phoneTicket: ticket,
           name: formState.name,
           password: formState.password,
-          surname: formState.surname,
           username: formState.username,
         })
         navigate("/");
@@ -87,13 +74,6 @@ export const RegisterForm = observer(() => {
 
   return (
     <FormLayout className="w-full">
-      <FormItem top="Email" {...validationFormItemProps(formState.validator.errors.email)}>
-        <Input
-          type="email"
-          onInput={(e) => formState.setEmail(e.currentTarget.value)}
-          value={formState.email}
-        />
-      </FormItem>
       <FormItem top="Логин" {...validationFormItemProps(formState.validator.errors.username)}>
         <Input
           type="text"
@@ -115,23 +95,10 @@ export const RegisterForm = observer(() => {
           value={formState.name}
         />
       </FormItem>
-      <FormItem top="Фамилия" {...validationFormItemProps(formState.validator.errors.surname)}>
-        <Input
-          type="text"
-          onInput={(e) => formState.setSurname(e.currentTarget.value)}
-          value={formState.surname}
-        />
-      </FormItem>
       <FormItem className="flex justify-center">
         <Button loading={authProvider.isRegistering}  size="l" onClick={() => onRegister()}>
           Зарегистрироваться
         </Button>
-      </FormItem>
-      <Separator />
-      <FormItem className="flex justify-center">
-        <Link disabled={authProvider.isRegistering} onClick={() => onLogin()}>
-          Уже зарегистрированы? Войти
-        </Link>
       </FormItem>
     </FormLayout>
   )

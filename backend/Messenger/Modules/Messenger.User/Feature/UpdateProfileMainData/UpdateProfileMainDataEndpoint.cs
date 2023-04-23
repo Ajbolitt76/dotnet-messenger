@@ -13,6 +13,7 @@ using Messenger.Files.Shared;
 using Messenger.Files.Shared.FileRequests;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Validation.ValidationFilter;
+using FileInfo = Messenger.Files.Shared.FileRequests.FileInfo;
 
 namespace Messenger.User.Feature.UpdateProfileMainData;
 
@@ -21,7 +22,7 @@ public class UpdateProfileMainDataEndpoint : IEndpoint
     public record EditProfileDto(
         string Name,
         DateTime? DateOfBirth,
-        SignedData<FileOwnership>? ProfilePicture);
+        SignedData<FileInfo>? ProfilePicture);
 
     public class DtoValidator : AbstractValidator<EditProfileDto>
     {

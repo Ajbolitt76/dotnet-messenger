@@ -30,6 +30,8 @@ public interface IDbContext
     public DbSet<GroupChatMember> GroupChatMembers { get; }
     
     public DbSet<ChannelMember> ChannelMembers { get; }
+    
+    public DbSet<PersonalChatMember> PersonalChatMembers { get; }
 
     public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
 }

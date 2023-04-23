@@ -58,6 +58,7 @@
 
   --destructive: #E64646;
   --primary: var(--blue-400);
+  --main-bg: rgb(33,33,33)
 }
 
 .bg-gradient-red{

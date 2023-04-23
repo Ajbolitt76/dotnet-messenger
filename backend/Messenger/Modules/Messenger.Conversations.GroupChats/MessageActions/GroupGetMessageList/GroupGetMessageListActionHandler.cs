@@ -1,4 +1,5 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
+using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.GroupChats.Models;
 using Messenger.Core.Model.ConversationAggregate;
@@ -22,29 +23,23 @@ public class GroupGetMessageListActionHandler
         _dbContext = dbContext;
         _userService = userService;
     }
-    
-    public async Task<GetMessageListActionResponse> Handle(GetMessageListAction request, CancellationToken cancellationToken)
+
+    public async Task<GetMessageListActionResponse> Handle(
+        GetMessageListAction request,
+        CancellationToken cancellationToken)
     {
         //TODO: Base class
-        
+
         //TODO: Валидация
         //1. Участник чата
         //2. Не в бане
 
         var messages = await _dbContext.ConversationMessages
-            .Where(
-                x =>
-                    x.ConversationId == request.ConversationId
-                    && !x.DeletedFrom!.Contains(_userService.UserId!.Value)
-                    && (request.MessagePointer == null
-                        || x.Position < _dbContext.ConversationMessages
-                            .FirstOrDefault(x => x.Id == request.MessagePointer)
-                            .Position))
-            .OrderByDescending(x => x.Position)
-            .Take(request.Count)
+            .GetStartingFromPointer(_dbContext, request, _userService.GetUserIdOrThrow())
             .Select(
                 x => new GroupMessageListProjection(
                     x.Id,
+                    x.SenderId.GetValueOrDefault(),
                     x.TextContent!,
                     x.Attachments,
                     x.SentAt,

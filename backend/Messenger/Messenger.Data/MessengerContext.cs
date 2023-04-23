@@ -46,6 +46,8 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
     
     public DbSet<ChannelMember> ChannelMembers { get; private set; }
 
+    public DbSet<PersonalChatMember> PersonalChatMembers { get; private set; }
+
     public MessengerContext(
         DbContextOptions<MessengerContext> options,
         IMediator mediator,

@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib/ApiClient";
-import { UserProfileDto } from "@/features/user/types";
+import { MeUserInfo } from "@/features/user/types";
 
 export function getMyUser(){
-  return apiClient.get('me').json<UserProfileDto>();
+  return apiClient.get('user/me').json<MeUserInfo>();
 }

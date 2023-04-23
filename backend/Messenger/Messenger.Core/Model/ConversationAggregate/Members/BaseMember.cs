@@ -1,4 +1,6 @@
-﻿namespace Messenger.Core.Model.ConversationAggregate.Members;
+﻿using Messenger.Core.Model.UserAggregate;
+
+namespace Messenger.Core.Model.ConversationAggregate.Members;
 
 public abstract class BaseMember : BaseEntity
 {
@@ -11,4 +13,12 @@ public abstract class BaseMember : BaseEntity
     /// Id переписки
     /// </summary>
     public Guid ConversationId { get; set; }
+
+    #region Navigation
+
+    public Conversation? Conversation { get; set; }
+    
+    public MessengerUser? MessengerUser { get; set;  }
+
+    #endregion
 }

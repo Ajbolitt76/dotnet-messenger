@@ -12,7 +12,7 @@ public class Conversation : BaseEntity
     /// <summary>
     /// Время последнего сообщения
     /// </summary>
-    public required DateTime LastMessage { get; set; }
+    public required DateTime LastMessageDate { get; set; }
 
     /// <summary>
     /// Дата создания

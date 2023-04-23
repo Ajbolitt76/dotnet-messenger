@@ -1,13 +1,14 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
 using Messenger.Conversations.Common.Features.ReserveConversationNumberCommand;
 using Messenger.Conversations.Common.MessageActions;
+using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
 
 namespace Messenger.Conversations.PrivateMessages.MessageActions.PrivateSendMessage;
 
-public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessageAction, bool>
+public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessageAction, SendMessageActionResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IDomainHandler<ReserveConversationNumberCommand, uint> _reserveNumberHandler;
@@ -27,7 +28,7 @@ public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessage
         _dateTimeProvider = dateTimeProvider;
     }
     
-    public async Task<bool> Handle(SendMessageAction request, CancellationToken cancellationToken)
+    public async Task<SendMessageActionResponse> Handle(SendMessageAction request, CancellationToken cancellationToken)
     {
         var messagePosition = 
             await _reserveNumberHandler.Handle(new(request.Conversation.Id), cancellationToken);
@@ -47,6 +48,6 @@ public class PrivateSendMessageActionHandler : IMessageActionHandler<SendMessage
         _dbContext.ConversationMessages.Add(conversationMessage);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
 
-        return true;
+        return new(true, conversationMessage.Id);
     }
 }

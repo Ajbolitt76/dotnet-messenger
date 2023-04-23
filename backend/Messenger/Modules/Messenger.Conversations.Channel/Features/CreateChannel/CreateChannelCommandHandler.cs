@@ -1,4 +1,5 @@
-﻿using Messenger.Core.Model.ConversationAggregate;
+﻿using Messenger.Core.Constants;
+using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
@@ -31,7 +32,7 @@ public class CreateChannelCommandHandler : ICommandHandler<CreateChannelCommand,
             Title = request.Name, 
             ConversationType = ChannelInfo.Discriminator,
             CreatedAt = _dateTimeProvider.NowUtc, 
-            LastMessage = _dateTimeProvider.NowUtc
+            LastMessageDate = _dateTimeProvider.NowUtc
         };
 
         _dbContext.Conversations.Add(conversation);
@@ -50,6 +51,16 @@ public class CreateChannelCommandHandler : ICommandHandler<CreateChannelCommand,
             IsAdmin = true,
             Permissions = ChannelPermissionPresets.Creator
         };
+        
+        _dbContext.ConversationMessages.Add(
+            new ConversationMessage()
+            {
+                ConversationId = conversation.Id,
+                TextContent = SystemMessagesTexts.PersonalChatCreated,
+                SentAt = _dateTimeProvider.NowUtc,
+                Position = 0,
+                SenderId = Guid.Empty
+            });
         
         _dbContext.ChannelMembers.Add(creatorMember);
         await _dbContext.SaveEntitiesAsync(cancellationToken);

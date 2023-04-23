@@ -1,12 +1,12 @@
+import { DefaultOptions, QueryClient, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import { HTTPError } from 'ky';
-import { QueryClient, UseQueryOptions, UseMutationOptions, DefaultOptions } from 'react-query';
 import { AsyncReturnType } from 'type-fest';
 
 const queryConfig: DefaultOptions = {
   queries: {
-    useErrorBoundary: true,
     refetchOnWindowFocus: false,
     retry: false,
+    onError: (err) => console.error(err)
   },
 };
 
@@ -21,6 +21,6 @@ export type QueryConfig<T> = Omit<
 
 export type MutationConfig<MutationFnType extends (...args: any) => any> = UseMutationOptions<
   ExtractFnReturnType<MutationFnType>,
-  HTTPError,
+  unknown,
   Parameters<MutationFnType>[0]
 >;

@@ -1,6 +1,8 @@
 ﻿using Messenger.Conversations.PrivateMessages.Extensions;
+using Messenger.Core.Constants;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
+using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Requests.Responses;
 using Messenger.Core.Services;
@@ -45,10 +47,10 @@ public class CreatePrivateConversationCommandHandler
 
         var conversation = new Conversation
         {
-            Title = "",
+            Title = $"DM-{recipient.Id}-{initiator.Id}",
             ConversationType = PersonalChatInfo.Discriminator,
             CreatedAt = _dateTimeProvider.NowUtc,
-            LastMessage = _dateTimeProvider.NowUtc,
+            LastMessageDate = _dateTimeProvider.NowUtc,
             HardDeletedCount = 0
         };
 
@@ -58,10 +60,36 @@ public class CreatePrivateConversationCommandHandler
         {
             InitiatorPeer = initiator.Id,
             RecipientPeer = recipient.Id,
-            ConversationId = conversation.Id
+            ConversationId = conversation.Id,
         };
 
         _dbContext.PersonalChatInfos.Add(chatInfo);
+
+        _dbContext.PersonalChatMembers.AddRange(
+            new[]
+            {
+                new PersonalChatMember()
+                {
+                    ConversationId = conversation.Id,
+                    UserId = initiator.Id
+                },
+                new PersonalChatMember()
+                {
+                    ConversationId = conversation.Id,
+                    UserId = recipient.Id
+                }
+            });
+
+        _dbContext.ConversationMessages.Add(
+            new ConversationMessage()
+            {
+                ConversationId = conversation.Id,
+                TextContent = SystemMessagesTexts.PersonalChatCreated,
+                SentAt = _dateTimeProvider.NowUtc,
+                Position = 0,
+                SenderId = Guid.Empty
+            });
+
         await _dbContext.SaveEntitiesAsync(cancellationToken);
 
         return new CreatedResponse<Guid>(true, conversation.Id);

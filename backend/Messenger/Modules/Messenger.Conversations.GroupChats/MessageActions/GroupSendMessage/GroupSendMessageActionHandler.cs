@@ -1,13 +1,14 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
 using Messenger.Conversations.Common.Features.ReserveConversationNumberCommand;
 using Messenger.Conversations.Common.MessageActions;
+using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
 
 namespace Messenger.Conversations.GroupChats.MessageActions.GroupSendMessage;
 
-public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAction, bool>
+public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAction, SendMessageActionResponse>
 {
     private readonly IDomainHandler<ReserveConversationNumberCommand, uint> _reserveNumberHandler;
     private readonly IDbContext _dbContext;
@@ -27,9 +28,9 @@ public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAc
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<bool> Handle(SendMessageAction request, CancellationToken cancellationToken)
+    public async Task<SendMessageActionResponse> Handle(SendMessageAction request, CancellationToken cancellationToken)
     {
-        var messagePosition = 
+        var messagePosition =
             await _reserveNumberHandler.Handle(new(request.Conversation.Id), cancellationToken);
 
         //TODO: Валидация отправки
@@ -38,13 +39,13 @@ public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAc
         //3. Есть пермишн
 
         var messageData = request.MessageData;
-        
+
         var conversationMessage = new ConversationMessage()
         {
             Attachments = messageData.Attachments,
             SentAt = _dateTimeProvider.NowUtc,
             ConversationId = request.Conversation.Id,
-            TextContent = messageData.TextContent, 
+            TextContent = messageData.TextContent,
             SenderId = _userService.GetUserIdOrThrow(),
             Position = messagePosition,
         };
@@ -52,6 +53,6 @@ public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAc
         _dbContext.ConversationMessages.Add(conversationMessage);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
 
-        return true;
+        return new(true, conversationMessage.Id);
     }
 }

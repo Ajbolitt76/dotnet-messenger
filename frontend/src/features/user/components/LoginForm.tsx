@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useAuth } from "@/lib/AuthProvider";
-import { LoginRequestDto } from "@/features/user/api/login";
-import { Button, FormItem, FormLayout, Input, Link, Separator, Spacing } from "@vkontakte/vkui";
+import { LoginMode, LoginRequestDto } from "@/features/user/api/login";
+import { Button, FormItem, FormLayout, Input, Link, Separator, Spacing, Spinner } from "@vkontakte/vkui";
 import { addValidator } from "@/stores/Extensions/Validation";
 import { Instance, types } from "mobx-state-tree";
 import { isEmail, notEmpty } from "@/lib/validators";
@@ -38,15 +38,16 @@ export const LoginForm = observer(() => {
   const formState = useMemo<LoginForm>(() => loginFormWithValidation.create({ userIdentifier: "", password: "" }), []);
   const authProvider = useAuth();
   const navigate = useNavigate();
-  const { notificationStore } = useStore();
+  const { notificationStore, authStore: {phoneTicket}} = useStore();
 
   const onLogin = async () => {
     formState.validator.validate();
     if (formState.validator.isValid) {
       try {
         await authProvider.login({
+          loginMode: LoginMode.Username,
+          username: formState.userIdentifier,
           password: formState.password,
-          userIdentifier: formState.userIdentifier,
         });
         navigate("/");
       }catch (e){
@@ -59,11 +60,32 @@ export const LoginForm = observer(() => {
     }
   }
 
-  const onRegister = () => {
-    navigate("../register");
-  }
+  useEffect(() => {
+    async function loginByTicket(){
+      if(!phoneTicket.hasActiveLoginTicket)
+        return;
 
-  return (
+      try {
+        await authProvider.login({
+          loginMode: LoginMode.Phone,
+          phoneTicket: phoneTicket.ticket!
+        });
+        navigate("/");
+      }catch (e){
+        notificationStore.addNotification({
+          type: NotificationTypes.ERROR,
+          message: "Произошла ошибка. Обновите страницу, и попробуйте снова",
+          title: "Ошибка",
+        });
+      }
+    }
+
+    loginByTicket();
+  }, [phoneTicket.ticket])
+
+  return phoneTicket.hasActiveLoginTicket 
+  ? (<Spinner />) 
+  : (
     <FormLayout className="w-full" onSubmit={(e) =>{
       e.preventDefault();
       onLogin();
@@ -86,12 +108,6 @@ export const LoginForm = observer(() => {
         <Button type="submit" loading={authProvider.isLoggingIn} size="l">
           Войти
         </Button>
-      </FormItem>
-      <Separator/>
-      <FormItem className="flex justify-center">
-        <Link disabled={authProvider.isLoggingIn} onClick={() => onRegister()}>
-          Нет учетной записи?
-        </Link>
       </FormItem>
     </FormLayout>
   )

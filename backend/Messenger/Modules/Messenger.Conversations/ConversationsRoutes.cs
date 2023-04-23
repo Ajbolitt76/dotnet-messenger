@@ -1,4 +1,5 @@
 using Messenger.Conversations.Features.DeleteMessageCommand;
+using Messenger.Conversations.Features.GetConversations;
 using Messenger.Conversations.Features.GetMessages;
 using Messenger.Conversations.Features.SendMessageCommand;
 using Messenger.Infrastructure.Endpoints;
@@ -18,6 +19,7 @@ public class ConversationsRoutes : IEndpointRoot
             .WithTags("Сообщения")
             .AddEndpoint<SendMessageEndpoint>()
             .AddEndpoint<GetMessagesEndpoint>()
-            .AddEndpoint<DeleteMessageEndPoint>();
+            .AddEndpoint<DeleteMessageEndpoint>()
+            .AddEndpoint<GetConversationsEndpoint>();
     }
 }

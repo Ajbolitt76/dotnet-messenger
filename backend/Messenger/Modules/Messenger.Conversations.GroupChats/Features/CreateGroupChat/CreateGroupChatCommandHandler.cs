@@ -1,4 +1,5 @@
-﻿using Messenger.Core.Model.ConversationAggregate;
+﻿using Messenger.Core.Constants;
+using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
@@ -46,7 +47,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             Title = request.Name, 
             ConversationType = GroupChatInfo.Discriminator,
             CreatedAt = _dateTimeProvider.NowUtc, 
-            LastMessage = _dateTimeProvider.NowUtc,
+            LastMessageDate = _dateTimeProvider.NowUtc,
             HardDeletedCount = 0
         };
 
@@ -80,6 +81,16 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
                 IsAdmin = false,
                 IsOwner = false,
                 Permissions = GroupChatPermissionPresets.NewMember
+            });
+        
+        _dbContext.ConversationMessages.Add(
+            new ConversationMessage()
+            {
+                ConversationId = conversation.Id,
+                TextContent = SystemMessagesTexts.PersonalChatCreated,
+                SentAt = _dateTimeProvider.NowUtc,
+                Position = 0,
+                SenderId = Guid.Empty
             });
 
         _dbContext.GroupChatMembers.AddRange(groupMembers.Append(initiatorMember));

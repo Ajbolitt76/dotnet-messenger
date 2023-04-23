@@ -1,5 +1,5 @@
 import React from "react";
-import { UserProfileDto } from "@/features/user/types";
+import { MeUserInfo } from "@/features/user/types";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -7,17 +7,16 @@ import {
   useMutation,
   useQuery,
   useQueryClient
-} from "react-query";
+} from "@tanstack/react-query";
 import { BaseError } from "@/lib/ApiTypes";
 import { login, LoginRequestDto, LoginResponseDto } from "@/features/user/api/login";
 import { getMyUser } from "@/features/user/api/getMyUser";
 import { tokenStore } from "@/lib/ApiClient";
 import { register, RegisterRequestDto, RegisterResponseDto } from "@/features/user/api/register";
-import { Spinner } from "@vkontakte/vkui";
 import { HTTPError } from "ky";
 
 type AuthContextValue = {
-  user: UserProfileDto | null
+  user: MeUserInfo | null
   login: UseMutateAsyncFunction<LoginResponseDto, BaseError, LoginRequestDto>
   register: UseMutateAsyncFunction<RegisterResponseDto, BaseError, RegisterRequestDto>
   logout: () => void;
@@ -25,7 +24,7 @@ type AuthContextValue = {
   isRegistering: boolean;
   refetchUser: (
     options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<UserProfileDto | null, BaseError>>;
+  ) => Promise<QueryObserverResult<MeUserInfo | null, BaseError>>;
 }
 
 const AuthContext = React.createContext<AuthContextValue | null>(null);
@@ -43,19 +42,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     error,
     status,
     isLoading,
-    isIdle,
     isSuccess,
     refetch
-  } = useQuery<UserProfileDto | null, BaseError>({
+  } = useQuery<MeUserInfo | null, BaseError>({
     queryKey: userKey,
     queryFn: async () => {
       if (tokenStore.Token) {
         try {
           return await getMyUser();
         } catch (e) {
-          if(e instanceof HTTPError && e.response.status === 401){
-            tokenStore.Token = null;
-          }
         }
       }
       return null;
@@ -63,29 +58,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   });
 
   const setUser = React.useCallback(
-    (data: UserProfileDto) => queryClient.setQueryData(userKey, data),
+    (data: MeUserInfo) => queryClient.setQueryData(userKey, data),
     [queryClient]
   );
 
   const loginMutation = useMutation<LoginResponseDto, BaseError, LoginRequestDto>({
     mutationFn: login,
     onSuccess: response => {
-      tokenStore.Token = response.token;
-      queryClient.invalidateQueries(userKey);
+      tokenStore.UpsertFromDto(response);
+      queryClient.invalidateQueries({ queryKey: userKey });
     },
   });
 
   const registerMutation = useMutation<RegisterResponseDto, BaseError, RegisterRequestDto>({
     mutationFn: register,
     onSuccess: response => {
-      tokenStore.Token = response.token;
-      queryClient.invalidateQueries(userKey);
+      tokenStore.UpsertFromDto(response);
+      queryClient.invalidateQueries({ queryKey: userKey });
     },
   });
 
   const logout = React.useCallback(() => {
-    tokenStore.Token = null;
-    queryClient.invalidateQueries(userKey);
+    tokenStore.UpsertFromDto(undefined);
+    queryClient.invalidateQueries({ queryKey: userKey });
   }, [queryClient]);
 
 
@@ -96,18 +91,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       refetchUser: refetch,
       login: loginMutation.mutateAsync,
       register: registerMutation.mutateAsync,
-      isLoggingIn: loginMutation.isLoading,
+      isLoggingIn: loginMutation.isPending,
       logout,
-      isRegistering: registerMutation.isLoading,
+      isRegistering: registerMutation.isPending,
     }),
     [
       user,
       error,
       refetch,
       loginMutation.mutateAsync,
-      loginMutation.isLoading,
+      loginMutation.isPending,
       registerMutation.mutateAsync,
-      registerMutation.isLoading,
+      registerMutation.isPending,
     ]
   );
 
@@ -117,9 +112,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     );
   }
 
-  if (isLoading || isIdle) {
+  if (isLoading) {
     return (<div className="w-screen h-screen flex justify-center items-center">
-     213123
+      Загрузка профиля...
     </div>)
   }
 
