@@ -1,6 +1,8 @@
-﻿using Messenger.Conversations.Common.MessageActions.GetMessageList;
+﻿using Messenger.Conversations.Common.MessageActions;
+using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Conversations.Common.Services;
+using Messenger.Conversations.GroupChats.MessageActions.GroupDeleteMessage;
 using Messenger.Conversations.GroupChats.MessageActions.GroupGetMessageList;
 using Messenger.Conversations.GroupChats.MessageActions.GroupSendMessage;
 
@@ -12,6 +14,7 @@ public static class MessageHandlerRegistrarExtensions
     {        
         registrar.AddHandler<GroupGetMessageListActionHandler, GetMessageListAction, GetMessageListActionResponse>();
         registrar.AddHandler<GroupSendMessageActionHandler, SendMessageAction, SendMessageActionResponse>();
+        registrar.AddHandler<GroupDeleteMessageActionHandler, DeleteMessageAction, bool>();
         return registrar;
     }
 }

@@ -2,14 +2,14 @@
 
 public class ConversationUserStatus : BaseEntity
 {
-    public Guid? ConversationId { get; set; }
+    public Guid ConversationId { get; set; }
 
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
     /// Номер последнего прочитанного сообщения
     /// </summary>
-    public uint ReadTo { get; set; }
+    public int ReadTo { get; set; }
 
     /// <summary>
     /// Номер сообщения, до которого пользователь очистил переписку

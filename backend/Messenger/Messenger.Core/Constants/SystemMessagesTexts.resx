@@ -21,4 +21,7 @@
     <data name="PersonalChatCreated" xml:space="preserve">
         <value>PERSONAL_CHAT_CREATED</value>
     </data>
+    <data name="GroupChatCreated" xml:space="preserve">
+        <value>GROUP_CHAT_CREATED</value>
+    </data>
 </root>

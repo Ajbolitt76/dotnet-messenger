@@ -82,18 +82,33 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
                 IsOwner = false,
                 Permissions = GroupChatPermissionPresets.NewMember
             });
-        
+
+        var conversationStatuses = members
+            .Append(initiator)
+            .Select(
+                user => new ConversationUserStatus
+                {
+                    ConversationId = conversation.Id,
+                    UserId = user.Id,
+                    ReadTo = -1,
+                    DeletedTo = null,
+                    SoftDeletedCount = 0,
+                    IsDeletedByUser = false
+                });
+        var system = await _dbContext.MessengerUsers
+            .FirstOrNotFoundAsync(x => x.IdentityUserId == Guid.Empty, cancellationToken);
         _dbContext.ConversationMessages.Add(
             new ConversationMessage()
             {
                 ConversationId = conversation.Id,
-                TextContent = SystemMessagesTexts.PersonalChatCreated,
+                TextContent = SystemMessagesTexts.GroupChatCreated,
                 SentAt = _dateTimeProvider.NowUtc,
                 Position = 0,
-                SenderId = Guid.Empty
+                SenderId = system.Id
             });
 
         _dbContext.GroupChatMembers.AddRange(groupMembers.Append(initiatorMember));
+        _dbContext.ConversationUserStatuses.AddRange(conversationStatuses);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
         
         return new CreatedResponse<Guid>(true, conversation.Id);
