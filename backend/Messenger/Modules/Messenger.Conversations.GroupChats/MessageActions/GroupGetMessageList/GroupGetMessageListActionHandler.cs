@@ -1,8 +1,8 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
 using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
+using Messenger.Conversations.GroupChats.Extensions;
 using Messenger.Conversations.GroupChats.Models;
-using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
@@ -31,14 +31,10 @@ public class GroupGetMessageListActionHandler
     {
         var currentUserId = _userService.GetUserIdOrThrow();
         
-        var isAllowed = _dbContext.GroupChatMembers.Any(
-            member => member.UserId == currentUserId && 
-                      member.ConversationId == request.ConversationId && 
-                      !member.WasBanned && 
-                      !member.WasExcluded);
-        
-        if (!isAllowed)
-            throw new ForbiddenException();
+        var member =
+            await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.ConversationId);
+        member
+            .CheckForBanOrExcludeAndThrow();
 
         var messages = await _dbContext.ConversationMessages
             .GetStartingFromPointer(_dbContext, request, currentUserId)

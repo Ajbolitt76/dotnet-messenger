@@ -2,9 +2,15 @@
 using Messenger.Conversations.Common.Features.ReserveConversationNumberCommand;
 using Messenger.Conversations.Common.MessageActions;
 using Messenger.Conversations.Common.MessageActions.SendMessage;
+using Messenger.Conversations.GroupChats.Extensions;
+using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate;
+using Messenger.Core.Model.ConversationAggregate.Members;
+using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
+using Messenger.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.MessageActions.GroupSendMessage;
 
@@ -33,10 +39,14 @@ public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAc
         var messagePosition =
             await _reserveNumberHandler.Handle(new(request.Conversation.Id), cancellationToken);
 
-        //TODO: Валидация отправки
-        //1. Член чата
-        //2. Без мута/бана
-        //3. Есть пермишн
+        var currentUserId = _userService.GetUserIdOrThrow();
+
+        var member =
+            await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.Conversation.Id);
+        member
+            .CheckForBanOrExcludeAndThrow()
+            .CheckForMuteAndThrow(_dateTimeProvider.NowUtc)
+            .CheckForPermissionsAndThrow(GroupMemberPermissions.SendMessages);
 
         var messageData = request.MessageData;
 
@@ -46,7 +56,7 @@ public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAc
             SentAt = _dateTimeProvider.NowUtc,
             ConversationId = request.Conversation.Id,
             TextContent = messageData.TextContent,
-            SenderId = _userService.GetUserIdOrThrow(),
+            SenderId = currentUserId,
             Position = messagePosition,
         };
 
