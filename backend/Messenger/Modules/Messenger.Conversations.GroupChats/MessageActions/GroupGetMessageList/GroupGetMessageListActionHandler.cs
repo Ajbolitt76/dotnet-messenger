@@ -2,6 +2,7 @@
 using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.GroupChats.Models;
+using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
@@ -28,14 +29,19 @@ public class GroupGetMessageListActionHandler
         GetMessageListAction request,
         CancellationToken cancellationToken)
     {
-        //TODO: Base class
-
-        //TODO: Валидация
-        //1. Участник чата
-        //2. Не в бане
+        var currentUserId = _userService.GetUserIdOrThrow();
+        
+        var isAllowed = _dbContext.GroupChatMembers.Any(
+            member => member.UserId == currentUserId && 
+                      member.ConversationId == request.ConversationId && 
+                      !member.WasBanned && 
+                      !member.WasExcluded);
+        
+        if (!isAllowed)
+            throw new ForbiddenException();
 
         var messages = await _dbContext.ConversationMessages
-            .GetStartingFromPointer(_dbContext, request, _userService.GetUserIdOrThrow())
+            .GetStartingFromPointer(_dbContext, request, currentUserId)
             .Select(
                 x => new GroupMessageListProjection(
                     x.Id,

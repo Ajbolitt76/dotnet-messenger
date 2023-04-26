@@ -69,6 +69,15 @@ namespace Messenger.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FORBIDDEN.
+        /// </summary>
+        public static string ForbiddenError {
+            get {
+                return ResourceManager.GetString("ForbiddenError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NOT_FOUND.
         /// </summary>
         public static string NotFoundError {

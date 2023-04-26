@@ -12,8 +12,8 @@ public record GroupMessageListProjection(
         IReadOnlyCollection<IAttachment>? Attachments,
         DateTime SentAt,
         DateTime? EditedAt,
-        uint Positon)
-    : BaseMessageListProjection(MessageId, SentBy, Content, Attachments, SentAt, EditedAt, Positon), IHaveDiscriminator
+        uint Position)
+    : BaseMessageListProjection(MessageId, SentBy, Content, Attachments, SentAt, EditedAt, Position), IHaveDiscriminator
 {
     public static string Discriminator => ConversationTypes.GroupChat;
 };

@@ -19,7 +19,7 @@ public class DbSeeder : IDbSeeder
 
     private async Task SeedMessengerUsers(IDbContext dbContext, IServiceProvider serviceProvider)
     {
-        if (!dbContext.MessengerUsers.Any(x => x.Id == Guid.Empty))
+        if (!dbContext.MessengerUsers.Any(x => x.IdentityUserId == Guid.Empty))
         {
             dbContext.MessengerUsers.Add(
                 new MessengerUser()
