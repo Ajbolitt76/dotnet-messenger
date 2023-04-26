@@ -2,4 +2,4 @@
 
 namespace Messenger.Conversations.Features.SendMessageCommand;
 
-public record SendMessageCommand(Guid ConversationId, string TextContent) : ICommand<bool>;
+public record SendMessageCommand(Guid ConversationId, string TextContent) : ICommand<SendMessageCommandResponse>;

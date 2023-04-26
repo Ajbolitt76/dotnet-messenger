@@ -28,7 +28,7 @@
   },
   "include": [
     "src"
-  ],
+, "src/features/chats/components/Modals/CreatePersonalChatModal.tsx"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

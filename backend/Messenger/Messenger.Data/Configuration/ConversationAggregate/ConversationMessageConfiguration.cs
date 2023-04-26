@@ -20,6 +20,10 @@ public class ConversationMessageConfiguration : BaseConfiguration<ConversationMe
         typeBuilder.Property(x => x.SentAt)
             .HasDefaultValueSql("NOW()");
 
+        typeBuilder.HasOne(x => x.SenderMessengerUser)
+            .WithMany()
+            .HasForeignKey(x => x.SenderId);
+        
         typeBuilder.HasIndex(x => new { x.ConversationId, x.Position })
             .IsDescending(false, false)
             .IsUnique();

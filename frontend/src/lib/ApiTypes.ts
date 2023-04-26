@@ -1,17 +1,8 @@
-export type SkillDto = {
-  id: number;
-  name: string;
-}
-
-export type StatusDto = {
-  id: number;
-  name: string;
-  color: string;
-}
-
-export type TagDto = {
-  id: number;
-  name: string;
+export interface ApiError {
+  title: string;
+  status: number;
+  placeholder: Record<string, string>
+  traceId: string;
 }
 
 export type SystemFileDto = {

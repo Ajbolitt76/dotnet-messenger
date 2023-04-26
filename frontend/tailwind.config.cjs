@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      zIndex: {
+        '500': '500',
+      }
+    },
     colors: {
       "white": "#ffffff",
       'blue-400': 'var(--blue-400)',
@@ -54,6 +58,7 @@ module.exports = {
       'gradient-green-start': 'var(--gradient-green-start)',
       'gradient-green-end': 'var(--gradient-green-end)',
       'destructive': 'var(--destructive)',
+      'background': 'var(--main-bg)',
       'primary': 'var(--primary)',
     }
   },

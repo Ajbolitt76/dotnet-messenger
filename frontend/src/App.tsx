@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import './App.css'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from "@tanstack/react-query"
 import { queryClient } from './lib/ReactQuery'
 import { AdaptivityProvider, AppRoot, Button, ConfigProvider, Spinner } from "@vkontakte/vkui";
 import { ErrorBoundary } from "react-error-boundary";
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRouter } from "./routes";
 import { AuthProvider } from "@/lib/AuthProvider";
-import "@vkontakte/vkui/dist/vkui.css";
 import { Notifications } from "@/components/Notifications";
 import { StoreProvider } from "@/stores/RootStore";
 import { ErrorFallback } from "@/components/ErrorFallback";
+import { ModalProvider } from './components/Modal'
+
+import './App.css'
+import "@vkontakte/vkui/dist/vkui.css";
 
 function App() {
   return (
@@ -26,14 +28,16 @@ function App() {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <HelmetProvider>
           <StoreProvider>
-            <ConfigProvider appearance="light">
+            <ConfigProvider appearance="dark">
               <AdaptivityProvider>
                 <AppRoot mode="partial">
                   <QueryClientProvider client={queryClient}>
-                    <AuthProvider>
-                      <Notifications/>
-                      <AppRouter/>
-                    </AuthProvider>
+                    <ModalProvider>
+                      <AuthProvider>
+                        <Notifications />
+                        <AppRouter />
+                      </AuthProvider>
+                    </ModalProvider>
                   </QueryClientProvider>
                 </AppRoot>
               </AdaptivityProvider>

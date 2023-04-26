@@ -33,7 +33,15 @@ public class DataModule : IModule
 
         RegisterJsonPolymorphicDefinitions(services);
 
-        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
+                c =>
+                {
+                    c.Password.RequireDigit = false;
+                    c.Password.RequiredLength = 2;
+                    c.Password.RequireLowercase = false;
+                    c.Password.RequireNonAlphanumeric = false;
+                    c.Password.RequiredUniqueChars = 0;
+                })
             .AddEntityFrameworkStores<MessengerContext>();
 
         services.AddDbContext<IDbContext, MessengerContext>(

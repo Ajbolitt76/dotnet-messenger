@@ -8,7 +8,7 @@ export const ErrorFallback = () => {
     >
       <h2 className="text-lg font-semibold">Неудалось загрузиться :( </h2>
       <Button className="mt-4" onClick={() => window.location.assign(window.location.toString())}>
-        Поаторить попытку
+        Повторить попытку
       </Button>
     </div>
   );

@@ -1,17 +1,17 @@
 import { apiClient } from "@/lib/ApiClient";
 
 export type RegisterRequestDto = {
-  email: string;
-  username: string;
   name: string;
-  surname: string;
+  phoneTicket: string;
+  username: string;
   password: string;
 }
 
 export type RegisterResponseDto = {
   token: string;
+  refreshToken: string;
 }
 
 export function register(request: RegisterRequestDto) {
-  return apiClient.post('register', { json: request }).json<RegisterResponseDto>();
+  return apiClient.post('auth/registration', { json: request }).json<RegisterResponseDto>();
 }

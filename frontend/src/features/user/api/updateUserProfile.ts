@@ -1,25 +1,18 @@
-import { OtherUserProfileDto, UserContactDto, UserSkillDto } from "@/features/user/types";
 import { apiClient } from "@/lib/ApiClient";
 import { MutationConfig, queryClient } from "@/lib/ReactQuery";
-import { useMutation } from "react-query";
 import { useStore } from "@/stores/RootStore";
-
-interface UserSkillUpdateDto extends Omit<UserSkillDto, "skill">{
-  skill: {
-    id: number;
-  }
-};
+import { FileOwnershipSignedData } from "@/features/files/types";
+import { useMutation } from "@tanstack/react-query";
+import { HTTPError } from "ky";
 
 export type UpdateUserInfoDto = {
-  stateId: number;
-  photoUrl: string;
-  aboutMe: string;
-  skills: UserSkillUpdateDto[];
-  contacts: UserContactDto[];
+  name: string;
+  dateOfBirth: string;
+  profilePicture: FileOwnershipSignedData;
 }
 
-export const updateUserProfile = (data: UpdateUserInfoDto): Promise<OtherUserProfileDto> => {
-  return apiClient.put("me", { json: data }).json<OtherUserProfileDto>();
+export const updateUserProfile = (data: UpdateUserInfoDto): Promise<boolean> => {
+  return apiClient.put("me", { json: data }).json<boolean>();
 };
 
 type UseUpdateDiscussionOptions = {
@@ -33,10 +26,10 @@ export const useUpdateProfile = ({ config }: UseUpdateDiscussionOptions = {}) =>
 
   return useMutation({
     onError: (err, __, context: any) => {
-      notificationStore.error(err.message, "Ошибка при сохранении профиля");
+      notificationStore.error((err as HTTPError).message, "Ошибка при сохранении профиля");
     },
     onSuccess: (data) => {
-      queryClient.refetchQueries(userKey);
+      queryClient.refetchQueries({ queryKey: userKey });
       notificationStore.success("Профиль успешно сохранен", "Успех");
     },
     ...config,

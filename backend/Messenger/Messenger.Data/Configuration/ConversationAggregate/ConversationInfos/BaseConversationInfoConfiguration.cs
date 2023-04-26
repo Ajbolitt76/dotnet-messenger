@@ -11,5 +11,8 @@ public abstract class BaseConversationInfoConfiguration<TEntity> : BaseConfigura
         typeBuilder.HasOne(x => x.Conversation)
             .WithOne()
             .HasForeignKey<TEntity>(x => x.ConversationId);
+
+        typeBuilder.HasIndex(x => new { x.ConversationId, x.LastUpdated })
+            .IsDescending(false, true);
     }
 }

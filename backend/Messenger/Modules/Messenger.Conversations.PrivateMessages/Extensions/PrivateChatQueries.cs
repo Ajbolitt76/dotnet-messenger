@@ -1,4 +1,5 @@
 ﻿using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
+using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Requests.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,10 @@ public static class PrivateChatQueries
         Guid firstUser,
         Guid secondUser)
         => queryable.FirstOrDefaultAsync(
-            x => 
-                (x.InitiatorPeer == firstUser && x.RecipientPeer == secondUser) 
+            x =>
+                (x.InitiatorPeer == firstUser && x.RecipientPeer == secondUser)
                 || (x.InitiatorPeer == secondUser && x.RecipientPeer == firstUser));
+
+    public static IQueryable<PersonalChatInfo> FilterByPeer(this IQueryable<PersonalChatInfo> queryable, Guid id)
+        => queryable.Where(x => x.InitiatorPeer == id || x.RecipientPeer == id);
 }

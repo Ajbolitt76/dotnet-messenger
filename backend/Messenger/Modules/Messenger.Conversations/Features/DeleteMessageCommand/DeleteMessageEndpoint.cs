@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Messenger.Conversations.Features.DeleteMessageCommand;
 
-public class DeleteMessageEndPoint : IEndpoint
+public class DeleteMessageEndpoint : IEndpoint
 {
     public void Map(IEndpointRouteBuilder endpoints)
     {

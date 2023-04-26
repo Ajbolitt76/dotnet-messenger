@@ -15,6 +15,7 @@ using tusdotnet.Models;
 using tusdotnet.Models.Configuration;
 using tusdotnet.Models.Expiration;
 using tusdotnet.Stores;
+using FileInfo = Messenger.Files.Shared.FileRequests.FileInfo;
 
 namespace Messenger.Files;
 public partial class TusUploadManager
@@ -115,7 +116,7 @@ public partial class TusUploadManager
         await _dbContext.SaveEntitiesAsync();
 
         var result = _cryptoService.SignObject(
-            new FileOwnership(file.Id, "unspecified"),
+            new FileInfo(file.Id, "unspecified"),
             _config.LinkSigningKeyPair.PrivateKeyBytes!);
         
         var encodedResult = Convert.ToBase64String(

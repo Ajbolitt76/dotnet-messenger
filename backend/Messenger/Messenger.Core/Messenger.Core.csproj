@@ -23,6 +23,10 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>ValidationErrorCodes.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Constants\SystemMessagesTexts.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>SystemMessagesTexts.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -35,6 +39,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>ValidationErrorCodes.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Constants\SystemMessagesTexts.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SystemMessagesTexts.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
