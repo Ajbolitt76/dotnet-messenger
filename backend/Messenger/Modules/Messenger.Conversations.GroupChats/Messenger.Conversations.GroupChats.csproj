@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\Messenger.Core\Messenger.Core.csproj" />
       <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
       <ProjectReference Include="..\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />

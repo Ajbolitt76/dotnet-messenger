@@ -1,9 +1,9 @@
-﻿using Messenger.Core.Constants;
+﻿using Messenger.Conversations.GroupChats.Extensions;
+using Messenger.Core.Constants;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
-using Messenger.Core.Model.UserAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Requests.Responses;
 using Messenger.Core.Services;
@@ -27,17 +27,17 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
         CancellationToken cancellationToken)
     {
         var initiator = await _dbContext.MessengerUsers.FirstOrNotFoundAsync(
-                  x => x.Id == request.InitiatorId,
+                  user => user.Id == request.InitiatorId,
                   cancellationToken: cancellationToken);
         
-        var members = new List<MessengerUser>();
+        var members = new List<Guid>();
     
-        foreach (var userId in request.InvitedMembers)
-        { 
-            var member = await _dbContext.MessengerUsers.FirstOrNotFoundAsync(
-              x => x.Id == userId, 
-              cancellationToken: cancellationToken); 
-            members.Add(member);
+        foreach (var userId in request.InvitedMembers.Distinct().Where(x => x != initiator.Id))
+        {
+            await _dbContext.MessengerUsers.AnyOrNotFoundAsync(
+                x => x.Id == userId,
+                cancellationToken: cancellationToken); 
+            members.Add(userId);
         }
 
         // TODO: Blacklisting
@@ -71,34 +71,14 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             Permissions = GroupChatPermissionPresets.Creator
         };
 
-        var groupMembers = members.Select(
-            user => new GroupChatMember
-            {
-                ConversationId = conversation.Id,
-                UserId = user.Id,
-                WasExcluded = false,
-                WasBanned = false,
-                IsAdmin = false,
-                IsOwner = false,
-                Permissions = GroupChatPermissionPresets.NewMember
-            });
-
-        var conversationStatuses = members
-            .Append(initiator)
-            .Select(
-                user => new ConversationUserStatus
-                {
-                    ConversationId = conversation.Id,
-                    UserId = user.Id,
-                    ReadTo = -1,
-                    DeletedTo = null,
-                    SoftDeletedCount = 0,
-                    IsDeletedByUser = false
-                });
+        var groupMembers = members.SelectNewGroupChatMembers(conversation.Id);
+        var userStatuses = members.Append(initiatorMember.UserId)
+            .SelectConversationUserStatuses(conversation.Id);
+        
         var system = await _dbContext.MessengerUsers
             .FirstOrNotFoundAsync(x => x.IdentityUserId == Guid.Empty, cancellationToken);
         _dbContext.ConversationMessages.Add(
-            new ConversationMessage()
+            new ConversationMessage
             {
                 ConversationId = conversation.Id,
                 TextContent = SystemMessagesTexts.GroupChatCreated,
@@ -108,7 +88,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             });
 
         _dbContext.GroupChatMembers.AddRange(groupMembers.Append(initiatorMember));
-        _dbContext.ConversationUserStatuses.AddRange(conversationStatuses);
+        _dbContext.ConversationUserStatuses.AddRange(userStatuses);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
         
         return new CreatedResponse<Guid>(true, conversation.Id);
