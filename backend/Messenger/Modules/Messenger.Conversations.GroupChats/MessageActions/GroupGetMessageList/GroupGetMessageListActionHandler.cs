@@ -31,9 +31,7 @@ public class GroupGetMessageListActionHandler
     {
         var currentUserId = _userService.GetUserIdOrThrow();
         
-        var member =
-            await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.ConversationId);
-        member
+        (await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.ConversationId))
             .CheckForBanOrExcludeAndThrow();
 
         var messages = await _dbContext.ConversationMessages

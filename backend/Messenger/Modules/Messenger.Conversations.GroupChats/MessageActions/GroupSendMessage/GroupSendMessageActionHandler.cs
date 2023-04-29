@@ -36,16 +36,14 @@ public class GroupSendMessageActionHandler : IMessageActionHandler<SendMessageAc
 
         var currentUserId = _userService.GetUserIdOrThrow();
 
-        var member =
-            await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.Conversation.Id);
-        member
+        (await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.Conversation.Id))
             .CheckForBanOrExcludeAndThrow()
             .CheckForMuteAndThrow(_dateTimeProvider.NowUtc)
             .CheckForPermissionsAndThrow(GroupMemberPermissions.SendMessages);
 
         var messageData = request.MessageData;
 
-        var conversationMessage = new ConversationMessage()
+        var conversationMessage = new ConversationMessage
         {
             Attachments = messageData.Attachments,
             SentAt = _dateTimeProvider.NowUtc,

@@ -28,8 +28,9 @@ public class GroupDeleteMessageActionHandler : IMessageActionHandler<DeleteMessa
             message => message.Id == request.MessageId && message.ConversationId == request.ConversationId,
             cancellationToken: cancellationToken);
         var currentUserId = _userService.GetUserIdOrThrow();
-        var member = await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.ConversationId);
-        member.CheckForBanOrExcludeAndThrow();
+        var member =
+            (await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(currentUserId, request.ConversationId))
+            .CheckForBanOrExcludeAndThrow();
         
         if (request.DeleteFromAll && 
             (currentUserId == message.SenderId || (member.Permissions & GroupMemberPermissions.DeleteMessages) != 0))
