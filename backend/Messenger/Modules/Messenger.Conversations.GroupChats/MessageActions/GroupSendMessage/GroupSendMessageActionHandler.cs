@@ -1,16 +1,11 @@
 ﻿using Messenger.Conversations.Common.Abstractions;
 using Messenger.Conversations.Common.Features.ReserveConversationNumberCommand;
-using Messenger.Conversations.Common.MessageActions;
 using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Conversations.GroupChats.Extensions;
-using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate;
-using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
-using Messenger.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.MessageActions.GroupSendMessage;
 

@@ -23,10 +23,8 @@ public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChat
             conversation => conversation.Id == request.ChatId
                             && conversation.ConversationType == GroupChatInfo.Discriminator,
             cancellationToken);
-        
-        var currentUser = await _dbContext.GroupChatMembers
-            .GetGroupMemberOrThrowAsync(request.InviterId, conversation.Id);
-        currentUser
+
+        (await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(request.InviterId, conversation.Id))
             .CheckForBanOrExcludeAndThrow()
             .CheckForPermissionsAndThrow(GroupMemberPermissions.InviteMembers);
 

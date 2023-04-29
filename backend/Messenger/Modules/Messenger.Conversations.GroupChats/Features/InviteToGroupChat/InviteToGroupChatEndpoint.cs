@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Messenger.Core.Extensions;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Validation.ValidationFilter;

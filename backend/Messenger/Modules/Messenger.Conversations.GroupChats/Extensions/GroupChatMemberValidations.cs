@@ -1,7 +1,6 @@
 ﻿using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
-using Messenger.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.Extensions;
@@ -13,7 +12,6 @@ public static class GroupChatMemberValidations
         Guid userId,
         Guid conversationId) =>
         await queryable
-            .AsNoTracking()
             .FirstOrDefaultAsync(member => member.UserId == userId && member.ConversationId == conversationId)
         ?? throw new ForbiddenException("Not a chat member");
 

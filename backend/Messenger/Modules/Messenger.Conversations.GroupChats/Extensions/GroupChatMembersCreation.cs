@@ -1,7 +1,6 @@
 ﻿using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
-using Messenger.Core.Model.UserAggregate;
 
 namespace Messenger.Conversations.GroupChats.Extensions;
 
