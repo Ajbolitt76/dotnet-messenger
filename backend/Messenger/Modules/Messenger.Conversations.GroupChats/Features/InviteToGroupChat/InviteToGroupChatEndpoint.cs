@@ -11,7 +11,7 @@ namespace Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
 
 public class InviteToGroupChatEndpoint : IEndpoint
 {
-    public record InviteToGroupDto(IEnumerable<Guid> InvitedMembers, Guid ConversationId);
+    public record InviteToGroupDto(IEnumerable<Guid> InvitedMembers);
     
     public class DtoValidator : AbstractValidator<InviteToGroupDto>
     {
@@ -19,22 +19,19 @@ public class InviteToGroupChatEndpoint : IEndpoint
         {
             RuleFor(x => x.InvitedMembers)
                 .NotEmpty();
-
-            RuleFor(x => x.ConversationId)
-                .NotEmpty();
         }
     }
     
     public void Map(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost(
-                "/invite",
-                async (InviteToGroupDto dto, IMediator mediator, IUserService userService)
+                "{conversationId:guid}/invite",
+                async (Guid conversationId, InviteToGroupDto dto, IMediator mediator, IUserService userService)
                     => Results.Ok(
                         await mediator.Send(new InviteToGroupChatCommand(
                             userService.GetUserIdOrThrow(),
                             dto.InvitedMembers ,
-                            dto.ConversationId))))
+                            conversationId))))
             .RequireAuthorization()
             .AddValidation(c => c.AddFor<InviteToGroupDto>())
             .WithName("Пригласить в групповой чат");

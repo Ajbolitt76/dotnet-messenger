@@ -2,4 +2,7 @@
 
 namespace Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
 
-public record InviteToGroupChatCommand(Guid InviterId, IEnumerable<Guid> InvitedMembers, Guid ChatId) : ICommand<bool>;
+public record InviteToGroupChatCommand(
+    Guid InviterId,
+    IEnumerable<Guid> InvitedMembers,
+    Guid ConversationId) : ICommand<bool>;

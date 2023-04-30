@@ -24,7 +24,7 @@ public class MuteGroupMemberEndpoint : IEndpoint
     
     public void Map(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPut(
+        endpoints.MapPost(
                 "{conversationId:guid}/mute/{toUserId:guid}",
                 async (
                         MuteDto dto,

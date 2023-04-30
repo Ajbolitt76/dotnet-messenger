@@ -16,8 +16,8 @@ public class GivePermissionsEndpoint : IEndpoint
     
     public void Map(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPut(
-                "{conversationId:guid}/{toUserId:guid}/permissions",
+        endpoints.MapPost(
+                "{conversationId:guid}/permissions/{toUserId:guid}",
                 async (
                         GivePermissionsDto dto,
                         Guid toUserId,
@@ -34,6 +34,6 @@ public class GivePermissionsEndpoint : IEndpoint
                                 dto.MakeAdmin))))
             .RequireAuthorization()
             .Produces<bool>()
-            .WithName("Выдать участнику права");
+            .WithName("Изменить права участника");
     }
 }

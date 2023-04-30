@@ -11,13 +11,17 @@ namespace Messenger.Conversations.GroupChats.Features.ChangeGroupChatInfo;
 
 public class ChangeGroupInfoEndpoint : IEndpoint
 {
-    public record ChangeGroupInfoDto(string NewDescription); //TODO добавление файла для картинки чата
+    public record ChangeGroupInfoDto(string NewTitle, string NewDescription); //TODO добавление файла для картинки чата
     
     public class DtoValidator : AbstractValidator<ChangeGroupInfoDto>
     {
         public DtoValidator()
         {
-            RuleFor(x => x.NewDescription)
+            RuleFor(dto => dto.NewTitle)
+                .NotEmpty()
+                .MaximumLength(30);
+            
+            RuleFor(dto => dto.NewDescription)
                 .NotEmpty()
                 .MaximumLength(100);
         }
@@ -37,6 +41,7 @@ public class ChangeGroupInfoEndpoint : IEndpoint
                             new ChangeGroupInfoCommand(
                                 userService.GetUserIdOrThrow(),
                                 conversationId,
+                                dto.NewTitle,
                                 dto.NewDescription))))
             .RequireAuthorization()
             .Produces<bool>()

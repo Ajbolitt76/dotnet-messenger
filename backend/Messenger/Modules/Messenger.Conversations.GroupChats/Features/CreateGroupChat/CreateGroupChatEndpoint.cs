@@ -22,9 +22,11 @@ public class CreateGroupChatEndpoint : IEndpoint
         public DtoValidator()
         {
             RuleFor(x => x.InvitedMembers)
-                .NotEmpty();
+                .NotEmpty()
+                .Must(x => x.Count() < 100);
 
             RuleFor(x => x.Name)
+                .NotEmpty()
                 .MinimumLength(1)
                 .WithLocalizationState()
                 .MaximumLength(50)

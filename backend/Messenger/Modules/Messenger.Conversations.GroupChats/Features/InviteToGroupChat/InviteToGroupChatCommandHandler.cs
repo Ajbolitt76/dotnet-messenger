@@ -20,7 +20,7 @@ public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChat
     public async Task<bool> Handle(InviteToGroupChatCommand request, CancellationToken cancellationToken)
     {
         var conversation = await _dbContext.Conversations.FirstOrNotFoundAsync(
-            conversation => conversation.Id == request.ChatId
+            conversation => conversation.Id == request.ConversationId
                             && conversation.ConversationType == GroupChatInfo.Discriminator,
             cancellationToken);
 
@@ -38,7 +38,7 @@ public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChat
         _dbContext.ConversationUserStatuses.AddRange(userStatuses);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
 
-        return true;//TODO подумать во что можно переделать
+        return true;
     }
 
     private async Task<List<Guid>> InviteNewAndChangeStatusOldMembers(IEnumerable<Guid> ids, Guid conversationId)
