@@ -1,6 +1,7 @@
 ﻿using Messenger.Conversations.GroupChats.Features.BanOrKickGroupMember;
 using Messenger.Conversations.GroupChats.Features.ChangeGroupChatInfo;
 using Messenger.Conversations.GroupChats.Features.CreateGroupChat;
+using Messenger.Conversations.GroupChats.Features.GetGroupChatInfo;
 using Messenger.Conversations.GroupChats.Features.GivePermissions;
 using Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
 using Messenger.Conversations.GroupChats.Features.MuteGroupMember;
@@ -18,6 +19,7 @@ public class GroupChatsRoutes : IEndpointRoot
     {
         endpoints.MapGroup("/group-chat")
             .WithTags("Групповые чаты")
+            .AddEndpoint<GetGroupChatInfoEndpoint>()
             .AddEndpoint<CreateGroupChatEndpoint>()
             .AddEndpoint<InviteToGroupChatEndpoint>()
             .AddEndpoint<BanOrKickGroupMemberEndpoint>()
