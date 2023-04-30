@@ -1,4 +1,5 @@
 ﻿using Messenger.Conversations.GroupChats.Features.BanOrKickGroupMember;
+using Messenger.Conversations.GroupChats.Features.ChangeGroupChatInfo;
 using Messenger.Conversations.GroupChats.Features.CreateGroupChat;
 using Messenger.Conversations.GroupChats.Features.GivePermissions;
 using Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
@@ -21,6 +22,7 @@ public class GroupChatsRoutes : IEndpointRoot
             .AddEndpoint<InviteToGroupChatEndpoint>()
             .AddEndpoint<BanOrKickGroupMemberEndpoint>()
             .AddEndpoint<GivePermissionsEndpoint>()
-            .AddEndpoint<MuteGroupMemberEndpoint>();
+            .AddEndpoint<MuteGroupMemberEndpoint>()
+            .AddEndpoint<ChangeGroupInfoEndpoint>();
     }
 }
