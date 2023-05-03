@@ -15,11 +15,11 @@ public class ExcludeGroupMemberEndpoint : IEndpoint
     public void Map(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost(
-                "{conversationId:guid}/exclude/{toUserId:guid}",
+                "{conversationId:guid}/exclude/{userId:guid}",
                 async (
                         Guid conversationId,
                         ExcludeGroupMemberDto dto,
-                        Guid toUserId,
+                        Guid userId,
                         IMediator mediator,
                         IUserService userService)
                     => Results.Ok(
@@ -27,7 +27,7 @@ public class ExcludeGroupMemberEndpoint : IEndpoint
                             new ExcludeGroupMemberCommand(
                                 dto.Ban,
                                 userService.GetUserIdOrThrow(),
-                                toUserId,
+                                userId,
                                 conversationId))))
             .RequireAuthorization()
             .Produces<bool>()

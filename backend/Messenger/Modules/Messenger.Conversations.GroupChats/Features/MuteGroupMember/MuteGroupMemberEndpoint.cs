@@ -25,10 +25,10 @@ public class MuteGroupMemberEndpoint : IEndpoint
     public void Map(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost(
-                "{conversationId:guid}/mute/{toUserId:guid}",
+                "{conversationId:guid}/mute/{userId:guid}",
                 async (
                         MuteDto dto,
-                        Guid toUserId,
+                        Guid userId,
                         Guid conversationId,
                         IMediator mediator,
                         IUserService userService)
@@ -36,7 +36,7 @@ public class MuteGroupMemberEndpoint : IEndpoint
                         await mediator.Send(
                             new MuteGroupMemberCommand(
                                 userService.GetUserIdOrThrow(),
-                                toUserId,
+                                userId,
                                 conversationId,
                                 new TimeSpan(dto.Seconds * 1000 * 1000)))))
             .RequireAuthorization()

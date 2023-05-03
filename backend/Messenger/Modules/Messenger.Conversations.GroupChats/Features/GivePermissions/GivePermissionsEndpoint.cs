@@ -17,10 +17,10 @@ public class GivePermissionsEndpoint : IEndpoint
     public void Map(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost(
-                "{conversationId:guid}/permissions/{toUserId:guid}",
+                "{conversationId:guid}/permissions/{userId:guid}",
                 async (
                         GivePermissionsDto dto,
-                        Guid toUserId,
+                        Guid userId,
                         Guid conversationId,
                         IMediator mediator,
                         IUserService userService)
@@ -28,7 +28,7 @@ public class GivePermissionsEndpoint : IEndpoint
                         await mediator.Send(
                             new GivePermissionsCommand(
                                 userService.GetUserIdOrThrow(),
-                                toUserId,
+                                userId,
                                 conversationId,
                                 dto.Permissions,
                                 dto.MakeAdmin))))
