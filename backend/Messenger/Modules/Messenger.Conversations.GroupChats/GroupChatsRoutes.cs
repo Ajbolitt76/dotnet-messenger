@@ -2,6 +2,7 @@
 using Messenger.Conversations.GroupChats.Features.CreateGroupChat;
 using Messenger.Conversations.GroupChats.Features.ExcludeGroupMember;
 using Messenger.Conversations.GroupChats.Features.GetGroupChatInfo;
+using Messenger.Conversations.GroupChats.Features.GetGroupChatMemberInfo;
 using Messenger.Conversations.GroupChats.Features.GivePermissions;
 using Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
 using Messenger.Conversations.GroupChats.Features.MuteGroupMember;
@@ -25,6 +26,7 @@ public class GroupChatsRoutes : IEndpointRoot
             .AddEndpoint<ExcludeGroupMemberEndpoint>()
             .AddEndpoint<GivePermissionsEndpoint>()
             .AddEndpoint<MuteGroupMemberEndpoint>()
-            .AddEndpoint<ChangeGroupInfoEndpoint>();
+            .AddEndpoint<ChangeGroupInfoEndpoint>()
+            .AddEndpoint<GetGroupChatMemberInfoEndpoint>();
     }
 }
