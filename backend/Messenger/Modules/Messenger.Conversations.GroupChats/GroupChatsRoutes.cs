@@ -6,6 +6,7 @@ using Messenger.Conversations.GroupChats.Features.GetGroupChatMemberInfo;
 using Messenger.Conversations.GroupChats.Features.GivePermissions;
 using Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
 using Messenger.Conversations.GroupChats.Features.MuteGroupMember;
+using Messenger.Conversations.GroupChats.Features.UnbanGroupMember;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,7 @@ public class GroupChatsRoutes : IEndpointRoot
             .AddEndpoint<GivePermissionsEndpoint>()
             .AddEndpoint<MuteGroupMemberEndpoint>()
             .AddEndpoint<ChangeGroupInfoEndpoint>()
-            .AddEndpoint<GetGroupChatMemberInfoEndpoint>();
+            .AddEndpoint<GetGroupChatMemberInfoEndpoint>()
+            .AddEndpoint<UnbanGroupMemberEndpoint>();
     }
 }
