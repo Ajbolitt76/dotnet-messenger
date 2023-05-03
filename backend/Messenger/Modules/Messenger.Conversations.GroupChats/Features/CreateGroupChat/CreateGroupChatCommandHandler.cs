@@ -1,4 +1,5 @@
 ﻿using Messenger.Conversations.GroupChats.Extensions;
+using Messenger.Conversations.GroupChats.Models;
 using Messenger.Core.Constants;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
@@ -8,10 +9,11 @@ using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Requests.Responses;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.Features.CreateGroupChat;
 
-public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatCommand, CreatedResponse<Guid>>
+public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatCommand, GroupCreatedResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -22,7 +24,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<CreatedResponse<Guid>> Handle(
+    public async Task<GroupCreatedResponse> Handle(
         CreateGroupChatCommand request,
         CancellationToken cancellationToken)
     {
@@ -30,16 +32,7 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
                   user => user.Id == request.InitiatorId,
                   cancellationToken: cancellationToken);
         
-        var members = new List<Guid>();
-    
-        foreach (var userId in request.InvitedMembers.Distinct().Where(x => x != initiator.Id))
-        {
-            await _dbContext.MessengerUsers.AnyOrNotFoundAsync(
-                x => x.Id == userId,
-                cancellationToken: cancellationToken); 
-            members.Add(userId);
-        }
-
+        var (members, notAdded) = await GetInvitedMembers(request.InvitedMemberIds, request.InitiatorId);
         // TODO: Blacklisting
 
         var conversation = new Conversation
@@ -71,12 +64,11 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             Permissions = GroupChatPermissionPresets.Creator
         };
 
-        var groupMembers = members.SelectNewGroupChatMembers(conversation.Id);
-        var userStatuses = members.Append(initiatorMember.UserId)
-            .SelectConversationUserStatuses(conversation.Id);
+        var groupMembers = members.CreateGroupChatMembers(conversation.Id);
+        var userStatuses = members
+            .Append(initiatorMember.UserId)
+            .CreateConversationUserStatuses(conversation.Id);
         
-        var system = await _dbContext.MessengerUsers
-            .FirstOrNotFoundAsync(x => x.IdentityUserId == Guid.Empty, cancellationToken);
         _dbContext.ConversationMessages.Add(
             new ConversationMessage
             {
@@ -84,13 +76,27 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
                 TextContent = SystemMessagesTexts.GroupChatCreated,
                 SentAt = _dateTimeProvider.NowUtc,
                 Position = 0,
-                SenderId = system.Id
+                SenderId = Guid.Empty
             });
 
         _dbContext.GroupChatMembers.AddRange(groupMembers.Append(initiatorMember));
         _dbContext.ConversationUserStatuses.AddRange(userStatuses);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
         
-        return new CreatedResponse<Guid>(true, conversation.Id);
+        return new GroupCreatedResponse(conversation.Id, notAdded);
+    }
+
+    private async Task<(List<Guid>, NotAddedUsers)> GetInvitedMembers(IEnumerable<Guid> invitedIds, Guid initiatorId)
+    {
+        var clearIds = invitedIds.Distinct().Where(x => x != initiatorId).ToList();
+
+        var foundIds = await _dbContext.MessengerUsers
+            .Where(user => clearIds.Contains(user.Id))
+            .Select(user => user.Id)
+            .ToListAsync();
+
+        var notFoundIds = new NotAddedUsers(clearIds.Except(foundIds), InviteProblemMessages.NotFound);
+
+        return (foundIds, notFoundIds);
     }
 }

@@ -27,6 +27,14 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>SystemMessagesTexts.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Constants\ForbiddenErrorCodes.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>ForbiddenErrorCodes.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Constants\InviteProblemMessages.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>InviteProblemMessages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +52,16 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>SystemMessagesTexts.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Constants\ForbiddenErrorCodes.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ForbiddenErrorCodes.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Constants\InviteProblemMessages.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>InviteProblemMessages.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

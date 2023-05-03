@@ -1,5 +1,6 @@
 ﻿using Messenger.Conversations.GroupChats.Extensions;
-using Messenger.Core.Exceptions;
+using Messenger.Conversations.GroupChats.Models;
+using Messenger.Core.Constants;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Requests.Abstractions;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
 
-public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChatCommand, bool>
+public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChatCommand, NotAddedUsers>
 {
     private readonly IDbContext _dbContext;
 
@@ -17,7 +18,7 @@ public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChat
         _dbContext = dbContext;
     }
 
-    public async Task<bool> Handle(InviteToGroupChatCommand request, CancellationToken cancellationToken)
+    public async Task<NotAddedUsers> Handle(InviteToGroupChatCommand request, CancellationToken cancellationToken)
     {
         var conversation = await _dbContext.Conversations.FirstOrNotFoundAsync(
             conversation => conversation.Id == request.ConversationId
@@ -28,46 +29,52 @@ public class InviteToGroupChatCommandHandler : ICommandHandler<InviteToGroupChat
             .CheckForBanOrExcludeAndThrow()
             .CheckForPermissionsAndThrow(GroupMemberPermissions.InviteMembers);
 
-        var newMembers = await InviteNewAndChangeStatusOldMembers(request.InvitedMembers, conversation.Id);
+        var (newMembers, notAdded) =
+            await GetNewIdsAndChangeExcludeMembers(request.InvitedMembers.ToList(), conversation.Id);
 
-        var groupMembers = newMembers.SelectNewGroupChatMembers(conversation.Id);
+        var groupMembers = newMembers.CreateGroupChatMembers(conversation.Id);
 
-        var userStatuses = newMembers.SelectConversationUserStatuses(conversation.Id);
+        var userStatuses = newMembers.CreateConversationUserStatuses(conversation.Id);
         
         _dbContext.GroupChatMembers.AddRange(groupMembers);
         _dbContext.ConversationUserStatuses.AddRange(userStatuses);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
 
-        return true;
+        return notAdded;
     }
 
-    private async Task<List<Guid>> InviteNewAndChangeStatusOldMembers(IEnumerable<Guid> ids, Guid conversationId)
+    private async Task<(List<Guid>, NotAddedUsers)> GetNewIdsAndChangeExcludeMembers(List<Guid> ids, Guid conversationId)
     {
-        var newMembers = new List<Guid>();
-        
-        foreach (var userId in ids)
-        {
-            await _dbContext.MessengerUsers.AnyOrNotFoundAsync(
-                user => user.Id == userId);
+        var groupMembers = await _dbContext.GroupChatMembers
+            .Where(member => member.ConversationId == conversationId && ids.Contains(member.UserId))
+            .ToListAsync();
 
-            var member = await _dbContext.GroupChatMembers.FirstOrDefaultAsync(
-                x => x.ConversationId == conversationId && x.UserId == userId);
+        var groupMembersId = groupMembers.Select(member => member.UserId).ToList();
+
+        var newUsersId = await _dbContext.MessengerUsers
+            .Where(user => ids.Contains(user.Id) && !groupMembersId.Contains(user.Id))
+            .Select(user => user.Id)
+            .ToListAsync();
+
+        var notAddedIds = new NotAddedUsers(
+            ids.Except(newUsersId).Except(groupMembersId),
+            InviteProblemMessages.NotFound);
+
+        foreach (var member in groupMembers)
+        {
             switch (member)
             {
-                case null:
-                    newMembers.Add(userId);
-                    continue;
                 case {WasBanned: true}:
-                    throw new ForbiddenException("User is banned");
-                //TODO подумать какую кидать ошибку
-                case {WasExcluded: true}:
+                    notAddedIds.Add(member.Id, InviteProblemMessages.Banned);
+                    break;
+                case { WasExcluded: true}:
                     member.WasExcluded = false;
-                    continue;
-                //Пользователь является действующим участником чата
+                    break;
                 default:
-                    continue;
+                    notAddedIds.Add(member.Id, InviteProblemMessages.ChatMember);
+                    break;
             }
         }
-        return newMembers;
+        return (newUsersId, notAddedIds);
     }
 }

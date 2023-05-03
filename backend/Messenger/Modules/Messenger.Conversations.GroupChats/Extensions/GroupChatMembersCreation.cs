@@ -6,7 +6,7 @@ namespace Messenger.Conversations.GroupChats.Extensions;
 
 public static class GroupChatMembersCreation
 {
-    public static IEnumerable<GroupChatMember> SelectNewGroupChatMembers(
+    public static IEnumerable<GroupChatMember> CreateGroupChatMembers(
         this IEnumerable<Guid> userIds,
         Guid conversationId) =>
         userIds.Select(
@@ -21,7 +21,7 @@ public static class GroupChatMembersCreation
                 Permissions = GroupChatPermissionPresets.NewMember
             });
 
-    public static IEnumerable<ConversationUserStatus> SelectConversationUserStatuses(
+    public static IEnumerable<ConversationUserStatus> CreateConversationUserStatuses(
         this IEnumerable<Guid> userIds,
         Guid conversationId) =>
         userIds

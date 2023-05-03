@@ -6,6 +6,7 @@ using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.MessageActions.GroupDeleteMessage;
 
@@ -64,11 +65,12 @@ public class GroupDeleteMessageActionHandler : IMessageActionHandler<DeleteMessa
         if (userIds == null)
             return;
 
-        foreach (var userId in userIds)
-        {
-            var status = await _dbContext.ConversationUserStatuses
-                .FirstOrNotFoundAsync(status => status.UserId == userId && status.ConversationId == conversationId);
+        var memberStatuses = await _dbContext.ConversationUserStatuses
+            .Where(status => status.ConversationId == conversationId && userIds.Contains(status.UserId))
+            .ToListAsync();
 
+        foreach (var status in memberStatuses)
+        {
             status.SoftDeletedCount--;
         }
     }

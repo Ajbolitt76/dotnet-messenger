@@ -1,21 +1,21 @@
 ﻿using Messenger.Conversations.GroupChats.Extensions;
-using Messenger.Conversations.GroupChats.Models;
+using Messenger.Core;
 using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Requests.Abstractions;
 
-namespace Messenger.Conversations.GroupChats.Features.BanOrKickGroupMember;
+namespace Messenger.Conversations.GroupChats.Features.ExcludeGroupMember;
 
-public class BanOrKickGroupMemberCommandHandler : ICommandHandler<BanOrKickGroupMemberCommand, bool>
+public class ExcludeGroupMemberCommandHandler : ICommandHandler<ExcludeGroupMemberCommand, bool>
 {
     private readonly IDbContext _dbContext;
 
-    public BanOrKickGroupMemberCommandHandler(IDbContext dbContext)
+    public ExcludeGroupMemberCommandHandler(IDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<bool> Handle(BanOrKickGroupMemberCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(ExcludeGroupMemberCommand request, CancellationToken cancellationToken)
     {
         var fromUser =
             (await _dbContext.GroupChatMembers.GetGroupMemberOrThrowAsync(request.FromUserId, request.ConversationId))
@@ -27,9 +27,9 @@ public class BanOrKickGroupMemberCommandHandler : ICommandHandler<BanOrKickGroup
             request.ConversationId);
 
         if ((toUser.IsAdmin && !fromUser.IsOwner) || toUser.IsOwner)
-            throw new ForbiddenException("Not enough permissions to kick/ban admin");
+            throw new ForbiddenException(ForbiddenErrorCodes.CantExcludeAdmin);
 
-        if (request.Penalty == PenaltyScopes.Ban)
+        if (request.Ban)
             toUser.WasBanned = true;
         
         toUser.WasExcluded = true;

@@ -1,4 +1,5 @@
 ﻿using Messenger.Conversations.GroupChats.Extensions;
+using Messenger.Core;
 using Messenger.Core.Exceptions;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
 using Messenger.Core.Requests.Abstractions;
@@ -25,7 +26,7 @@ public class GivePermissionsCommandHandler : ICommandHandler<GivePermissionsComm
             .CheckForBanOrExcludeAndThrow();
 
         if (toUser.IsOwner)
-            throw new ForbiddenException("Can't change owner's permissions");
+            throw new ForbiddenException(ForbiddenErrorCodes.CantChangeOwnerPermissions);
 
         var permissions = request.Permissions.Aggregate(
             GroupMemberPermissions.None,

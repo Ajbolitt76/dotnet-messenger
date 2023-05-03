@@ -4,30 +4,28 @@ using Messenger.Core.Services;
 using Messenger.Infrastructure.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace Messenger.Conversations.GroupChats.Features.BanOrKickGroupMember;
+namespace Messenger.Conversations.GroupChats.Features.ExcludeGroupMember;
 
-public class BanOrKickGroupMemberEndpoint : IEndpoint
+public class ExcludeGroupMemberEndpoint : IEndpoint
 {
-    public record BanOrKickGroupMemberDto(PenaltyScopes Penalty);
+    public record ExcludeGroupMemberDto(bool Ban);
     
     public void Map(IEndpointRouteBuilder endpoints)
     {
-        //TODO использовать enum в роуте, чтобы получить conversationId/ban/userId
         endpoints.MapPost(
-                "{conversationId:guid}/penalty/{toUserId:guid}",
+                "{conversationId:guid}/exclude/{toUserId:guid}",
                 async (
                         Guid conversationId,
-                        BanOrKickGroupMemberDto dto,
+                        ExcludeGroupMemberDto dto,
                         Guid toUserId,
                         IMediator mediator,
                         IUserService userService)
                     => Results.Ok(
                         await mediator.Send(
-                            new BanOrKickGroupMemberCommand(
-                                dto.Penalty,
+                            new ExcludeGroupMemberCommand(
+                                dto.Ban,
                                 userService.GetUserIdOrThrow(),
                                 toUserId,
                                 conversationId))))
