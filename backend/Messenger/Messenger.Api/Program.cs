@@ -9,7 +9,6 @@ using Messenger.Api.Modules;
 using Messenger.Api.Swagger;
 using Messenger.Api.Validation;
 using Messenger.Auth;
-using Messenger.Auth.Services;
 using Messenger.Conversations;
 using Messenger.Conversations.Channel;
 using Messenger.Conversations.Common;
@@ -21,7 +20,7 @@ using Messenger.Data.Seeder;
 using Messenger.Files;
 using Messenger.Files.Shared;
 using Messenger.Infrastructure;
-using Messenger.Infrastructure.Services;
+using Messenger.Subscriptions;
 using Messenger.User;
 using Serilog;
 
@@ -43,6 +42,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<PrivateMessagesModule>()
     .AddModule<GroupChatsModule>()
     .AddModule<ChannelModule>()
+    .AddModule<SubscriptionsModule>()
     .SetTypeAdapter(maps)
     .Build();
 

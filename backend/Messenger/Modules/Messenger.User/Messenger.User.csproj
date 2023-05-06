@@ -10,6 +10,7 @@
         <ProjectReference Include="..\..\Messenger.Core\Messenger.Core.csproj" />
         <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
         <ProjectReference Include="..\Messenger.Files.Shared\Messenger.Files.Shared.csproj" />
+        <ProjectReference Include="..\Messenger.SubscriptionPlans\Messenger.SubscriptionPlans.csproj" />
     </ItemGroup>
 
     <ItemGroup>

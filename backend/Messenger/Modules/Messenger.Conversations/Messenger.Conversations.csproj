@@ -13,6 +13,7 @@
       <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
       <ProjectReference Include="..\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />
       <ProjectReference Include="..\Messenger.Conversations.PrivateMessages\Messenger.Conversations.PrivateMessages.csproj" />
+        <ProjectReference Include="..\Messenger.SubscriptionPlans\Messenger.SubscriptionPlans.csproj" />
     </ItemGroup>
 
 </Project>

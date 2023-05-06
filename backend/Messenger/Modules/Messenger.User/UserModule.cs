@@ -5,6 +5,7 @@ using Messenger.Core.Model.UserAggregate;
 using Messenger.Files.Shared.Extensions;
 using Messenger.Infrastructure.Modules;
 using Messenger.User.Feature.GetProfileMainData;
+using Messenger.User.Feature.GetUserSubscriptionPlan;
 
 namespace Messenger.User;
 

@@ -3,6 +3,7 @@ using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Microsoft.EntityFrameworkCore;
 using Messenger.Core.Model.FileAggregate;
+using Messenger.Core.Model.SubscriptionAggregate;
 using Messenger.Core.Model.UserAggregate;
 
 namespace Messenger.Core.Requests.Abstractions;
@@ -32,6 +33,8 @@ public interface IDbContext
     public DbSet<ChannelMember> ChannelMembers { get; }
     
     public DbSet<PersonalChatMember> PersonalChatMembers { get; }
+    
+    public DbSet<UserSubscription> UsersSubscriptions { get; set; }
 
     public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
 }
