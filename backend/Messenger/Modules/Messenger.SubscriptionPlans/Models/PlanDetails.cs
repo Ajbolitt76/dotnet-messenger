@@ -4,14 +4,14 @@ public class PlanDetails
 {
     public decimal PricePerMonth { get; set; }
     public uint MessageCharsLimit { get; set; }
-    public uint UploadPointsAmtMonthLimit { get; set; }
+    public uint AttachmentsCostPerMessage { get; set; }
     public bool IsStatusEnabled { get; set; }
 
-    public PlanDetails(decimal pricePerMonth, uint messageCharsLimit, uint mediaAmtMonthLimit, bool isStatusEnabled)
+    public PlanDetails(decimal pricePerMonth, uint messageCharsLimit, uint attachmentsCostPerMessage, bool isStatusEnabled)
     {
         PricePerMonth = pricePerMonth;
         MessageCharsLimit = messageCharsLimit;
-        UploadPointsAmtMonthLimit = mediaAmtMonthLimit;
+        AttachmentsCostPerMessage = attachmentsCostPerMessage;
         IsStatusEnabled = isStatusEnabled;
     }
 }

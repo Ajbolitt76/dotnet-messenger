@@ -6,7 +6,7 @@ public class GetUserSubscriptionPlanQueryResponse
     public uint Plan { get; set; }
     public decimal? PricePerMonth { get; set; }
     public uint MessageCharsLimit { get; set; }
-    public uint UploadPointsAmtMonthLimit { get; set; }
+    public uint AttachmentsCostPerMessage { get; set; }
     public bool IsStatusEnabled { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? ExpiresAt { get; set; }

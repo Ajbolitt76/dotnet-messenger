@@ -2,7 +2,8 @@
 
 public enum Plan : uint
 {
-    Broke = 1,
+    Broke = 0,
+    Light = 1,
     Standard = 2, 
     Premium = 3
 }
