@@ -18,10 +18,13 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="PersonalChatCreated" xml:space="preserve">
-        <value>PERSONAL_CHAT_CREATED</value>
+    <data name="NotFound" xml:space="preserve">
+        <value>USER_NOT_FOUND</value>
     </data>
-    <data name="GroupChatCreated" xml:space="preserve">
-        <value>GROUP_CHAT_CREATED</value>
+    <data name="Banned" xml:space="preserve">
+        <value>USER_IS_BANNED</value>
+    </data>
+    <data name="ChatMember" xml:space="preserve">
+        <value>USER_ALREADY_CHAT_MEMBER</value>
     </data>
 </root>

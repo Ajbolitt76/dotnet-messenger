@@ -9,4 +9,4 @@ public abstract record BaseMessageListProjection(
     IReadOnlyCollection<IAttachment>? Attachments,
     DateTime SentAt,
     DateTime? EditedAt,
-    uint Positon);
+    uint Position);

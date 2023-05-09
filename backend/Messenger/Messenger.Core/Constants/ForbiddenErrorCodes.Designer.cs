@@ -21,14 +21,14 @@ namespace Messenger.Core {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ErrorCodes {
+    public class ForbiddenErrorCodes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ErrorCodes() {
+        internal ForbiddenErrorCodes() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace Messenger.Core {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Messenger.Core.Constants.ErrorCodes", typeof(ErrorCodes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Messenger.Core.Constants.ForbiddenErrorCodes", typeof(ForbiddenErrorCodes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,38 +60,65 @@ namespace Messenger.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ALREADY_EXISTS.
+        ///   Looks up a localized string similar to CANT_CHANGE_OWNER_PERMISSIONS.
         /// </summary>
-        public static string AlreadyExistsError {
+        public static string CantChangeOwnerPermissions {
             get {
-                return ResourceManager.GetString("AlreadyExistsError", resourceCulture);
+                return ResourceManager.GetString("CantChangeOwnerPermissions", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FORBIDDEN.
+        ///   Looks up a localized string similar to CANT_EXCLUDE_ADMIN.
         /// </summary>
-        public static string ForbiddenError {
+        public static string CantExcludeAdmin {
             get {
-                return ResourceManager.GetString("ForbiddenError", resourceCulture);
+                return ResourceManager.GetString("CantExcludeAdmin", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NOT_FOUND.
+        ///   Looks up a localized string similar to NOT_CHAT_MEMBER.
         /// </summary>
-        public static string NotFoundError {
+        public static string NotChatMember {
             get {
-                return ResourceManager.GetString("NotFoundError", resourceCulture);
+                return ResourceManager.GetString("NotChatMember", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VALIDATION_FAILED.
+        ///   Looks up a localized string similar to NOT_ENOUGH_PERMISSIONS.
         /// </summary>
-        public static string ValidationFailedError {
+        public static string NotEnoughPermissions {
             get {
-                return ResourceManager.GetString("ValidationFailedError", resourceCulture);
+                return ResourceManager.GetString("NotEnoughPermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WAS_BANNED.
+        /// </summary>
+        public static string WasBanned {
+            get {
+                return ResourceManager.GetString("WasBanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WAS_EXCLUDED.
+        /// </summary>
+        public static string WasExcluded {
+            get {
+                return ResourceManager.GetString("WasExcluded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WAS_MUTED.
+        /// </summary>
+        public static string WasMuted {
+            get {
+                return ResourceManager.GetString("WasMuted", resourceCulture);
             }
         }
     }

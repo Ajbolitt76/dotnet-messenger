@@ -1,17 +1,19 @@
-﻿using Messenger.Core.Constants;
+﻿using Messenger.Conversations.GroupChats.Extensions;
+using Messenger.Conversations.GroupChats.Models;
+using Messenger.Core.Constants;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 using Messenger.Core.Model.ConversationAggregate.Members;
 using Messenger.Core.Model.ConversationAggregate.Permissions;
-using Messenger.Core.Model.UserAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Requests.Responses;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Conversations.GroupChats.Features.CreateGroupChat;
 
-public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatCommand, CreatedResponse<Guid>>
+public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatCommand, GroupCreatedResponse>
 {
     private readonly IDbContext _dbContext;
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -22,24 +24,15 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<CreatedResponse<Guid>> Handle(
+    public async Task<GroupCreatedResponse> Handle(
         CreateGroupChatCommand request,
         CancellationToken cancellationToken)
     {
         var initiator = await _dbContext.MessengerUsers.FirstOrNotFoundAsync(
-                  x => x.Id == request.InitiatorId,
+                  user => user.Id == request.InitiatorId,
                   cancellationToken: cancellationToken);
         
-        var members = new List<MessengerUser>();
-    
-        foreach (var userId in request.InvitedMembers)
-        { 
-            var member = await _dbContext.MessengerUsers.FirstOrNotFoundAsync(
-              x => x.Id == userId, 
-              cancellationToken: cancellationToken); 
-            members.Add(member);
-        }
-
+        var (members, notAdded) = await GetInvitedMembers(request.InvitedMemberIds, request.InitiatorId);
         // TODO: Blacklisting
 
         var conversation = new Conversation
@@ -71,31 +64,39 @@ public class CreateGroupChatCommandHandler : ICommandHandler<CreateGroupChatComm
             Permissions = GroupChatPermissionPresets.Creator
         };
 
-        var groupMembers = members.Select(
-            user => new GroupChatMember
-            {
-                ConversationId = conversation.Id,
-                UserId = user.Id,
-                WasExcluded = false,
-                WasBanned = false,
-                IsAdmin = false,
-                IsOwner = false,
-                Permissions = GroupChatPermissionPresets.NewMember
-            });
+        var groupMembers = members.CreateGroupChatMembers(conversation.Id);
+        var userStatuses = members
+            .Append(initiatorMember.UserId)
+            .CreateConversationUserStatuses(conversation.Id);
         
         _dbContext.ConversationMessages.Add(
-            new ConversationMessage()
+            new ConversationMessage
             {
                 ConversationId = conversation.Id,
-                TextContent = SystemMessagesTexts.PersonalChatCreated,
+                TextContent = SystemMessagesTexts.GroupChatCreated,
                 SentAt = _dateTimeProvider.NowUtc,
                 Position = 0,
                 SenderId = Guid.Empty
             });
 
         _dbContext.GroupChatMembers.AddRange(groupMembers.Append(initiatorMember));
+        _dbContext.ConversationUserStatuses.AddRange(userStatuses);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
         
-        return new CreatedResponse<Guid>(true, conversation.Id);
+        return new GroupCreatedResponse(conversation.Id, notAdded);
+    }
+
+    private async Task<(List<Guid>, NotAddedUsers)> GetInvitedMembers(IEnumerable<Guid> invitedIds, Guid initiatorId)
+    {
+        var clearIds = invitedIds.Distinct().Where(x => x != initiatorId).ToList();
+
+        var foundIds = await _dbContext.MessengerUsers
+            .Where(user => clearIds.Contains(user.Id))
+            .Select(user => user.Id)
+            .ToListAsync();
+
+        var notFoundIds = new NotAddedUsers(clearIds.Except(foundIds), InviteProblemMessages.NotFound);
+
+        return (foundIds, notFoundIds);
     }
 }

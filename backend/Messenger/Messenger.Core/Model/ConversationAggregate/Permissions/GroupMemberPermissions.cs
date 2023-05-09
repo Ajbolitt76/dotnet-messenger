@@ -9,6 +9,7 @@ public enum GroupMemberPermissions
     ChangeGroupInfo = 4,
     InviteMembers = 8,
     DeleteMessages = 16,
-    BanMembers = 32,
-    AddAdmins = 64
+    MuteMembers = 32,
+    BanMembers = 64,
+    AddAdmins = 128
 }

@@ -27,4 +27,7 @@
     <data name="AlreadyExistsError" xml:space="preserve">
         <value>ALREADY_EXISTS</value>
     </data>
+    <data name="ForbiddenError" xml:space="preserve">
+        <value>FORBIDDEN</value>
+    </data>
 </root>

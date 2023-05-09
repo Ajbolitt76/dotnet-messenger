@@ -1,4 +1,12 @@
-﻿using Messenger.Conversations.GroupChats.Features.CreateGroupChat;
+﻿using Messenger.Conversations.GroupChats.Features.ChangeGroupChatInfo;
+using Messenger.Conversations.GroupChats.Features.CreateGroupChat;
+using Messenger.Conversations.GroupChats.Features.ExcludeGroupMember;
+using Messenger.Conversations.GroupChats.Features.GetGroupChatInfo;
+using Messenger.Conversations.GroupChats.Features.GetGroupChatMemberInfo;
+using Messenger.Conversations.GroupChats.Features.GivePermissions;
+using Messenger.Conversations.GroupChats.Features.InviteToGroupChat;
+using Messenger.Conversations.GroupChats.Features.MuteGroupMember;
+using Messenger.Conversations.GroupChats.Features.UnbanGroupMember;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +21,14 @@ public class GroupChatsRoutes : IEndpointRoot
     {
         endpoints.MapGroup("/group-chat")
             .WithTags("Групповые чаты")
-            .AddEndpoint<CreateGroupChatEndpoint>();
+            .AddEndpoint<GetGroupChatInfoEndpoint>()
+            .AddEndpoint<CreateGroupChatEndpoint>()
+            .AddEndpoint<InviteToGroupChatEndpoint>()
+            .AddEndpoint<ExcludeGroupMemberEndpoint>()
+            .AddEndpoint<GivePermissionsEndpoint>()
+            .AddEndpoint<MuteGroupMemberEndpoint>()
+            .AddEndpoint<ChangeGroupInfoEndpoint>()
+            .AddEndpoint<GetGroupChatMemberInfoEndpoint>()
+            .AddEndpoint<UnbanGroupMemberEndpoint>();
     }
 }

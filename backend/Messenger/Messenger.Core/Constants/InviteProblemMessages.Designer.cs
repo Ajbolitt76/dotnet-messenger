@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Messenger.Core {
+namespace Messenger.Core.Constants {
     using System;
     
     
@@ -21,14 +21,14 @@ namespace Messenger.Core {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ErrorCodes {
+    public class InviteProblemMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ErrorCodes() {
+        internal InviteProblemMessages() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace Messenger.Core {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Messenger.Core.Constants.ErrorCodes", typeof(ErrorCodes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Messenger.Core.Constants.InviteProblemMessages", typeof(InviteProblemMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,38 +60,29 @@ namespace Messenger.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ALREADY_EXISTS.
+        ///   Looks up a localized string similar to USER_IS_BANNED.
         /// </summary>
-        public static string AlreadyExistsError {
+        public static string Banned {
             get {
-                return ResourceManager.GetString("AlreadyExistsError", resourceCulture);
+                return ResourceManager.GetString("Banned", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FORBIDDEN.
+        ///   Looks up a localized string similar to USER_ALREADY_CHAT_MEMBER.
         /// </summary>
-        public static string ForbiddenError {
+        public static string ChatMember {
             get {
-                return ResourceManager.GetString("ForbiddenError", resourceCulture);
+                return ResourceManager.GetString("ChatMember", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NOT_FOUND.
+        ///   Looks up a localized string similar to USER_NOT_FOUND.
         /// </summary>
-        public static string NotFoundError {
+        public static string NotFound {
             get {
-                return ResourceManager.GetString("NotFoundError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VALIDATION_FAILED.
-        /// </summary>
-        public static string ValidationFailedError {
-            get {
-                return ResourceManager.GetString("ValidationFailedError", resourceCulture);
+                return ResourceManager.GetString("NotFound", resourceCulture);
             }
         }
     }
