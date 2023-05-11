@@ -52,17 +52,28 @@ public class CreateChannelCommandHandler : ICommandHandler<CreateChannelCommand,
             Permissions = ChannelPermissionPresets.Creator
         };
         
+        var status = new ConversationUserStatus
+        {
+            ConversationId = conversation.Id,
+            UserId = creator.Id,
+            ReadTo = -1,
+            DeletedTo = null,
+            SoftDeletedCount = 0,
+            IsDeletedByUser = false
+        };
+        
         _dbContext.ConversationMessages.Add(
             new ConversationMessage()
             {
                 ConversationId = conversation.Id,
-                TextContent = SystemMessagesTexts.PersonalChatCreated,
+                TextContent = SystemMessagesTexts.ChannelCreated,
                 SentAt = _dateTimeProvider.NowUtc,
                 Position = 0,
                 SenderId = Guid.Empty
             });
         
         _dbContext.ChannelMembers.Add(creatorMember);
+        _dbContext.ConversationUserStatuses.Add(status);
         await _dbContext.SaveEntitiesAsync(cancellationToken);
         
         return new CreatedResponse<Guid>(true, conversation.Id);

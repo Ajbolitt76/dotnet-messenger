@@ -1,4 +1,5 @@
-﻿using Messenger.Conversations.Common.Extensions;
+﻿using Messenger.Conversations.Channel.Extensions;
+using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.GroupChats.Extensions;
 using Messenger.Conversations.PrivateMessages.Extensions;
 using Messenger.Infrastructure.Modules;
@@ -15,6 +16,7 @@ public class ConversationsModule : IModule
             .AddMessageHandlers()
             .AddPrivateMessageHandlers()
             .AddGroupMessageHandlers()
+            .AddChannelMessageHandlers()
             .Apply();
     }
 }

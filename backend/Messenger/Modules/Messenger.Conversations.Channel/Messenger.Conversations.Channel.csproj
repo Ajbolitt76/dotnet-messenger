@@ -8,10 +8,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
+      <ProjectReference Include="..\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Features" />
+      <Folder Include="MessageActions\ChannelDeleteMessage\" />
+      <Folder Include="MessageActions\ChannelGetMessageList\" />
     </ItemGroup>
 
 </Project>
