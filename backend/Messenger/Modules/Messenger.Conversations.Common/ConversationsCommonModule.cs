@@ -9,6 +9,5 @@ public class ConversationsCommonModule : IModule
 {
     public static void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
-        
     }
 }

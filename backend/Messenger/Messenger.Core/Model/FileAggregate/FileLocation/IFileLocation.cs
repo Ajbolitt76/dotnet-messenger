@@ -1,5 +1,5 @@
 ﻿namespace Messenger.Core.Model.FileAggregate.FileLocation;
 
-public interface IFileLocation
+public interface IFileLocation : IHaveDiscriminator
 {
 }

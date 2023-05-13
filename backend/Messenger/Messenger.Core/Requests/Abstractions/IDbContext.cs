@@ -4,34 +4,37 @@ using Messenger.Core.Model.ConversationAggregate.Members;
 using Microsoft.EntityFrameworkCore;
 using Messenger.Core.Model.FileAggregate;
 using Messenger.Core.Model.UserAggregate;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Messenger.Core.Requests.Abstractions;
 
 public interface IDbContext
 {
-    public DbSet<MessengerUser> MessengerUsers { get; }
+    DatabaseFacade Database { get; }
     
-    public DbSet<SystemFile> Files { get; }
-    
-    public DbSet<UploadingFile> UploadingFiles { get; }
-    
-    public DbSet<Conversation> Conversations { get; }
-    
-    public DbSet<ConversationMessage> ConversationMessages { get; }
-    
-    public DbSet<ConversationUserStatus> ConversationUserStatuses { get; }
+    DbSet<MessengerUser> MessengerUsers { get; }
 
-    public DbSet<GroupChatInfo> GroupChatInfos { get; }
-    
-    public DbSet<PersonalChatInfo> PersonalChatInfos { get; }
-    
-    public DbSet<ChannelInfo> ChannelInfos { get; }
+    DbSet<SystemFile> Files { get; }
 
-    public DbSet<GroupChatMember> GroupChatMembers { get; }
-    
-    public DbSet<ChannelMember> ChannelMembers { get; }
-    
-    public DbSet<PersonalChatMember> PersonalChatMembers { get; }
+    DbSet<UploadingFile> UploadingFiles { get; }
 
-    public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
+    DbSet<Conversation> Conversations { get; }
+
+    DbSet<ConversationMessage> ConversationMessages { get; }
+
+    DbSet<ConversationUserStatus> ConversationUserStatuses { get; }
+
+    DbSet<GroupChatInfo> GroupChatInfos { get; }
+
+    DbSet<PersonalChatInfo> PersonalChatInfos { get; }
+
+    DbSet<ChannelInfo> ChannelInfos { get; }
+
+    DbSet<GroupChatMember> GroupChatMembers { get; }
+
+    DbSet<ChannelMember> ChannelMembers { get; }
+
+    DbSet<PersonalChatMember> PersonalChatMembers { get; }
+
+    Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
 }

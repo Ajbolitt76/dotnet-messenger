@@ -1,11 +1,14 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Json;
-using Microsoft.Extensions.Options;
 using Messenger.Infrastructure.Extensions;
-using Messenger.Infrastructure.Json;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
-namespace Messenger.Api.Configuration;
+namespace Messenger.Infrastructure.Json;
 
 public static class ConfigureJson
 {
@@ -30,11 +33,17 @@ public static class ConfigureJson
                 opts,
                 environment,
                 sp.GetRequiredService<IOptions<PolymorphismJsonOptions>>()));
+        
+        services.ConfigureWithServices<JsonHubProtocolOptions>(
+            (opts, sp) => SetJsonProperties(
+                opts.PayloadSerializerOptions,
+                environment,
+                sp.GetRequiredService<IOptions<PolymorphismJsonOptions>>()));
 
         return services;
     }
 
-    private static void SetJsonProperties(
+    public static void SetJsonProperties(
         JsonSerializerOptions options,
         IWebHostEnvironment environment,
         IOptions<PolymorphismJsonOptions> polyOpts)

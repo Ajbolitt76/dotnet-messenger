@@ -5,5 +5,5 @@
 /// </summary>
 public interface IHaveDiscriminator
 {
-    public static abstract string Discriminator { get; }
+    public static virtual string Discriminator => "error";
 }

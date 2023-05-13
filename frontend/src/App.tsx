@@ -14,6 +14,7 @@ import { ModalProvider } from './components/Modal'
 
 import './App.css'
 import "@vkontakte/vkui/dist/vkui.css";
+import { RealtimeRoot } from './features/realtime/components/RealtimeRoot';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
                   <QueryClientProvider client={queryClient}>
                     <ModalProvider>
                       <AuthProvider>
+                        <RealtimeRoot />
                         <Notifications />
                         <AppRouter />
                       </AuthProvider>

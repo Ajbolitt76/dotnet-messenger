@@ -1,19 +1,21 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useConversationMessages } from "../api/getConversationMessages"
 import { useParams } from "react-router-dom";
 import { Group, Input, WriteBar, WriteBarIcon } from "@vkontakte/vkui";
 import { useAuth } from "@/lib/AuthProvider";
 import clsx from "clsx";
 import { ConversationInfoInstance, ConversationMessageInstance, MessageState } from "../stores/MessagesStore";
+import { Icon16CheckDoubleOutline, Icon16CheckOutline, Icon16ClockOutline, Icon16ErrorCircleFill } from "@vkontakte/icons";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/RootStore";
 import { nanoid } from "nanoid";
 import dayjs from "dayjs";
-import { Icon16CheckDoubleOutline, Icon16CheckOutline, Icon16ClockOutline, Icon16ErrorCircleFill } from "@vkontakte/icons";
+import styles from './MessagesView.module.pcss';
 
 export const MessagesView: React.FC = observer(() => {
   const { chatId } = useParams<{ chatId: string }>();
   const { conversationsStore: { conversations } } = useStore();
+  const messageRef = useRef<HTMLDivElement>(null);
 
   if (chatId == null)
     return (<></>)
@@ -21,11 +23,12 @@ export const MessagesView: React.FC = observer(() => {
 
   const { isFetchingNextPage, isError, hasNextPage, fetchNextPage } = useConversationMessages(chatId!);
 
+
   return (
     <Group className="w-1/2 min-w-[300px] flex flex-col justify-end" mode="plain">
-      <div className="h-full max-h-full overflow-y-auto flex flex-col justify-end pb-2">
+      <div className="h-full max-h-full overflow-y-auto flex flex-col-reverse pb-2 pr-2">
         {
-          conversation?.orderedMessages.map(y => (<MessageItemView message={y!} key={y!.messageId} />))
+          conversation?.orderedMessages.map(y => (<MessageItemView message={y!} key={y!.messageId} />)).reverse()
         }
       </div>
       <TgWriteBar conversation={conversation!} />
@@ -84,6 +87,7 @@ const MessageItemView: React.FC<{
 
   return (
     <div className={clsx(
+      styles["message-item"],
       "flex flex-col bg-gray-800 w-fit px-2 py-1 rounded-lg mb-1 max-w-[60%]",
       ownMessage && "self-end",
       message.isSystem && "self-center")}>

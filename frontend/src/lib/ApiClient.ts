@@ -1,6 +1,7 @@
 import { LoginResponseDto } from '@/features/user/api/login';
 import ky, { HTTPError } from 'ky';
 import { ApiError } from './ApiTypes';
+import { realtimeConnection } from '@/features/realtime/utils/realtimeConnection';
 
 class TokenManager {
   private token?: string | null = null;
@@ -42,6 +43,8 @@ export const apiClient = ky.extend({
       request => {
         if(tokenStore.Token)
           request.headers.set('Authorization', `Bearer ${tokenStore.Token}`);
+        if(realtimeConnection.connection.connectionId)
+          request.headers.set('Realtime-Connection', realtimeConnection.connection.connectionId);
       }
     ],
     afterResponse: [

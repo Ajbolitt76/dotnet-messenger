@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@microsoft/signalr": "^7.0.5",
     "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
     "@tanstack/react-query": "^5.0.0-alpha.19",
     "@vkontakte/icons": "^2.3.0",
@@ -36,7 +37,7 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@types/lodash": "^4.14.191",
-    "@types/node": "^18.11.16",
+    "@types/node": "^18.16.8",
     "@types/react": "^18.0.37",
     "@types/react-dom": "latest",
     "@types/react-modal": "^3.13.1",

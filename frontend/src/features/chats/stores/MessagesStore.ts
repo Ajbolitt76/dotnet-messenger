@@ -80,6 +80,20 @@ export const MessageStore = types.model({
       return res;
     })
   },
+  addNewMessages(data: GetMessagesResponse){
+    const parsed = data.messages.map(x => {
+      if(self.messages.has(x.messageId))
+        return null as any;
+      const res = self.messages.put({
+        ...x,
+        sentAt: new Date(x.sentAt),
+        editedAt: x.editedAt ? new Date(x.editedAt) : null,
+      });
+      return res;
+    }).filter(x => x != null)
+
+    self.orderedMessages.unshift(...parsed);
+  },
   addMessage(msg: SnapshotIn<typeof ConversationMessage>) {
     const res = self.messages.put(msg);
     self.orderedMessages.unshift(res);
@@ -127,7 +141,8 @@ const ConversationInfo = types.model({
   title: types.string,
   type: types.enumeration<ConversationTypes>("ConversationTypes", Object.values(ConversationTypes)),
   initialLastMessage: types.frozen<LastMessageInfo>(),
-  messageStore: types.reference(MessageStore)
+  messageStore: types.reference(MessageStore),
+  unreadCount: types.optional(types.number, 0)
 })
   .actions(self => ({
     processMessageBatch(data: GetMessagesResponse) {
