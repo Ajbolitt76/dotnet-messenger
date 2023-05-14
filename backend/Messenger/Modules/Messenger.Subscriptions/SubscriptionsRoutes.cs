@@ -1,5 +1,6 @@
 ﻿using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Extensions;
+using Messenger.Subscriptions.Features.GetSubscriptionPlans;
 using Messenger.Subscriptions.Features.PurchaseSubscriptionCommand;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +14,7 @@ public class SubscriptionsRoutes : IEndpointRoot
     {
         endpoints.MapGroup("/subscriptions")
             .WithTags("Подписки")
-            .AddEndpoint<PurchaseSubscriptionEndpoint>();
+            .AddEndpoint<PurchaseSubscriptionEndpoint>()
+            .AddEndpoint<GetSubscriptionPlansEndpoint>();
     }
 }

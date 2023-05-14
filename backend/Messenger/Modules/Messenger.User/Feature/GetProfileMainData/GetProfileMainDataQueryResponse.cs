@@ -1,3 +1,5 @@
+using Messenger.SubscriptionPlans.Enums;
+
 namespace Messenger.User.Feature.GetProfileMainData;
 
 public class GetProfileMainDataQueryResponse
@@ -8,6 +10,5 @@ public class GetProfileMainDataQueryResponse
     public string Name { get; set; }
     public string? Status { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    // 0 если чел без подписки или срок истек
-    public uint SubscriptionPlan { get; set; }
+    public Plan SubscriptionPlan { get; set; }
 }

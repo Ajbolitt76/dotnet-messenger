@@ -6,6 +6,7 @@ using Messenger.Core.Model.UserAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Core.Services;
 using Messenger.Infrastructure.Extensions;
+using Messenger.SubscriptionPlans.Enums;
 
 namespace Messenger.User.Feature.GetProfileMainData;
 
@@ -34,8 +35,7 @@ public class GetProfileMainDataQueryHandler : IQueryHandler<GetProfileMainDataQu
         
         var subscription = await _dbContext.UsersSubscriptions.FirstOrDefaultAsync(x => x.UserId == user.Id && x.ExpiresAt > _dateTimeProvider.NowUtc);
 
-        if (subscription != null)
-            response.SubscriptionPlan = subscription.Plan;
+        response.SubscriptionPlan = subscription is null ? Plan.Broke : (Plan) subscription.Plan;
         
         return response;
     }

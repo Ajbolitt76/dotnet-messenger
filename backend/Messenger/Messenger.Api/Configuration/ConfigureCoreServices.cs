@@ -13,6 +13,7 @@ public static class ConfigureCoreServices
         services.AddMediatR(typeof(IPipelineBehavior<,>).Assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(MessageValidationBehaviour<,>));
         services.AddScoped<IUserService, UserService>();
         return services;
     }

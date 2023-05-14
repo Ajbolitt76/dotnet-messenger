@@ -32,7 +32,7 @@ public class GetUserSubscriptionPlanQueryHandler : IQueryHandler<GetUserSubscrip
 
         var subscriptionDetails = Plans.PlansDict[(Plan)userSubscription.Plan];
         var response = _mapper.Map<GetUserSubscriptionPlanQueryResponse>(subscriptionDetails);
-        response.Plan = userSubscription.Plan;
+        response.Plan = (Plan) userSubscription.Plan;
         response.CreatedAt = userSubscription.CreatedAt;
         response.ExpiresAt = userSubscription.ExpiresAt;
 

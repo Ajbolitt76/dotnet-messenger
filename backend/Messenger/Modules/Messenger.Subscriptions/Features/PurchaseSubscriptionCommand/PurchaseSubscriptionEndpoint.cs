@@ -13,7 +13,13 @@ namespace Messenger.Subscriptions.Features.PurchaseSubscriptionCommand;
 
 public class PurchaseSubscriptionEndpoint : IEndpoint
 {
-    public record PurchaseSubscriptionDto(string CardNumber, string ExpirationDate, string HolderName, string Cvv, uint Plan, uint Months);
+    public record PurchaseSubscriptionDto(
+        string CardNumber,
+        string ExpirationDate,
+        string HolderName,
+        string Cvv,
+        uint Plan,
+        uint Months);
 
     public class DtoValidator : AbstractValidator<PurchaseSubscriptionDto>
     {
