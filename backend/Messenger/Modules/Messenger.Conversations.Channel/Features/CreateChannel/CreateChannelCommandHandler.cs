@@ -49,6 +49,7 @@ public class CreateChannelCommandHandler : ICommandHandler<CreateChannelCommand,
             ConversationId = conversation.Id,
             UserId = creator.Id,
             IsAdmin = true,
+            IsOwner = true,
             Permissions = ChannelPermissionPresets.Creator
         };
         

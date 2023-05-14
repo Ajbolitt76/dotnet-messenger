@@ -1,5 +1,7 @@
-﻿using Messenger.Conversations.Channel.MessageActions.ChannelGetMessageList;
+﻿using Messenger.Conversations.Channel.MessageActions.ChannelDeleteMessage;
+using Messenger.Conversations.Channel.MessageActions.ChannelGetMessageList;
 using Messenger.Conversations.Channel.MessageActions.ChannelSendMessage;
+using Messenger.Conversations.Common.MessageActions;
 using Messenger.Conversations.Common.MessageActions.GetMessageList;
 using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Conversations.Common.Services;
@@ -12,7 +14,7 @@ public static class MessageHandlerRegistrarExtensions
     {        
         registrar.AddHandler<ChannelGetMessageListActionHandler, GetMessageListAction, GetMessageListActionResponse>();
         registrar.AddHandler<ChannelSendMessageActionHandler, SendMessageAction, SendMessageActionResponse>();
-        //registrar.AddHandler<GroupDeleteMessageActionHandler, DeleteMessageAction, bool>();
+        registrar.AddHandler<ChannelDeleteMessageActionHandler, DeleteMessageAction, bool>();
         return registrar;
     }
 }

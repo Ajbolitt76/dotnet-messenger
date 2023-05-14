@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <Folder Include="Features" />
-      <Folder Include="MessageActions\ChannelDeleteMessage\" />
     </ItemGroup>
 
 </Project>
