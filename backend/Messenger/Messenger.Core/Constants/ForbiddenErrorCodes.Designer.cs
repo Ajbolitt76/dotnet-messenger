@@ -96,6 +96,15 @@ namespace Messenger.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CANT_LEAVE_WHILE_OWNER.
+        /// </summary>
+        public static string OwnerCantLeaveChannel {
+            get {
+                return ResourceManager.GetString("OwnerCantLeaveChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WAS_BANNED.
         /// </summary>
         public static string WasBanned {

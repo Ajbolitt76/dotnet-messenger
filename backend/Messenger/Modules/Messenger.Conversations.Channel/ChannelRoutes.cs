@@ -4,6 +4,7 @@ using Messenger.Conversations.Channel.Features.GetChannelInfo;
 using Messenger.Conversations.Channel.Features.GetChannelMemberInfo;
 using Messenger.Conversations.Channel.Features.GiveChannelPermissions;
 using Messenger.Conversations.Channel.Features.JoinChannel;
+using Messenger.Conversations.Channel.Features.LeaveChannel;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +24,7 @@ public class ChannelRoutes : IEndpointRoot
             .AddEndpoint<GiveChannelPermissionsEndpoint>()
             .AddEndpoint<GetChannelInfoEndpoint>()
             .AddEndpoint<GetChannelMemberInfoEndpoint>()
-            .AddEndpoint<JoinChannelEndpoint>();
+            .AddEndpoint<JoinChannelEndpoint>()
+            .AddEndpoint<LeaveChannelEndpoint>();
     }
 }
