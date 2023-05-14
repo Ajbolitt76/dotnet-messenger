@@ -13,7 +13,7 @@ public class GetChannelInfoEndpoint : IEndpoint
     {
         endpoints.MapGet(
                 "/{conversationId:guid}/info",
-                async (Guid conversationId, IMediator mediator, IUserService userService)
+                async (Guid conversationId, IMediator mediator)
                     => Results.Ok(
                         await mediator.Send(
                             new GetChannelInfoQuery(conversationId))))
