@@ -13,6 +13,8 @@ public class MessengerUser : BaseEntity
     public required string UserName { get; set; }
 
     public required string Name { get; set; }
+    
+    public string? Status { get; set; }
 
     public required string PhoneNumber { get; set; }
 

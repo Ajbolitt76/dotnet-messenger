@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Npgsql;
 using Messenger.Core.Model.FileAggregate;
+using Messenger.Core.Model.SubscriptionAggregate;
 using Messenger.Core.Model.UserAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Data.Configuration;
@@ -47,6 +48,8 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<ChannelMember> ChannelMembers { get; private set; }
 
     public DbSet<PersonalChatMember> PersonalChatMembers { get; private set; }
+
+    public DbSet<UserSubscription> UsersSubscriptions { get; set; }
 
     public MessengerContext(
         DbContextOptions<MessengerContext> options,

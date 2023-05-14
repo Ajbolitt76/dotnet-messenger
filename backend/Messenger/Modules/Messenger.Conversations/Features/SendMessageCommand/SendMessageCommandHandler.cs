@@ -1,6 +1,4 @@
-﻿using Messenger.Conversations.Common.Abstractions;
-using Messenger.Conversations.Common.MessageActions;
-using Messenger.Conversations.Common.MessageActions.SendMessage;
+﻿using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Conversations.Common.Models;
 using Messenger.Conversations.Common.Services;
 using Messenger.Core.Exceptions;
@@ -43,9 +41,11 @@ public partial class SendMessageCommandHandler : ICommandHandler<SendMessageComm
             CouldNotFindHandler(conversation.ConversationType);
             throw new NotFoundException<SendMessageAction>();
         }
+
+        var messageData = new MessageData(request.TextContent);
         
         return new(await handler.Handle(
-            new SendMessageAction(conversation, new MessageData(request.TextContent)),
+            new SendMessageAction(conversation, messageData),
             cancellationToken));
     }
 

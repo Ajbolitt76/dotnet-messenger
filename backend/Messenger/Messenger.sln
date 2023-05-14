@@ -52,6 +52,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.Gro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Conversations.Channel", "Modules\Messenger.Conversations.Channel\Messenger.Conversations.Channel.csproj", "{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Subscriptions", "Modules\Messenger.Subscriptions\Messenger.Subscriptions.csproj", "{43CE4F0E-FBC5-4F5D-9224-7A340094D979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.SubscriptionPlans", "Modules\Messenger.SubscriptionPlans\Messenger.SubscriptionPlans.csproj", "{065C2D00-4539-406D-B5D1-03A46F8EF537}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +126,14 @@ Global
 		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43CE4F0E-FBC5-4F5D-9224-7A340094D979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CE4F0E-FBC5-4F5D-9224-7A340094D979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43CE4F0E-FBC5-4F5D-9224-7A340094D979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43CE4F0E-FBC5-4F5D-9224-7A340094D979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{065C2D00-4539-406D-B5D1-03A46F8EF537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065C2D00-4539-406D-B5D1-03A46F8EF537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065C2D00-4539-406D-B5D1-03A46F8EF537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065C2D00-4539-406D-B5D1-03A46F8EF537}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{528D9747-EAD4-47B2-A445-F2293A1BE01D} = {14CD4EE3-16DF-43BE-B822-1B83421E667E}
@@ -139,5 +151,7 @@ Global
 		{73B334B0-277A-48E9-BE1F-39B15CE9A7C6} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 		{20AD2813-49CB-4247-97DD-27CE87ECAFF6} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
 		{D6B22DD2-7642-4135-9B71-A7B4EE29CCCC} = {847C2C7D-65F0-425F-9C3C-3A36F02ACCA3}
+		{43CE4F0E-FBC5-4F5D-9224-7A340094D979} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
+		{065C2D00-4539-406D-B5D1-03A46F8EF537} = {B22BC3B0-DEF9-41F3-A4CC-4D8F4B3274B7}
 	EndGlobalSection
 EndGlobal

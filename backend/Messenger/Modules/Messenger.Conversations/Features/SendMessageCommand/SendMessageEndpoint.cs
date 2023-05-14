@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
 using Messenger.Core.Extensions;
+using Messenger.Core.Services;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Validation.ValidationFilter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace Messenger.Conversations.Features.SendMessageCommand;
@@ -29,10 +31,10 @@ public class SendMessageEndpoint : IEndpoint
     {
         endpoints.MapPost(
                 "/{conversationId:guid}/send",
-                async (SendMessageDto dto, Guid conversationId, IMediator mediator)
+                async (SendMessageDto dto, Guid conversationId, IMediator mediator, [FromServices] IUserService userService)
                     => Results.Ok(
                         await mediator.Send(
-                            new SendMessageCommand(conversationId, dto.Message))))
+                            new SendMessageCommand(conversationId, userService.UserId!.Value, dto.Message))))
             .RequireAuthorization()
             .AddValidation(c => c.AddFor<SendMessageDto>())
             .WithName("Отправить сообщение в переписку");

@@ -271,6 +271,7 @@ __pycache__/
 
 Messenger.Api/files/**/*
 
+/Messenger.Data/obj/.EntityFrameworkCore.targets
 # Cake - Uncomment if you are using it
 # tools/
 

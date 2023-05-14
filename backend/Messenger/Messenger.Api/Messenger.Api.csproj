@@ -37,6 +37,7 @@
       <ProjectReference Include="..\Modules\Messenger.Conversations\Messenger.Conversations.csproj" />
       <ProjectReference Include="..\Modules\Messenger.Crypto\Messenger.Crypto\Messenger.Crypto.csproj" />
       <ProjectReference Include="..\Modules\Messenger.Files\Messenger.Files.csproj" />
+      <ProjectReference Include="..\Modules\Messenger.Subscriptions\Messenger.Subscriptions.csproj" />
       <ProjectReference Include="..\Modules\Messenger.User\Messenger.User.csproj" />
       <ProjectReference Include="..\Messenger.Core\Messenger.Core.csproj" />
       <ProjectReference Include="..\Messenger.Data\Messenger.Data.csproj" />
