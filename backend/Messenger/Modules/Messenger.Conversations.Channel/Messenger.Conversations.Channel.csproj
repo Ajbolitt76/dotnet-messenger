@@ -14,7 +14,6 @@
     <ItemGroup>
       <Folder Include="Features" />
       <Folder Include="MessageActions\ChannelDeleteMessage\" />
-      <Folder Include="MessageActions\ChannelGetMessageList\" />
     </ItemGroup>
 
 </Project>
