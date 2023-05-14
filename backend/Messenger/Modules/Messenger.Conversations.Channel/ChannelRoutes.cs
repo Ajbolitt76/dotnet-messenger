@@ -1,5 +1,6 @@
 ﻿using Messenger.Conversations.Channel.Features.ChangeChannelInfo;
 using Messenger.Conversations.Channel.Features.CreateChannel;
+using Messenger.Conversations.Channel.Features.GiveChannelPermissions;
 using Messenger.Infrastructure.Endpoints;
 using Messenger.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ public class ChannelRoutes : IEndpointRoot
         endpoints.MapGroup("/channel")
             .WithTags("Каналы")
             .AddEndpoint<CreateChannelEndpoint>()
-            .AddEndpoint<ChangeChannelInfoEndpoint>();
+            .AddEndpoint<ChangeChannelInfoEndpoint>()
+            .AddEndpoint<GiveChannelPermissionsEndpoint>();
     }
 }
