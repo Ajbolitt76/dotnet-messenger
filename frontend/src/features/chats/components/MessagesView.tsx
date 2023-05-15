@@ -11,6 +11,7 @@ import { useStore } from "@/stores/RootStore";
 import { nanoid } from "nanoid";
 import dayjs from "dayjs";
 import styles from './MessagesView.module.pcss';
+import { useActivatableScrollbar } from "@/lib/hooks/useActivatableScorllbar";
 
 export const MessagesView: React.FC = observer(() => {
   const { chatId } = useParams<{ chatId: string }>();
@@ -22,11 +23,11 @@ export const MessagesView: React.FC = observer(() => {
   const conversation = conversations.get(chatId ?? '');
 
   const { isFetchingNextPage, isError, hasNextPage, fetchNextPage } = useConversationMessages(chatId!);
-
+  const scrollRef = useActivatableScrollbar();
 
   return (
     <Group className="w-1/2 min-w-[300px] flex flex-col justify-end" mode="plain">
-      <div className="h-full max-h-full overflow-y-auto flex flex-col-reverse pb-2 pr-2">
+      <div ref={scrollRef} className="h-full max-h-full overflow-y-auto flex flex-col-reverse pb-2 pr-2">
         {
           conversation?.orderedMessages.map(y => (<MessageItemView message={y!} key={y!.messageId} />)).reverse()
         }

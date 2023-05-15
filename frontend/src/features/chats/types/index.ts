@@ -6,6 +6,7 @@ export enum ConversationTypes {
 
 export enum RealtimeUpdateTypes {
   NewMessage = "NEW_MESSAGE",
+  DeletedMessage = "DELETED_MESSAGE",
 }
 
 export type UpdateMessage = NewMessageRealtimeUpdate;
@@ -25,4 +26,10 @@ export interface NewMessageRealtimeUpdate extends IRealtimeUpdate{
     editedAt: string,
     positon: number
   }
+}
+
+export interface DeletedMessageRealtimeUpdate extends IRealtimeUpdate{
+  $type: RealtimeUpdateTypes.NewMessage;
+  conversationId: string;
+  messageId: string;
 }

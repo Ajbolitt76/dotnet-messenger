@@ -3,6 +3,7 @@ using Messenger.Conversations.Common.Features.ReserveConversationNumberCommand;
 using Messenger.Conversations.Common.MessageActions;
 using Messenger.Conversations.Common.MessageActions.SendMessage;
 using Messenger.Conversations.Common.Models;
+using Messenger.Conversations.Common.Models.RealtimeUpdates;
 using Messenger.Conversations.PrivateMessages.Models;
 using Messenger.Core.Model.ConversationAggregate;
 using Messenger.Core.Requests.Abstractions;

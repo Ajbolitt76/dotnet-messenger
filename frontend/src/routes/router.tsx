@@ -1,12 +1,12 @@
 import React from "react";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import { Landing } from "@/features/landing/routes/Landing";
 import { ModuleRoutes } from "@/types";
 import { UserModuleRoutes } from "@/features/user/routes";
 import { AuthorizedRouteWrapper } from "@/routes/AuthorizedRouteWrapper";
 import { AnonymousRouteWrapper } from "@/routes/AnonymousRouteWrapper";
 import { ErrorFallback } from "@/components/ErrorFallback";
 import { ChatModuleRoutes } from "@/features/chats/routes";
+import { LandingPage } from "@/features/landing/routes";
 
 export const authorizedRoutes: RouteObject = {
   path: "/",
@@ -23,7 +23,7 @@ export const anonymousRoutes: RouteObject = {
 export const commonRoutes: RouteObject[] = [
   {
     path: "/",
-    element: <Landing/>,
+    element: <LandingPage />,
   },
 ];
 

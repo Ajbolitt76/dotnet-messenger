@@ -1,5 +1,6 @@
 ﻿using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.Common.Models;
+using Messenger.Conversations.Common.Models.RealtimeUpdates;
 using Messenger.Conversations.GroupChats.Extensions;
 using Messenger.Conversations.PrivateMessages.Extensions;
 using Messenger.Infrastructure.Json;

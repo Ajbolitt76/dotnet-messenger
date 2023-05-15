@@ -1,6 +1,6 @@
 ﻿using Messenger.RealTime.Common.Model;
 
-namespace Messenger.Conversations.Common.Models;
+namespace Messenger.Conversations.Common.Models.RealtimeUpdates;
 
 public record NewMessageRealtimeUpdate(
     Guid ConversationId,

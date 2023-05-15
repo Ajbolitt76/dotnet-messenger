@@ -11,10 +11,11 @@ import { Notifications } from "@/components/Notifications";
 import { StoreProvider } from "@/stores/RootStore";
 import { ErrorFallback } from "@/components/ErrorFallback";
 import { ModalProvider } from './components/Modal'
+import { RealtimeProcessor } from './features/realtime/components/RealtimeRoot';
 
 import './App.css'
+import './styles/main.pcss'
 import "@vkontakte/vkui/dist/vkui.css";
-import { RealtimeRoot } from './features/realtime/components/RealtimeRoot';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
                   <QueryClientProvider client={queryClient}>
                     <ModalProvider>
                       <AuthProvider>
-                        <RealtimeRoot />
+                        <RealtimeProcessor />
                         <Notifications />
                         <AppRouter />
                       </AuthProvider>

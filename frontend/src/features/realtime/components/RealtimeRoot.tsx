@@ -6,7 +6,8 @@ import { RootInstance, useStore } from "@/stores/RootStore";
 import { NewMessageRealtimeUpdate, RealtimeUpdateTypes, UpdateMessage } from "@/features/chats/types";
 
 let connecting = false;
-export const RealtimeRoot: React.FC<PropsWithChildren> = ({ children }) => {
+
+export const RealtimeProcessor: React.FC<PropsWithChildren> = ({ children }) => {
   const [state, stateChanged, failed] = useRealtimeConnectionStatus();
   const { user } = useAuth();
   const store = useStore();

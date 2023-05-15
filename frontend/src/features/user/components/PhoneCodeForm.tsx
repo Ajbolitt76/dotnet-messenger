@@ -6,7 +6,7 @@ import { AuthStoreInstance } from "@/features/user/stores";
 import { initiatePhoneAuth } from "../api/inititatePhoneAuth";
 import { waitWithNotification } from "@/lib/utils";
 import { verifyPhoneCode } from "../api/verifyPhoneCode";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 enum Steps {
   Phone,
@@ -108,6 +108,7 @@ export const PhoneCodeForm = observer(() => {
   const { authStore } = useStore()
   const [currentStep, setCurrentStep] = useState<Steps>(Steps.Phone);
   const navigate = useNavigate();
+  const location = useLocation();
 
   function reset() {
     authStore.phoneTicket.reset();
@@ -121,9 +122,9 @@ export const PhoneCodeForm = observer(() => {
     }
 
     if (isLogin)
-      navigate("/login");
+      navigate("/login", {state: location.state});
     else
-      navigate("/register");
+      navigate("/register", {state: location.state});
   }
 
   function getRenderSection() {
