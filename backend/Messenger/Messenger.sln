@@ -26,6 +26,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git and CI/CD", "Git and CI/CD", "{4B415057-A8D9-4E39-995A-C3165D0B9D3D}"
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
+		..\..\.github\workflows\backend.yml = ..\..\.github\workflows\backend.yml
+		..\..\.github\workflows\forntend.yml = ..\..\.github\workflows\forntend.yml
+		..\..\.github\workflows\deploy.yml = ..\..\.github\workflows\deploy.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Files", "Modules\Messenger.Files\Messenger.Files.csproj", "{9341E817-B3A6-4BFD-9447-83D1C189E4BD}"

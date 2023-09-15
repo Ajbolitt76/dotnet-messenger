@@ -1,17 +1,24 @@
 version: "2.4"
 services:
-#  messenger-api:
-#    image: messenger-api
-#    build:
-#      context: ../../
-#      dockerfile: Messenger.Api/Dockerfile
-#      target: final
-#    environment:
-#      "ConnectionStrings:DataConnectionString": "Host=postgres;Port=5432;Database=Messenger;Username=postgres;Password=fd2ee12swq" 
-#      "ConnectionStrings:RedisConnectionString": "redis-data:6379"
-#    networks: 
-#      - default
-#      - tank
+  frontend:
+    image: messenger-frontend
+    build:
+      context: ../../../../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "6390:80"
+
+  messenger-api:
+    image: messenger-api
+    build:
+      context: ../../
+      dockerfile: Messenger.Api/Dockerfile
+      target: final
+    environment:
+      "ConnectionStrings:DataConnectionString": "Host=postgres;Port=5432;Database=Messenger;Username=postgres;Password=fd2ee12swq" 
+      "ConnectionStrings:RedisConnectionString": "redis-data:6379"
+    networks: 
+      - default
 
   postgres:
     image: postgres:alpine

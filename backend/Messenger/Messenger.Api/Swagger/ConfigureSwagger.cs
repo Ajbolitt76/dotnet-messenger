@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Reflection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Messenger.Infrastructure.Extensions;
 using Messenger.Infrastructure.Json;
@@ -40,10 +41,17 @@ public static class ConfigureSwagger
                     });
 
                 c.UseOneOfForPolymorphism();
+                var xmlFilename = AppContext.BaseDirectory;
+
+                foreach (var xmlDoc in Directory.GetFiles(xmlFilename, "*.xml"))
+                {
+                    c.IncludeXmlComments(xmlDoc);
+                }
                 
+
                 c.SchemaFilter<PolymorphicIntegrationSchemaFilter>();
             });
-
+        
         services.ConfigureWithServices<SwaggerGenOptions>(
             (opts, sp) =>
             {

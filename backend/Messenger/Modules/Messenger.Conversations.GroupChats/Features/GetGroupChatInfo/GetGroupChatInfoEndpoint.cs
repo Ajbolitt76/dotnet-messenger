@@ -4,6 +4,7 @@ using Messenger.Infrastructure.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace Messenger.Conversations.GroupChats.Features.GetGroupChatInfo;
 
@@ -18,7 +19,9 @@ public class GetGroupChatInfoEndpoint : IEndpoint
                         await mediator.Send(
                             new GetGroupChatInfoQuery(userService.GetUserIdOrThrow(), conversationId))))
             .RequireAuthorization()
-            .Produces<GetGroupChatInfoQueryResponse>()
-            .WithName("Получить информацию о чате");
+            .WithOpenApi()
+            .WithSummary("Получить информацию о чате")
+            .WithDescription("description")
+            .Produces<GetGroupChatInfoQueryResponse>();
     }
 }

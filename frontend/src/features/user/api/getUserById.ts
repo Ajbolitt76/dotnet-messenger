@@ -1,5 +1,4 @@
 import {AsyncReturnType} from "type-fest";
-import {useQuery} from "react-query";
 import {apiClient} from "@/lib/ApiClient";
 import {QueryConfig} from "@/lib/ReactQuery";
 
