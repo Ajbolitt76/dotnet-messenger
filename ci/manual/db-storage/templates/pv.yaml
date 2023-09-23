@@ -1,0 +1,15 @@
+﻿{{- if and .Values.storage.need_pv -}}
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.storage.size }}
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.storage.host_path }}/messenger-db
+{{- end -}}

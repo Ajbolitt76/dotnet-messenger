@@ -1,52 +1,33 @@
-name: "Deploy"
+name: "deploy"
 
-on:
-  workflow_dispatch:
-    inputs:
-      frontend:
-        description: 'Deploy frontend'
-        required: false
-        type: boolean
-      backend:
-        description: 'Deploy backend'
-        required: false
-        type: boolean
+on: workflow_dispatch
 
 jobs:
-  frontend:
-    name: "Deploy frontend"
-    runs-on: ubuntu-latest
-    if: ${{ inputs.frontend == true }}
-    steps:
-      - name: Set up WireGuard
-        uses: egor-tensin/setup-wireguard@v1
-        with:
-          endpoint: '${{ secrets.VPN_IP }}'
-          endpoint_public_key: '${{ secrets.VPN_PK }}'
-          ips: '${{ secrets.VPN_IPS }}'
-          allowed_ips: '${{ secrets.VPN_ALLOWED_IPS }}'
-          private_key: '${{ secrets.VPN_PRIVATE }}'
-          preshared_key: '${{ secrets.VPN_PRESHARED }}'
-  
   backend:
-    name: "Deploy backend"
+    name: "Deploy"
     runs-on: ubuntu-latest
-    if: ${{ inputs.backend == true }}
     steps:
+      - uses: actions/checkout@v2
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBECONFIG }}
+      - uses: azure/setup-helm@v3
+        id: install
       - name: Set up WireGuard
-        uses: egor-tensin/setup-wireguard@v1
-        with:
-          endpoint: '${{ secrets.VPN_IP }}'
-          endpoint_public_key: '${{ secrets.VPN_PK }}'
-          ips: '${{ secrets.VPN_IPS }}'
-          allowed_ips: '${{ secrets.VPN_ALLOWED_IPS }}'
-          private_key: '${{ secrets.VPN_PRIVATE }}'
-          preshared_key: '${{ secrets.VPN_PRESHARED }}'
-      - name: SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ vars.INTERNAL_SERVER_IP }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo "${{ github.run_id }}" | cat > github.txt
+        env:
+          WG_CONF: ${{ secrets.WG_CONF }}
+        run: |
+          sudo apt-get install -yq wireguard wireguard-tools
+          echo "$WG_CONF" | sudo tee /etc/wireguard/tunnel.conf
+          sudo wg-quick up tunnel;
+          sudo ip link set dev tunnel mtu 1350
+      - name: test
+        shell: bash
+        run: |
+          kubectl get pods
+      - name: deploy app
+        shell: bash
+        working-directory: ci/helm
+        run: |
+          chmod +x ./install.sh
+          ./install.sh --registry ghcr.io --registry-suffix ajbolitt76

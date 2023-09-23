@@ -7,11 +7,23 @@ env:
   IMAGE_NAME: ${{ github.repository }}-frontend
 
 jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: "npm run analyze"
   build-docker:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    if:
+      contains('
+      refs/heads/main
+      ', github.ref)
     steps:
       - uses: actions/checkout@v2
       - name: Log in to the Container registry

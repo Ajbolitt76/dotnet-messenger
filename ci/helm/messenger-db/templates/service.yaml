@@ -1,0 +1,13 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "messenger-db.fullname" . }}
+  labels:
+    {{- include "messenger-db.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: TCP
+  selector:
+    {{- include "messenger-db.selectorLabels" . | nindent 4 }}
