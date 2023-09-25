@@ -1,0 +1,31 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "messenger-db.fullname" . }}
+  labels:
+    {{- include "messenger-db.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "messenger-db.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "messenger-db.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: {{ .Values.serviceAccount.name }}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-vol
+      volumes:
+        - name: postgres-vol
+          persistentVolumeClaim:
+            claimName: {{ .Values.postgresql.pvc_name }}

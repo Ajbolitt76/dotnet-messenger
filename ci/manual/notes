@@ -1,0 +1,1 @@
+﻿helm install manual-messenger-db db-storage --set storage.host_path="/opt/messenger-data"

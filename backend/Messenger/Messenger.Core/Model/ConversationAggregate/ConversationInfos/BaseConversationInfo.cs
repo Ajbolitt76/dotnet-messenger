@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Core.Model.ConversationAggregate.ConversationInfos;
 
-public abstract class BaseConversationInfo : BaseEntity
+public abstract class BaseConversationInfo : BaseEntity, IHaveDiscriminator
 {
     public required Guid ConversationId { get; set; }
     

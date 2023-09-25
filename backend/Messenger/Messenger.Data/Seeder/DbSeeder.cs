@@ -3,6 +3,7 @@ using Messenger.Core.Model.UserAggregate;
 using Messenger.Core.Requests.Abstractions;
 using Messenger.Infrastructure.User;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Messenger.Data.Seeder;
@@ -21,7 +22,7 @@ public class DbSeeder : IDbSeeder
     {
         if (!dbContext.MessengerUsers.Any(x => x.Id == Guid.Empty))
         {
-            dbContext.MessengerUsers.Add(
+            var tracked = dbContext.MessengerUsers.Add(
                 new MessengerUser()
                 {
                     UserName = "System",
@@ -30,6 +31,8 @@ public class DbSeeder : IDbSeeder
                     IdentityUserId = Guid.Empty,
                 });
             await dbContext.SaveEntitiesAsync();
+            await dbContext.Database.ExecuteSqlInterpolatedAsync(
+                $"""update "MessengerUsers" set "Id"='00000000-0000-0000-0000-000000000000'::uuid where "Id" = {tracked.Entity.Id}""");
         }
         
         if (dbContext.MessengerUsers.Any())

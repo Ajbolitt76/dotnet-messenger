@@ -1,0 +1,33 @@
+name: "deploy"
+
+on: workflow_dispatch
+
+jobs:
+  backend:
+    name: "Deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBECONFIG }}
+      - uses: azure/setup-helm@v3
+        id: install
+      - name: Set up WireGuard
+        env:
+          WG_CONF: ${{ secrets.WG_CONF }}
+        run: |
+          sudo apt-get install -yq wireguard wireguard-tools
+          echo "$WG_CONF" | sudo tee /etc/wireguard/tunnel.conf
+          sudo wg-quick up tunnel;
+          sudo ip link set dev tunnel mtu 1350
+      - name: test
+        shell: bash
+        run: |
+          kubectl get pods
+      - name: deploy app
+        shell: bash
+        working-directory: ci/helm
+        run: |
+          chmod +x ./install.sh
+          ./install.sh --registry ghcr.io --registry-suffix ajbolitt76

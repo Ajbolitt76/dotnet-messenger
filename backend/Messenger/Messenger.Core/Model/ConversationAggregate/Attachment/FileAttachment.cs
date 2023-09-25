@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Core.Model.ConversationAggregate.Attachment;
 
-public class FileAttachment : IAttachment, IHaveDiscriminator
+public class FileAttachment : IAttachment
 {
     public static string Discriminator => "File";
     

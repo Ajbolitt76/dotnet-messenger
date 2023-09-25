@@ -1,0 +1,12 @@
+﻿kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: traefik-pv-volume
+  labels:
+    type: local
+spec:  capacity:
+    storage: {{ .Values.storage.size }}
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.storage.host_path }}/traefik

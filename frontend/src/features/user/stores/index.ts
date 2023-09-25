@@ -8,10 +8,10 @@ const PhoneTicketModel = types.model("PhoneTicket", {
     nextTry: types.maybe(types.Date)
 })
     .views(self => ({
-        get hasActiveLoginTicket(){
+        get hasActiveLoginTicket() {
             return self.isLogin && self.ticket != null
         },
-        get hasActiveRegistrationTicket(){
+        get hasActiveRegistrationTicket() {
             return self.isLogin === false && self.ticket != null
         }
     })).actions(self => ({
@@ -34,7 +34,13 @@ const PhoneTicketModel = types.model("PhoneTicket", {
     }));
 
 export const AuthStore = types.model("Auth", {
-    phoneTicket: types.optional(PhoneTicketModel, {})
-});
+    phoneTicket: types.optional(PhoneTicketModel, {}),
+    returnUrl: types.optional(types.string, "/")
+})
+    .actions(self => ({
+        setRedirect(path?: string) {
+            self.returnUrl = path ?? "/";
+        },
+    }));
 
 export type AuthStoreInstance = Instance<typeof AuthStore>

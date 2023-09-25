@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Core.Model.ConversationAggregate.Attachment;
 
-public class GeolocationAttachment : IAttachment, IHaveDiscriminator
+public class GeolocationAttachment : IAttachment
 {
     public static string Discriminator => "GeoPoint";
     

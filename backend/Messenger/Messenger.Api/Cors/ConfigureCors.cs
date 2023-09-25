@@ -11,8 +11,9 @@ public static class ConfigureCors
         services.Configure<LocalCorsOptions>(options =>
         {
             options.AddPolicy(CorsPolicyNames.DevelopmentCorsPolicy,
-                builder => builder.AllowAnyOrigin()
+                builder => builder.WithOrigins("http://localhost:5173")
                     .AllowAnyMethod()
+                    .AllowCredentials()
                     .AllowAnyHeader()
                     .WithExposedHeaders("Location", "Upload-Offset", "Upload-Length", "SystemFile-Id", "SystemFile-Signed")
                 );

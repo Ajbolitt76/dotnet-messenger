@@ -66,7 +66,7 @@ public class MessengerContext : IdentityDbContext<ApplicationUser, IdentityRole<
     {
         builder.Ignore<BaseConversationInfo>();
         builder.Ignore<BaseMember>();
-        
+
         base.OnModelCreating(builder);
         RegisterEnums(builder);
 

@@ -7,7 +7,7 @@ import { Instance, types } from "mobx-state-tree";
 import { isEmail, notEmpty } from "@/lib/validators";
 import { observer } from "mobx-react-lite";
 import { validationFormItemProps } from "@/lib/validators";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "@/stores/RootStore";
 import { NotificationTypes } from "@/stores/NotificationStore";
 
@@ -38,7 +38,9 @@ export const LoginForm = observer(() => {
   const formState = useMemo<LoginForm>(() => loginFormWithValidation.create({ userIdentifier: "", password: "" }), []);
   const authProvider = useAuth();
   const navigate = useNavigate();
-  const { notificationStore, authStore: {phoneTicket}} = useStore();
+  const location = useLocation();
+  const { notificationStore, authStore } = useStore();
+  const phoneTicket = authStore.phoneTicket;
 
   const onLogin = async () => {
     formState.validator.validate();
@@ -49,7 +51,7 @@ export const LoginForm = observer(() => {
           username: formState.userIdentifier,
           password: formState.password,
         });
-        navigate("/");
+        navigate(authStore.returnUrl);
       }catch (e){
         notificationStore.addNotification({
           type: NotificationTypes.ERROR,
@@ -61,16 +63,20 @@ export const LoginForm = observer(() => {
   }
 
   useEffect(() => {
+    authStore.setRedirect(location.state.returnPath)
+  }, [location.state]);
+
+  useEffect(() => {
     async function loginByTicket(){
       if(!phoneTicket.hasActiveLoginTicket)
         return;
-
+      
       try {
         await authProvider.login({
           loginMode: LoginMode.Phone,
           phoneTicket: phoneTicket.ticket!
         });
-        navigate("/");
+        navigate(authStore.returnUrl);
       }catch (e){
         notificationStore.addNotification({
           type: NotificationTypes.ERROR,
