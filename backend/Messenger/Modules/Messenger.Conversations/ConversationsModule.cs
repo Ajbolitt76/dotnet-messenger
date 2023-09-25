@@ -1,4 +1,5 @@
-﻿using Messenger.Conversations.Common.Extensions;
+using Messenger.Conversations.Channel.Extensions;
+using Messenger.Conversations.Common.Extensions;
 using Messenger.Conversations.Common.Models;
 using Messenger.Conversations.Common.Models.RealtimeUpdates;
 using Messenger.Conversations.GroupChats.Extensions;
@@ -19,6 +20,7 @@ public class ConversationsModule : IModule
             .AddMessageHandlers()
             .AddPrivateMessageHandlers()
             .AddGroupMessageHandlers()
+            .AddChannelMessageHandlers()
             .Apply();
 
         services.Configure<PolymorphismJsonOptions>(

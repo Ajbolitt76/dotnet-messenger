@@ -8,10 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Features" />
+      <ProjectReference Include="..\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />
     </ItemGroup>
 
 </Project>

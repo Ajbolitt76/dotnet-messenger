@@ -39,4 +39,7 @@
     <data name="CantChangeOwnerPermissions" xml:space="preserve">
         <value>CANT_CHANGE_OWNER_PERMISSIONS</value>
     </data>
+    <data name="OwnerCantLeaveChannel" xml:space="preserve">
+        <value>CANT_LEAVE_WHILE_OWNER</value>
+    </data>
 </root>

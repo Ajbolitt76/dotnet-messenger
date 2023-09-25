@@ -10,6 +10,11 @@ public class ChannelMember : BaseMember
     public bool IsAdmin { get; set; }
     
     /// <summary>
+    /// Является ли владельцем
+    /// </summary>
+    public bool IsOwner { get; set; }
+    
+    /// <summary>
     /// Битовое поле с разрешениями
     /// </summary>
     public ChannelMemberPermissions Permissions { get; set; }

@@ -60,6 +60,15 @@ namespace Messenger.Core.Constants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CHANNEL_CREATED.
+        /// </summary>
+        public static string ChannelCreated {
+            get {
+                return ResourceManager.GetString("ChannelCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GROUP_CHAT_CREATED.
         /// </summary>
         public static string GroupChatCreated {
