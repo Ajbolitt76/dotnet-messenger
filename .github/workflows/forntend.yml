@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: 18
       - run: "npm run analyze"
+        working-directory: frontend/
   build-docker:
     runs-on: ubuntu-latest
     permissions:
