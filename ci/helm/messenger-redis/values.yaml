@@ -1,46 +1,18 @@
-# Default values for meesenger-backend.
+# Default values for messenger-redis.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: dotnet-messenger-backend
-  pullPolicy: Always
+  repository: redis
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "main"
+  tag: "alpine"
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-backend:
-  path: "/api"
-
-environments:
-  - name: "DB_USERNAME"
-    valueFrom:
-      secretKeyRef:
-        name: messenger-db-secret
-        key: POSTGRES_USER
-  - name: "DB_PASSWORD"
-    valueFrom:
-      secretKeyRef:
-        name: messenger-db-secret
-        key: POSTGRES_PASSWORD
-  - name: "ConnectionStrings__DataConnectionString"
-    value: Host=messenger-messenger-db;Port=5432;Database=Messenger;Username=$(DB_USERNAME);Password=$(DB_PASSWORD)
-  - name: "ConnectionStrings__RedisConnectionString"
-    value: "messenger-messenger-redis:6379"
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
 
 podAnnotations: {}
 
@@ -57,7 +29,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 6379
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

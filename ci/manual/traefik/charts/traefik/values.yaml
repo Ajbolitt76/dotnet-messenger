@@ -656,10 +656,7 @@ ports:
       options: ""
       certResolver: "letsencrypt"
       domains: 
-       - main: messenger.admad.ru
-      #   sans:
-      #     - foo.example.com
-      #     - bar.example.com
+       - main: "messenger.admad.ru"
     #
     # -- One can apply Middlewares on an entrypoint
     # https://doc.traefik.io/traefik/middlewares/overview/

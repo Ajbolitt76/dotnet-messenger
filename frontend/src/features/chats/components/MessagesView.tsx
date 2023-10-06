@@ -3,15 +3,15 @@ import { useConversationMessages } from "../api/getConversationMessages"
 import { useParams } from "react-router-dom";
 import { Group, Input, WriteBar, WriteBarIcon } from "@vkontakte/vkui";
 import { useAuth } from "@/lib/AuthProvider";
-import clsx from "clsx";
 import { ConversationInfoInstance, ConversationMessageInstance, MessageState } from "../stores/MessagesStore";
 import { Icon16CheckDoubleOutline, Icon16CheckOutline, Icon16ClockOutline, Icon16ErrorCircleFill } from "@vkontakte/icons";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/RootStore";
-import { nanoid } from "nanoid";
-import dayjs from "dayjs";
-import styles from './MessagesView.module.pcss';
 import { useActivatableScrollbar } from "@/lib/hooks/useActivatableScorllbar";
+import clsx from "clsx";
+import dayjs from "dayjs";
+import { nanoid } from "nanoid";
+import styles from './MessagesView.module.pcss';
 
 export const MessagesView: React.FC = observer(() => {
   const { chatId } = useParams<{ chatId: string }>();

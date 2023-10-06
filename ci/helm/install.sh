@@ -112,6 +112,7 @@ if [[ ! $skip_infrastructure ]]; then
   echo "################ Installing infrastructure ################"
   helmInstall "messenger-common"
   helmInstall "messenger-db"
+  helmInstall "messenger-redis"
 fi
 
 charts=(meesenger-backend meesenger-frontend)

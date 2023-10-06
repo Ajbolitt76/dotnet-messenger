@@ -7,7 +7,7 @@ import { Icon24PenOutline } from "@vkontakte/icons";
 import { useModal } from "@/components/Modal";
 import { CreatePersonalChatModal } from "./Modals/CreatePersonalChatModal";
 import { NavLink } from "react-router-dom";
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import styles from './MessengerSidebar.module.pcss';
 import { ConversationInfoInstance } from "../stores/MessagesStore";
 import { observer } from "mobx-react-lite";

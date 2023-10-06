@@ -1,0 +1,8 @@
+﻿apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "meesenger-backend.fullname" . }}-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /api

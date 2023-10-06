@@ -5,9 +5,12 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: PathPrefix(`/`)
       kind: Rule
       services:
         - name: {{ include "meesenger-frontend.fullname" . }}
           port: 8080
+      middlewares:
+        - name: redirect-https

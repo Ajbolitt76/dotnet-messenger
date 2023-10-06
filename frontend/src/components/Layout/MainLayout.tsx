@@ -5,13 +5,15 @@ import { useAuth } from "@/lib/AuthProvider";
 import { Icon20LockOutline } from "@vkontakte/icons";
 import clsx from "clsx";
 
+import kfuLogoUrl from '@/assets/logo.png';
+
 type MainLayoutProps = {
   children: React.ReactNode;
 };
 
 const Logo: React.FC = () => (
   <Link className="flex items-center text-white pl-3" to="/">
-    <img className="h-8 w-auto" src="/src/assets/logo.png" alt="Лого "/>
+    <img className="h-8 w-auto" src={kfuLogoUrl} alt="Лого "/>
   </Link>
 );
 
