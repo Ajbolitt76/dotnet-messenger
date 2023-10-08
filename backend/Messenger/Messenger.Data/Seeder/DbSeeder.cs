@@ -34,6 +34,12 @@ public class DbSeeder : IDbSeeder
             await dbContext.Database.ExecuteSqlInterpolatedAsync(
                 $"""update "MessengerUsers" set "Id"='00000000-0000-0000-0000-000000000000'::uuid where "Id" = {tracked.Entity.Id}""");
         }
+
+        var supportId = new Guid("00000000-0000-0000-0000-000000000001");
+        if (!dbContext.MessengerUsers.Any(x => x.Id == supportId))
+        {
+            await SeedSupportUser(dbContext, serviceProvider, supportId);
+        }
         
         if (dbContext.MessengerUsers.Any())
             return;
@@ -77,5 +83,30 @@ public class DbSeeder : IDbSeeder
         }
     }
 
+    private async Task SeedSupportUser(IDbContext dbContext, IServiceProvider serviceProvider, Guid supportId)
+    {
+        var userService = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        
+        var supportUser = new ApplicationUser
+        {
+            Id = supportId,
+            UserName = "Support",
+            Email = "messenger.support@mail.ru",
+            PhoneNumber = "+79999999999"
+        };
+        supportUser.PasswordHash = userService.PasswordHasher.HashPassword(supportUser, "qwerty");
+
+        await userService.CreateAsync(supportUser);
+        var messengerUser = new MessengerUser
+        {
+            UserName =  supportUser.UserName!,
+            PhoneNumber = supportUser.PhoneNumber!,
+            Name = supportUser.UserName!,
+            DateOfBirth = new DateTime().ToUniversalTime(),
+            IdentityUserId = supportUser.Id,
+        };
+        typeof(BaseEntity).GetProperty(nameof(BaseEntity.Id))?.SetValue(messengerUser, supportUser.Id);
+        dbContext.MessengerUsers.Add(messengerUser);
+    }
 }
 

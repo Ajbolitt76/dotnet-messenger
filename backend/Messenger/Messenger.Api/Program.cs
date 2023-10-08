@@ -22,7 +22,9 @@ using Messenger.Files.Shared;
 using Messenger.Infrastructure;
 using Messenger.Infrastructure.Json;
 using Messenger.RealTime;
-using Messenger.User;
+ using Messenger.Support;
+ using Messenger.Support.Bootstrap;
+ using Messenger.User;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +46,7 @@ var modules = new ModuleRegistrarBuilder()
     .AddModule<GroupChatsModule>()
     .AddModule<ChannelModule>()
     .AddModule<RealtimeModule>()
+    .AddModule<SupportModule>()
     .SetTypeAdapter(maps)
     .Build();
 
@@ -63,6 +66,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(
         options.ForwardedHeaders =
             ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
     });
+
+builder.Services.AddMassTransitBootstrap();
 
 modules.RegisterServices(builder.Services, builder.Configuration);
 
