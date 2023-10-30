@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.8.0" />
+      <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2-develop.1566" />
+      <PackageReference Include="MediatR" Version="12.1.1" />
+      <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.2.23479.6" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Messenger.Core\Messenger.Core.csproj" />
+      <ProjectReference Include="..\Messenger.Data\Messenger.Data.csproj" />
+      <ProjectReference Include="..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
+      <ProjectReference Include="..\Messenger.Rabbit.Contracts\Messenger.Rabbit.Contracts.csproj" />
+      <ProjectReference Include="..\Modules\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\Models\" />
+    </ItemGroup>
+
+</Project>

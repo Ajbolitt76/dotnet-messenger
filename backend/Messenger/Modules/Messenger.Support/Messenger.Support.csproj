@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.4.0" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2-develop.1576" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\Messenger.Rabbit.Contracts\Messenger.Rabbit.Contracts.csproj" />
+      <ProjectReference Include="..\Messenger.Conversations.Common\Messenger.Conversations.Common.csproj" />
+      <ProjectReference Include="..\Messenger.Conversations.PrivateMessages\Messenger.Conversations.PrivateMessages.csproj" />
+    </ItemGroup>
+
+</Project>
