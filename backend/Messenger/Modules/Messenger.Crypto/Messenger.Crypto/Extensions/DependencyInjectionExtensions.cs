@@ -8,15 +8,17 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddModuleSignatureVerification<TId, TOpts>(
         this IServiceCollection sc,
-        Func<TOpts, byte[]?> getPublicKey
+        Func<TOpts, byte[]?> getPublicKey,
+        Func<TOpts, byte[]?> getPrivateKey
     )
         where TOpts : class
     {
-        sc.AddScoped<ModuleSignatureValidator<TId>>(
+        sc.AddScoped<ModuleSignatureService<TId>>(
             (sp) =>
-                new ModuleSignatureValidator<TId>(
+                new ModuleSignatureService<TId>(
                     sp.GetRequiredService<ICryptoService>(),
-                    getPublicKey(sp.GetRequiredService<IOptions<TOpts>>().Value))
+                    getPublicKey(sp.GetRequiredService<IOptions<TOpts>>().Value),
+                    getPrivateKey(sp.GetRequiredService<IOptions<TOpts>>().Value))
         );
         return sc;
     }

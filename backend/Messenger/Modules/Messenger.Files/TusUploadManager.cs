@@ -122,7 +122,7 @@ public partial class TusUploadManager
         var encodedResult = Convert.ToBase64String(
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, _jsonConfig)));
 
-        arg.HttpContext.Response.Headers.Add("SystemFile-Signed", encodedResult);
+        arg.HttpContext.Response.Headers.Add("SystemFile-Signed", encodedResult); 
 
         Log.FileCompleted(_logger, _userService.UserId, arg.FileId);
     }

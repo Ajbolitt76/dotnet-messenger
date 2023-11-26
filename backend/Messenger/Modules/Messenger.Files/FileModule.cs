@@ -22,9 +22,12 @@ public class FileModule : IModule
             .Bind(configuration.GetSection(nameof(FileModule)))
             .ValidateWithFluentValidation()
             .ValidateOnStart();
+
+        services.AddHostedService<FilePusherHostedService>();
         
         services.AddScoped<TusUploadManager>();
         services.AddScoped<FileServer>();
         services.AddScoped<IFileLocationServer<TusFileLocation>, TusFileServer>();
+        services.AddScoped<IFileLocationServer<S3FileLocation>, S3FileServer>();
     }
 }

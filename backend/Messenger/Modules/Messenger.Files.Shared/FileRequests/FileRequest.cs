@@ -14,7 +14,9 @@ public class FileRequest
         {
             if(value != null && value.Value.Kind != DateTimeKind.Utc)
                 throw new ArgumentException("Expiry must be UTC", nameof(Expiry));
-            _expiry = value;
+            _expiry = value != null 
+                ? DateTimeOffset.FromUnixTimeSeconds(new DateTimeOffset(value.Value).ToUnixTimeSeconds()).UtcDateTime
+                : null;
         }
     }
 

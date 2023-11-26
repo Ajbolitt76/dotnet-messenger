@@ -20,16 +20,16 @@ public class FileServer
 
     private readonly IDbContext _dbContext;
     private readonly IServiceProvider _provider;
-    private readonly ModuleSignatureValidator<FileCoreModule> _signatureValidator;
+    private readonly ModuleSignatureService<FileCoreModule> _signatureService;
 
     public FileServer(
         IDbContext dbContext,
         IServiceProvider provider,
-        ModuleSignatureValidator<FileCoreModule> signatureValidator)
+        ModuleSignatureService<FileCoreModule> signatureService)
     {
         _dbContext = dbContext;
         _provider = provider;
-        _signatureValidator = signatureValidator;
+        _signatureService = signatureService;
     }
 
     public async Task<IResult> ServeFileAsync<T>(
@@ -39,11 +39,11 @@ public class FileServer
     {
         var fileRequest = fileRequestWithSignature.Data;
 
+        if (!_signatureService.Validate(fileRequestWithSignature) || fileRequestWithSignature.Data.Expiry < DateTime.UtcNow)
+            return Results.Forbid();
+
         var systemFile = await _dbContext.Files
             .FirstOrDefaultAsync(x => x.Id == fileRequest.FileId, cancellationToken);
-
-        if (!_signatureValidator.Validate(fileRequestWithSignature))
-            return Results.Forbid();
         
         if (systemFile is null)
             return Results.NotFound();

@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Minio" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Messenger.Infrastructure\Messenger.Infrastructure.csproj" />
+      <ProjectReference Include="..\Messenger.Files.Shared\Messenger.Files.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

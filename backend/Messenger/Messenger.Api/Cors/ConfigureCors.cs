@@ -11,7 +11,10 @@ public static class ConfigureCors
         services.Configure<LocalCorsOptions>(options =>
         {
             options.AddPolicy(CorsPolicyNames.DevelopmentCorsPolicy,
-                builder => builder.WithOrigins("http://localhost:5173")
+                builder => builder
+                    .WithOrigins(
+                        "http://localhost:5173",
+                        "https://cdpn.io")
                     .AllowAnyMethod()
                     .AllowCredentials()
                     .AllowAnyHeader()

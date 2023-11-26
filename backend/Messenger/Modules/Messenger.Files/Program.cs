@@ -1,7 +1,5 @@
- using Mapster;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
+global using OneOf;
+using Mapster;
 using Messenger.Api.Configuration;
 using Messenger.Api.Cors;
 using Messenger.Api.Middleware;
@@ -9,11 +7,6 @@ using Messenger.Api.Modules;
 using Messenger.Api.Swagger;
 using Messenger.Api.Validation;
 using Messenger.Auth;
-using Messenger.Conversations;
-using Messenger.Conversations.Channel;
-using Messenger.Conversations.Common;
-using Messenger.Conversations.GroupChats;
-using Messenger.Conversations.PrivateMessages;
 using Messenger.Crypto;
 using Messenger.Data;
 using Messenger.Data.Seeder;
@@ -21,8 +14,14 @@ using Messenger.Files;
 using Messenger.Files.Shared;
 using Messenger.Infrastructure;
 using Messenger.Infrastructure.Json;
-using Messenger.RealTime;
-using Messenger.User;
+using Messenger.S3;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Npgsql;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,15 +33,9 @@ var maps = new TypeAdapterConfig();
 var modules = new ModuleRegistrarBuilder()
     .AddModule<DataModule>()
     .AddModule<CryptoModule>()
-    .AddModule<AuthModule>()
+    .AddModule<FileModule>()
+    .AddModule<S3Module>()
     .AddModule<FileCoreModule>()
-    .AddModule<UserModule>()
-    .AddModule<ConversationsModule>()
-    .AddModule<ConversationsCommonModule>()
-    .AddModule<PrivateMessagesModule>()
-    .AddModule<GroupChatsModule>()
-    .AddModule<ChannelModule>()
-    .AddModule<RealtimeModule>()
     .SetTypeAdapter(maps)
     .Build();
 
@@ -69,27 +62,6 @@ builder.Services.AddCustomAuthentication();
 
 var app = builder.Build();
 
-try
-{
-    await using var scope = app.Services.CreateAsyncScope();
-    var sp = scope.ServiceProvider;
-    var db = sp.GetRequiredService<MessengerContext>();
-    
-    await db.Database.MigrateAsync();
-
-    await using var conn = (NpgsqlConnection)db.Database.GetDbConnection();
-    await conn.OpenAsync();
-    await conn.ReloadTypesAsync();
-    
-    var seeder = sp.GetRequiredService<DbSeeder>();
-    await seeder.SeedAsync(db, sp);
-}
-catch (Exception e)
-{
-    app.Logger.LogError(e, "Error while migrating the database");
-    Environment.Exit(-1);
-}
-
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseForwardedHeaders();
 app.UseCorsConfiguration(app.Environment);
@@ -99,8 +71,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseStaticFiles();
 
 modules.MapRoutes(app);
 

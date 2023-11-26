@@ -26,7 +26,7 @@ public class UpdateProfileMainDataEndpoint : IEndpoint
 
     public class DtoValidator : AbstractValidator<EditProfileDto>
     {
-        public DtoValidator(ModuleSignatureValidator<FileCoreModule> signatureValidator)
+        public DtoValidator(ModuleSignatureService<FileCoreModule> signatureService)
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
@@ -52,7 +52,7 @@ public class UpdateProfileMainDataEndpoint : IEndpoint
                 () =>
                 {
                     RuleFor(x => x.ProfilePicture)
-                        .Must(signatureValidator.Validate)
+                        .Must(signatureService.Validate)
                         .WithErrorCode("SignatureInvalid")
                         .WithLocalizationState();
                 });

@@ -13,6 +13,7 @@ public class FileCoreModule : IModule
     {
         services.AddScoped<IFileUrlService, FileUrlService>();
         services.AddModuleSignatureVerification<FileCoreModule, FileModuleOptions>(
-            x => x.LinkSigningKeyPair.PublicKeyBytes!);
+            x => x.LinkSigningKeyPair.PublicKeyBytes,
+            x => x.LinkSigningKeyPair.PrivateKeyBytes);
     }
 }
